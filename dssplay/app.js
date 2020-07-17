@@ -35,7 +35,7 @@ app.use(function (req, res, next) {
 });
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '/dist/ReactiveServer/index.html'))
+  res.sendFile(path.join(__dirname, '/dist/dssplay/index.html'))
 });
 
 const port = process.env.PORT || '5050';
