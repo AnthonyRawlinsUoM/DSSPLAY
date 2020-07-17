@@ -13,7 +13,7 @@ import { Ng5SliderModule } from 'ng5-slider';
 
 import { AppComponent } from './app.component';
 
-const config: SocketIoConfig = { url: 'http://localhost:4200', options: {} };
+const config: SocketIoConfig = { url: 'http://localhost:5050', options: {} };
 
 @NgModule({
   declarations: [
