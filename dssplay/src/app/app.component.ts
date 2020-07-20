@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+// import {TransitionController} from "ng2-semantic-ui";
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,28 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'dssplay';
+
+    // public transitionController = new TransitionController();
+
+  title = 'Frozone';
+  version = '0.0.1';
+  codename = 'DSSPlay';
+
+  routes = [
+    {
+      path: '/',
+      name: 'Home',
+      icon: 'home icon'
+    },
+    {
+      path: 'spatial',
+      name: 'Spatial',
+      icon: 'map icon'
+    },
+    {
+      path: 'temporal',
+      name: 'Temporal',
+      icon: 'clock icon'
+    },
+  ];
 }

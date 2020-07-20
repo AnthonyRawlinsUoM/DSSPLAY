@@ -1,0 +1,18 @@
+.Site {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  background-color: #000000;
+}
+.Site-content {
+  flex: 1;
+  background-color: rgb(224, 228, 231)
+}
+.Site-header,
+footer {
+  flex: none; /* 2 */
+}
+.vertical.stripe {
+  padding-top: 2em;
+  padding-bottom: 2em;
+}

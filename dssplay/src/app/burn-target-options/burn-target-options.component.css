@@ -1,0 +1,4 @@
+*.blue.button.darker.active,
+*.blue.button.darker.active:active {
+  background-color: rgba(#223f53, 1) !important;
+}

@@ -1,0 +1,20 @@
+<sui-multi-select [(ngModel)]="selected"
+                  [options]="options"
+                  labelField="label"
+                  valueField="option"
+                  [maxSelected]="7"
+                  icon="filter"
+                  #metric_select>
+    <div class="ui icon search input">
+        <i class="search icon"></i>
+        <input suiSelectSearch type="text" placeholder="Search options...">
+    </div>
+    <div class="divider"></div>
+    <div class="header">
+        <i class="line chart icon"></i>
+        Metrics
+    </div>
+    <div class="scrolling menu">
+        <sui-select-option *ngFor="let o of metric_select.filteredOptions" [value]="o"></sui-select-option>
+    </div>
+</sui-multi-select>

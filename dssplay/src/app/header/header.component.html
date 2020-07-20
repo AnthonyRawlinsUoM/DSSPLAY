@@ -1,0 +1,18 @@
+<div class="ui vertical stripe inverted blue segment"
+(mouseenter)="onmouseenter($event)"
+(mouseover)="onmouseover($event)"
+(mouseleave)="onmouseleave($event)"
+>
+  <div class="ui main text container">
+    <div class="ui grid" [suiTransition]="transitionController">
+      <div class="ui four wide column">
+        <img class="ui fluid circular image" src="/assets/images/frozone.jpg">
+      </div>
+      <div class="ui twelve wide column">
+        <h1 class="ui huge inverted header">DSS: Frozone</h1>
+        <h5>An Analysis Tool for the FROST ecosystem of software.</h5>
+      </div>
+    </div>
+    <app-notifications></app-notifications>
+  </div>
+</div>

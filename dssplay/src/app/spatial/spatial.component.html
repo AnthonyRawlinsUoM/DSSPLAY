@@ -1,0 +1,31 @@
+<div class="ui top attached inverted black menu">
+    <div class="right menu">
+
+    <a class="item" (click)="sidebar.toggle()">
+        <i class="wrench icon"></i> Tools
+    </a>
+  </div>
+</div>
+<sui-sidebar-container class="ui bottom attached segment">
+    <sui-sidebar
+     [transition]="'overlay'"
+     [isVisible]="true"
+     class="inverted vertical very wide"
+     direction="right"
+     #sidebar>
+      <app-toolset [mode]="'spatial'"></app-toolset>
+    </sui-sidebar>
+    <sui-sidebar-sibling [isDimmedWhenVisible]="false">
+            <div class="map">
+              <mgl-map
+              [style]="style"
+               [zoom]="zoom"
+               [center]="[145.769, -37.721]"
+               [fitBounds] = "bounds"
+               [fitBoundsOptions]="boundsOptions"
+               (mouseMove)="mousemove($event)"
+               (load)="mapLoaded($event)" #mapview>
+             </mgl-map>
+            </div>
+    </sui-sidebar-sibling>
+</sui-sidebar-container>

@@ -1,0 +1,31 @@
+<div class="ui top attached inverted black menu">
+    <div class="right menu">
+
+    <a class="item" (click)="sidebar.toggle()">
+        <i class="wrench icon"></i> Tools
+    </a>
+  </div>
+</div>
+<sui-sidebar-container class="ui bottom attached segment">
+    <sui-sidebar
+     [transition]="'overlay'"
+     [isVisible]="true"
+     class="inverted vertical very wide translucent"
+     direction="right"
+     #sidebar>
+      <app-toolset [mode]="'temporal'"></app-toolset>
+
+      <div class="ui attached inverted segment">
+        <h5 class="ui inverted header">Prescribed Burning Targets</h5>
+        <app-burn-target-options (BurnTargetChange)="onBurnTargetChange($event)"></app-burn-target-options>
+      </div>
+
+    </sui-sidebar>
+    <sui-sidebar-sibling [isDimmedWhenVisible]="false">
+
+      <div class="chart-container">
+        <canvas id='canvas' ></canvas>
+      </div>
+
+    </sui-sidebar-sibling>
+</sui-sidebar-container>

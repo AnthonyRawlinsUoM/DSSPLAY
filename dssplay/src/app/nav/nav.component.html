@@ -1,0 +1,15 @@
+<div class="ui borderless main menu" style>
+        <a
+            class="item"
+            *ngFor="let r of routes"
+            [routerLink]="r.path"
+            [routerLinkActive]="'active'"
+            [routerLinkActiveOptions]="{exact:true}"
+        ><i [class]="r.icon"></i> {{r.name}}</a>
+
+
+        <div class="right menu">
+
+          <a href="https://insite.dss.cloud.bushfirebehaviour.net.au/" target="_blank" class="item"><img src="assets/images/insite.png" class="small icon"/> <strong>INSITE</strong></a>
+        </div>
+</div>
