@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import * as Chart from 'chart.js';
 import { ChartConfiguration, ChartData } from 'chart.js';
 import { BurnTarget } from '../burn-target-options/burn-target-options.component';
@@ -14,6 +14,13 @@ import { DataService } from '../data.service';
 })
 export class TemporalComponent implements OnInit {
 
+    burnTargets: Array<BurnTarget> = [];
+    @Output() burnTargetsChange = new EventEmitter<Array<BurnTarget>>();
+
+    metrics: Array<Metric> = [];
+    @Output() metricsChange = new EventEmitter<Array<Metric>>();
+
+
   chartOptions: ChartConfiguration;
 
   initialData: any = {
@@ -22,15 +29,15 @@ export class TemporalComponent implements OnInit {
     datasets: []
   };
 
+  options_panel = true;
+  series_panel = true;
+  export_panel = true;
+
   boxchart: Chart;
   linechart: Chart;
   scatterchart: Chart;
 
   charts: Array<Chart> = [];
-
-  burnTargets: Array<BurnTarget> = [];
-
-  metrics: Array<Metric> = [];
 
   constructor(private da: DataService) { }
 
@@ -102,23 +109,10 @@ export class TemporalComponent implements OnInit {
 
     // this.charts.push(this.linechart);
     this.charts.push(this.boxchart);
+    this.refreshCharts({});
   }
 
-  onBurnTargetChange(evt) {
-    // console.log('Got new Burn Targets');
-    // console.log(evt);
-    this.burnTargets = evt;
-    this.refreshCharts();
-  }
-
-  onMetricChange(event) {
-    // console.log('Got new Metrics');
-    // console.log(event);
-    this.metrics = event;
-    this.refreshCharts();
-  }
-
-  public colorOfMetric(metric) {
+  public colorOfMetric(metric:string) {
     return this.metrics
     .filter(m => m.label === metric)
     .map(m => {
@@ -126,7 +120,7 @@ export class TemporalComponent implements OnInit {
     });
   }
 
-  public borderColorOfMetric(metric) {
+  public borderColorOfMetric(metric:string) {
     return this.metrics
     .filter(m => m.label === metric)
     .map(m => {
@@ -134,10 +128,22 @@ export class TemporalComponent implements OnInit {
     });
   }
 
-  refreshCharts() {
+  onBurnTargetsChange(event) {
+    this.burnTargets = event;
+    this.refreshCharts(event);
+  }
 
-    if(this.metrics.length >0 && this.burnTargets.length > 0) {
+  onMetricsChange(event) {
+    this.metrics = event;
+    this.refreshCharts(event);
+  }
 
+  refreshCharts(event) {
+    console.log(event);
+
+    if((this.metrics.length > 0 && this.burnTargets.length > 0)) {
+
+        console.log('Redrawing charts!');
     // Every chart...
     for(let c of this.charts) {
 

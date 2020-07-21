@@ -10,6 +10,8 @@ export class HeaderComponent implements OnInit {
   @Input() title;
   @Input() routes;
 
+  about = false;
+
   public transitionController = new TransitionController();
 
   constructor() { }

@@ -1,0 +1,74 @@
+.healesville {
+  color: hsl(36, 72%, 56%);
+}
+.kilmore {
+  color: hsl(238, 77%, 85%);
+}
+
+.seymour {
+  color: hsl(176, 100%, 81%);
+}
+.wallan {
+  color: hsl(219, 36%, 34%);
+}
+.alexandra {
+  color: hsl(137, 88%, 68%);
+}
+.beaconsfield_upper {
+  color: hsl(24, 100%, 50%);
+}
+.beveridge {
+  color: hsl(179, 44%, 55%);
+}
+.broadford {
+  color: hsl(184, 12%, 53%);
+}
+.euroa {
+  color: hsl(204, 30%, 25%);
+}
+.gembrook {
+  color: hsl(36, 87%, 67%);
+}
+.mansfield {
+  color: hsl(8, 21%, 54%);
+}
+.millgrove {
+  color: hsl(251, 10%, 33%);
+}
+.nagambie {
+  color: hsl(38, 78%, 74%);
+}
+.seville {
+  color: hsl(26, 68%, 93%);
+}
+.wandong_heathcote_junction {
+  color: hsl(159, 16%, 79%);
+}
+.warburton {
+  color: hsl(319, 9%, 36%);
+}
+.whittlesea {
+  color: hsl(184, 12%, 72%);
+}
+.wonga_park {
+  color: hsl(352, 93%, 53%);
+}
+
+
+.field .ui.toggle.checkbox span.inverted {
+  color: #aaaaaa !important;
+}
+
+.field .ui.toggle i.icon {
+  opacity: 0.25 !important;
+}
+.field.engaged .ui.toggle i.icon,
+.field.engaged .tiny input:checked~i.icon {
+  opacity: 1.0 !important;
+}
+
+.field.engaged .ui.toggle.checkbox input:checked~box,
+.field.engaged .ui.toggle.checkbox span.inverted,
+.field.engaged .ui.toggle.checkbox input:checked~span.inverted {
+  color: white !important;
+}

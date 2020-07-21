@@ -10,10 +10,54 @@
     <sui-sidebar
      [transition]="'overlay'"
      [isVisible]="true"
-     class="inverted vertical very wide translucent"
+     class="inverted vertical very wide translucent raised segment"
      direction="right"
      #sidebar>
-      <app-toolset [mode]="'spatial'"></app-toolset>
+
+     <div class="ui inverted dense segment">
+
+     <sui-accordion [closeOthers]="false" class="ui inverted accordion">
+         <sui-accordion-panel [isOpen]="true" class="attached segment">
+             <div title>
+                 <i class="dropdown icon"></i>
+                 Metrics
+             </div>
+             <div class="ui inverted attached segment" content>
+               <app-metrics
+               [mode]="'spatial'"
+               (metricsChange)="metrics = $event"
+               ></app-metrics>
+             </div>
+         </sui-accordion-panel>
+         <sui-accordion-panel [(isOpen)]="options_panel" class="attached segment">
+             <div title>
+                 <i class="dropdown icon"></i>
+                 Options
+             </div>
+             <div class="ui inverted attached segment" content>
+
+               <app-spatial-options
+               (burnTargetsChange)="burnTargets = $event"
+               [(metrics)] = "metrics">
+             </app-spatial-options>
+
+             </div>
+         </sui-accordion-panel>
+         <sui-accordion-panel [(isOpen)]="export_panel" class="attached segment">
+             <div title>
+                 <i class="dropdown icon"></i>
+                 Export
+             </div>
+             <div class="ui inverted attached segment" content>
+                 <app-spatial-export></app-spatial-export>
+             </div>
+         </sui-accordion-panel>
+     </sui-accordion>
+     </div>
+
+
+
+
     </sui-sidebar>
     <sui-sidebar-sibling [isDimmedWhenVisible]="false" class="map">
             <!-- <div *ngIf="sources.length > 0"> -->

@@ -3,7 +3,7 @@
   <button
     *ngFor="let opt of burn_target_options"
     class="ui blue button darker"
-    (click)="opt.active = !opt.active;emit()"
+    (click)="opt.active = !opt.active; emit();"
     [ngClass]="{'green active': opt.active}">
     {{opt.value}}
   </button>

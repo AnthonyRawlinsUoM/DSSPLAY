@@ -10,14 +10,56 @@
     <sui-sidebar
      [transition]="'overlay'"
      [isVisible]="true"
-     class="inverted vertical very wide translucent"
+     class="inverted vertical very wide translucent raised segment"
      direction="right"
      #sidebar>
-      <app-toolset
-      [mode]="'temporal'"
-      (metricChange)="onMetricChange($event)"
-      (burnTargetChange)="onBurnTargetChange($event)"
-      ></app-toolset>
+
+
+
+
+     <div class="ui inverted dense segment">
+
+     <sui-accordion [closeOthers]="false" class="ui inverted accordion">
+         <sui-accordion-panel [isOpen]="true" class="attached segment">
+             <div title>
+                 <i class="dropdown icon"></i>
+                 Metrics
+             </div>
+             <div class="ui inverted attached segment" content>
+               <app-metrics
+               [mode]="'temporal'"
+               (metricsChange)="onMetricsChange($event)"
+               ></app-metrics>
+             </div>
+         </sui-accordion-panel>
+         <sui-accordion-panel [(isOpen)]="options_panel" class="attached segment">
+             <div title>
+                 <i class="dropdown icon"></i>
+                 Options
+             </div>
+             <div class="ui inverted attached segment" content>
+
+               <app-temporal-options
+               [value]="0"
+               [highValue]="100"
+               (burnTargetsChange)="onBurnTargetsChange($event)"
+               >
+
+             </app-temporal-options>
+
+             </div>
+         </sui-accordion-panel>
+         <sui-accordion-panel [(isOpen)]="export_panel" class="attached segment">
+             <div title>
+                 <i class="dropdown icon"></i>
+                 Export
+             </div>
+             <div class="ui inverted attached segment" content>
+                 <app-temporal-export></app-temporal-export>
+             </div>
+         </sui-accordion-panel>
+     </sui-accordion>
+     </div>
 
     </sui-sidebar>
     <sui-sidebar-sibling [isDimmedWhenVisible]="false">

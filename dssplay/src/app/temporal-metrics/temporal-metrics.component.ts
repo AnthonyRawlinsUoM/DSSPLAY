@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { Metric } from '../metrics/metrics.component';
 
 @Component({
@@ -7,16 +7,11 @@ import { Metric } from '../metrics/metrics.component';
   styleUrls: ['./temporal-metrics.component.css']
 })
 export class TemporalMetricsComponent implements OnInit {
-  @Output() metricChange = new EventEmitter<Array<Metric>>();
+    @Input() metrics:Array<Metric>;
+  @Output() metricsChange = new EventEmitter<Array<Metric>>();
   constructor() { }
 
   ngOnInit(): void {
-  }
-
-  onMetricChange(event) {
-    console.log('Temporal Metrics');
-    console.log(event);
-    this.metricChange.emit(event);
   }
 
 }

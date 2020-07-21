@@ -1,1 +1,2 @@
-<app-metrics [mode]="'spatial'"></app-metrics>
+<app-metrics [mode]="'spatial'" [(metrics)]="metrics"></app-metrics>
+{{ metrics | json }}

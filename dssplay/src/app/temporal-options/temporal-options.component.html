@@ -1,3 +1,14 @@
+<h5 class="ui inverted header">Prescribed Burn Targets</h5>
+<app-burn-target-options (burnTargetsChange)="onBurnTargetsChange($event)"></app-burn-target-options>
+<div class="ui divider"></div>
+
+<app-fuel-options></app-fuel-options>
+
+<div class="ui divider"></div>
+
+<app-weather-options></app-weather-options>
+<div class="ui divider"></div>
+
 <h5 class="ui inverted header">Aggregation Options</h5>
 
 <div class="ui fieldset" [formGroup]="yearGroup">
@@ -18,14 +29,3 @@
 </p> -->
 </div>
 <div class="ui divider"></div>
-
-<h5 class="ui inverted header">Prescribed Burn Targets</h5>
-<app-burn-target-options (burnTargetChange)="onBurnTargetChange($event)"></app-burn-target-options>
-
-<div class="ui divider"></div>
-
-<app-fuel-options></app-fuel-options>
-
-<div class="ui divider"></div>
-
-<app-weather-options></app-weather-options>

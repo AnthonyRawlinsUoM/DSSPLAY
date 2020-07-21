@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Options } from 'ng5-slider';
+import { Metric } from '../metrics/metrics.component';
+import { BurnTarget } from '../burn-target-options/burn-target-options.component';
 
 @Component({
   selector: 'app-spatial-options',
@@ -7,6 +9,13 @@ import { Options } from 'ng5-slider';
   styleUrls: ['./spatial-options.component.css']
 })
 export class SpatialOptionsComponent implements OnInit {
+
+  @Input() metrics: Array<Metric>;
+  @Output() metricsChange = new EventEmitter<Array<Metric>>();
+
+  @Input() burnTargets: Array<BurnTarget>;
+  @Output() burnTargetsChange = new EventEmitter<Array<BurnTarget>>();
+
   value = 0;
   highValue = 100;
   options: Options = {
@@ -18,5 +27,4 @@ export class SpatialOptionsComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }

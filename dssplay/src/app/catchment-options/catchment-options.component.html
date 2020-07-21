@@ -1,9 +1,12 @@
-<div class="ui form">
+<div class="ui form" *ngIf="this.metrics.length > 0 && checkActive() ">
+
     <div class="grouped fields">
       <h5 class="ui inverted header">Catchments</h5>
 
-      <div class="ui field">
-        <sui-checkbox class="fluid tiny toggle" [(ngModel)]="all" (checkChange)="toggleAll()">
+      <div class="ui field" [ngClass]="{'engaged': all}">
+        <sui-checkbox class="fluid tiny toggle"
+        [(ngModel)]="all"
+        (checkChange)="toggleAll()">
           <span class="inverted">All catchments</span>
         </sui-checkbox>
       </div>

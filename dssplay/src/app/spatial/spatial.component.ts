@@ -32,6 +32,11 @@ export class SpatialComponent implements OnInit {
 
   bounds: any;
   boundsOptions;
+  metrics;
+
+  options_panel = true;
+  series_panel = true;
+  export_panel = true;
 
     movingOptions: FitBoundsOptions = { padding: 30, easing: (x) => { return easing.quadratic(x) } };
 
@@ -48,6 +53,10 @@ export class SpatialComponent implements OnInit {
     // setTimeout(() => {
     //   this.bounds = new LngLatBounds([129.5, -43.47, 153.6, -27.45]);
     // }, 2000)
+  }
+
+  onMetricsChange(event) {
+    console.log('Spatial got new metrics');
   }
 
   onBoundsChange(bounds:LngLatBounds) {

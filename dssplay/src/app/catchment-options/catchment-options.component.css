@@ -68,20 +68,20 @@
   color: hsl(138, 25%, 39%);
 }
 
-.item.field .ui.toggle.checkbox span.inverted {
+.field .ui.toggle.checkbox span.inverted {
   color: #aaaaaa !important;
 }
 
-.item.field .ui.toggle i.icon {
+.field .ui.toggle i.icon {
   opacity: 0.25 !important;
 }
-.item.field.engaged .ui.toggle i.icon,
-.item.field.engaged .tiny input:checked~i.icon {
+.field.engaged .ui.toggle i.icon,
+.field.engaged .tiny input:checked~i.icon {
   opacity: 1.0 !important;
 }
 
-.item.field.engaged .ui.toggle.checkbox input:checked~box,
-.item.field.engaged .ui.toggle.checkbox span.inverted,
-.item.field.engaged .ui.toggle.checkbox input:checked~span.inverted {
+.field.engaged .ui.toggle.checkbox input:checked~box,
+.field.engaged .ui.toggle.checkbox span.inverted,
+.field.engaged .ui.toggle.checkbox input:checked~span.inverted {
   color: white !important;
 }

@@ -10,7 +10,8 @@ export interface Metric {
 
 export enum MODE {
   spatial = 'spatial',
-  temporal = 'temporal'
+  temporal = 'temporal',
+  statistical = 'statistical'
 }
 
 @Component({
@@ -19,18 +20,18 @@ export enum MODE {
   styleUrls: ['./metrics.component.css']
 })
 export class MetricsComponent implements OnInit {
-  @Input() metrics: Array<Metric>;
   @Input() mode;
-  @Output() metricChange = new EventEmitter<Array<Metric>>();
+  @Input() metrics: Array<Metric> = [];
+  @Output() metricsChange = new EventEmitter<Array<Metric>>();
 
-  selected;
+  selected = [];
   options;
 
   initvals = [
     { label: 'House Loss', option: 'house_loss', results: MODE.temporal, color: 'rgba(74, 31, 31, 0.67)', border: '#4A1F1F'},
     { label: 'Life Loss', option: 'life_loss', results: MODE.temporal, color: 'rgba(168, 95, 41, 0.67)', border: '#A85F29'},
     { label: 'Biodiversity', option: 'bio_diversity', results: MODE.temporal, color: 'rgba(73, 96, 9, 0.67)', border: '#496009'},
-    { label: 'Viewshed', option: 'viewshed', results: MODE.temporal, color: 'rgba(11, 135, 162, 0.67)', border: '#0B87A2' },
+    { label: 'Viewshed', option: 'viewshed', results: MODE.spatial, color: 'rgba(11, 135, 162, 0.67)', border: '#0B87A2' },
     { label: 'Carbon', option: 'carbon', results: MODE.temporal, color: 'rgba(0,0,0, 0.68)', border: '#000000' },
     { label: 'Debris Flow', option: 'debris_flow', results: MODE.spatial, color: 'rgba(39, 56, 89, 0.67)', border: '#273859' },
     { label: 'Water Yield', option: 'water_yield', results: MODE.spatial, color: 'rgba(13, 88, 158, 0.67)', border: '#0D589E' },
@@ -50,20 +51,37 @@ export class MetricsComponent implements OnInit {
         console.log(so);
         return so;
       });
+
+      // init
+      let result = [];
+
+      this.selected
+      .map(s => {
+        this.initvals
+        .filter(iv => iv.option === s)
+          .map(iv => result.push(iv))
+      });
+
+      this.metrics = result;
+      this.metricsChange.emit(this.metrics);
+
   }
 
   onSelectedOptionsChange(event) {
 
+    console.log('SUI Multi Select ' + event);
+
     let result = [];
 
-    this.selected.map(s => {
-      return this.initvals.filter(iv => iv.option === s)
-        .map(iv => {
-          result.push(iv);
-        })
-    })
+    event
+    .map(s => {
+      this.initvals
+      .filter(iv => iv.option === s)
+        .map(iv => result.push(iv))
+    });
 
-    this.metricChange.emit(result);
+    this.metrics = result;
+    this.metricsChange.emit(this.metrics);
   }
 
   public styling(o) {

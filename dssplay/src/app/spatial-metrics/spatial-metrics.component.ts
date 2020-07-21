@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Metric } from '../metrics/metrics.component';
 
 @Component({
   selector: 'app-spatial-metrics',
@@ -6,10 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./spatial-metrics.component.css']
 })
 export class SpatialMetricsComponent implements OnInit {
+  @Input() metrics:Array<Metric>;
+  @Output() metricsChange = new EventEmitter<Array<Metric>>();
 
   constructor() { }
 
   ngOnInit(): void {
   }
-
 }

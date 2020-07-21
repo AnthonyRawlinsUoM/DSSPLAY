@@ -22,17 +22,14 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HeaderComponent } from './header/header.component';
 import { NavComponent } from './nav/nav.component';
-import { ToolsetComponent } from './toolset/toolset.component';
-
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
+
 import { FrappeatorProjectsComponent } from './frappeator-projects/frappeator-projects.component';
 import { FrappeatorProjectComponent } from './frappeator-project/frappeator-project.component';
 import { SpatialOptionsComponent } from './spatial-options/spatial-options.component';
 import { SpatialExportComponent } from './spatial-export/spatial-export.component';
 import { TemporalOptionsComponent } from './temporal-options/temporal-options.component';
 import { TemporalExportComponent } from './temporal-export/temporal-export.component';
-import { SpatialMetricsComponent } from './spatial-metrics/spatial-metrics.component';
-import { TemporalMetricsComponent } from './temporal-metrics/temporal-metrics.component';
 import { MetricsComponent } from './metrics/metrics.component';
 import { BurnTargetOptionsComponent } from './burn-target-options/burn-target-options.component';
 import { InterpretationComponent } from './interpretation/interpretation.component';
@@ -44,6 +41,7 @@ import { ViewshedOptionsComponent } from './viewshed-options/viewshed-options.co
 import { XAxisChooserComponent } from './x-axis-chooser/x-axis-chooser.component';
 import { YAxisChooserComponent } from './y-axis-chooser/y-axis-chooser.component';
 import { PlaybackComponent } from './playback/playback.component';
+import { TimelineComponent } from './timeline/timeline.component';
 
 const config: SocketIoConfig = { url: 'http://localhost:5050', options: {} };
 
@@ -58,15 +56,12 @@ const config: SocketIoConfig = { url: 'http://localhost:5050', options: {} };
     NavComponent,
     SpatialComponent,
     TemporalComponent,
-    ToolsetComponent,
     FrappeatorProjectsComponent,
     FrappeatorProjectComponent,
     SpatialOptionsComponent,
     SpatialExportComponent,
     TemporalOptionsComponent,
     TemporalExportComponent,
-    SpatialMetricsComponent,
-    TemporalMetricsComponent,
     MetricsComponent,
     BurnTargetOptionsComponent,
     InterpretationComponent,
@@ -77,7 +72,8 @@ const config: SocketIoConfig = { url: 'http://localhost:5050', options: {} };
     ViewshedOptionsComponent,
     XAxisChooserComponent,
     YAxisChooserComponent,
-    PlaybackComponent
+    PlaybackComponent,
+    TimelineComponent
   ],
   imports: [
     BrowserModule,

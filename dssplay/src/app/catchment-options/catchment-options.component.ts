@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Metric } from '../metrics/metrics.component';
 
 export interface Catchment {
   id: number;
@@ -14,7 +15,9 @@ export interface Catchment {
 })
 export class CatchmentOptionsComponent implements OnInit {
 
-  default = true;
+  @Input() metrics:Array<Metric>;
+
+  default = false;
 
   catchment_options: Array<Catchment> = [
     {color:'armstrong', label:'Armstrong', id:1, active: this.default},
@@ -42,15 +45,20 @@ export class CatchmentOptionsComponent implements OnInit {
     {color:'crotty', label:'Crotty', id: 23, active: this.default}
   ];
 
-  all = true;
+  all = false;
+    needed: boolean;
 
   constructor() { }
 
   ngOnInit() {
+    this.metrics = [];
   }
 
   toggleAll() {
     this.catchment_options.map(c => {c.active = this.all;});
   }
 
+  checkActive():boolean {
+    return this.metrics.filter(m => (m.option === 'water_yield' || m.option === 'debris_flow')).some(x => (x) ? true: false);
+  }
 }
