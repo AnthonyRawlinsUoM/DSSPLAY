@@ -136,15 +136,15 @@ export class TemporalComponent implements OnInit {
   }
 
   onBurnTargetChange(evt) {
-    console.log('Got new Burn Targets');
-    console.log(evt);
+    // console.log('Got new Burn Targets');
+    // console.log(evt);
     this.burnTargets = evt;
     this.refreshCharts();
   }
 
   onMetricChange(event) {
-    console.log('Got new Metrics');
-    console.log(event);
+    // console.log('Got new Metrics');
+    // console.log(event);
     this.metrics = event;
     this.refreshCharts();
   }
@@ -172,8 +172,6 @@ export class TemporalComponent implements OnInit {
     // Every chart...
     for(let c of this.charts) {
 
-
-
       // nullify non-enabled datasets/metrics
       c.data.datasets
       .map(ds => {
@@ -187,8 +185,8 @@ export class TemporalComponent implements OnInit {
       .map(ds => {
         return ds.label;
       });
-      console.log('Have: ');
-      console.log(have);
+      // console.log('Have: ');
+      // console.log(have);
 
       // Which do we not have?
       let missing = [];
@@ -205,8 +203,8 @@ export class TemporalComponent implements OnInit {
 
 
       if(missing.length > 0) {
-        console.log('Missing items:');
-        console.log(missing);
+        // console.log('Missing items:');
+        // console.log(missing);
 
         let col = 0;
 
@@ -262,14 +260,14 @@ export class TemporalComponent implements OnInit {
           for(let mt of this.metrics) {
             // console.log(ds.label);
             if(mt.label === ds.label) {
-              console.log('Adding data');
+              // console.log('Adding data');
               data.push(randomValues(10, 25, 75));
 
             }
           }
         });
 
-        console.log(data);
+        // console.log(data);
         ds.data = data;
       });
 
@@ -280,7 +278,7 @@ export class TemporalComponent implements OnInit {
         return bt.label;
       });
 
-      console.log(c.data.labels);
+      // console.log(c.data.labels);
 
       c.update();
       }

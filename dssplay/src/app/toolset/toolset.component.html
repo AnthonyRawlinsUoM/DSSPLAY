@@ -19,6 +19,7 @@
         <div class="ui inverted attached segment" content>
           <app-temporal-options *ngIf="mode === 'temporal'" (burnTargetChange)="onBurnTargetChange($event)"></app-temporal-options>
           <app-spatial-options *ngIf="mode === 'spatial'"></app-spatial-options>
+
         </div>
     </sui-accordion-panel>
     <sui-accordion-panel [(isOpen)]="export_panel" class="attached segment">

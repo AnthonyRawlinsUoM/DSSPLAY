@@ -1,21 +1,31 @@
 <h5 class="ui inverted header">Aggregation Options</h5>
+
 <div class="ui fieldset" [formGroup]="yearGroup">
   <div class="ui field">
-  <div class="label">Years</div>
-<ng5-slider
-  [(value)]="value"
-  [(highValue)]="highValue"
-  [options]="options"
-  formControlName="sliderControl"></ng5-slider>
-</div>
-
-<p>
+    <div class="label">Years</div>
+      <ng5-slider
+        [(value)]="value"
+        [(highValue)]="highValue"
+        [options]="options"
+        formControlName="sliderControl">
+      </ng5-slider>
+    </div>
+<!-- <p>
   {{ yearGroup.value.sliderControl[0] }}
 </p>
 <p>
   {{ yearGroup.value.sliderControl[1] }}
-</p>
+</p> -->
 </div>
+<div class="ui divider"></div>
 
-
+<h5 class="ui inverted header">Prescribed Burn Targets</h5>
 <app-burn-target-options (burnTargetChange)="onBurnTargetChange($event)"></app-burn-target-options>
+
+<div class="ui divider"></div>
+
+<app-fuel-options></app-fuel-options>
+
+<div class="ui divider"></div>
+
+<app-weather-options></app-weather-options>

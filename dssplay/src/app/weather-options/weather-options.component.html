@@ -1,0 +1,9 @@
+<div class="ui inverted form">
+    <div class="grouped fields">
+        <h5 class="ui inverted header">Weather</h5>
+        <div class="field" *ngFor="let w of weather_options">
+            <sui-radio-button name="weather" [value]="w.option" [(ngModel)]="weather_choice">{{ w.label }}</sui-radio-button>
+        </div>
+    </div>
+    <p>Weather: {{ weather_choice | json }}</p>
+</div>

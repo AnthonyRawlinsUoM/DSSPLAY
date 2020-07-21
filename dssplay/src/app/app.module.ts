@@ -36,6 +36,9 @@ import { TemporalMetricsComponent } from './temporal-metrics/temporal-metrics.co
 import { MetricsComponent } from './metrics/metrics.component';
 import { BurnTargetOptionsComponent } from './burn-target-options/burn-target-options.component';
 import { InterpretationComponent } from './interpretation/interpretation.component';
+import { WeatherOptionsComponent } from './weather-options/weather-options.component';
+import { FuelOptionsComponent } from './fuel-options/fuel-options.component';
+import { ChoicesSummaryComponent } from './choices-summary/choices-summary.component';
 
 const config: SocketIoConfig = { url: 'http://localhost:5050', options: {} };
 
@@ -61,7 +64,10 @@ const config: SocketIoConfig = { url: 'http://localhost:5050', options: {} };
     TemporalMetricsComponent,
     MetricsComponent,
     BurnTargetOptionsComponent,
-    InterpretationComponent
+    InterpretationComponent,
+    WeatherOptionsComponent,
+    FuelOptionsComponent,
+    ChoicesSummaryComponent
   ],
   imports: [
     BrowserModule,
