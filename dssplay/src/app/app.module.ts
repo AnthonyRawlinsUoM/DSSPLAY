@@ -39,6 +39,11 @@ import { InterpretationComponent } from './interpretation/interpretation.compone
 import { WeatherOptionsComponent } from './weather-options/weather-options.component';
 import { FuelOptionsComponent } from './fuel-options/fuel-options.component';
 import { ChoicesSummaryComponent } from './choices-summary/choices-summary.component';
+import { CatchmentOptionsComponent } from './catchment-options/catchment-options.component';
+import { ViewshedOptionsComponent } from './viewshed-options/viewshed-options.component';
+import { XAxisChooserComponent } from './x-axis-chooser/x-axis-chooser.component';
+import { YAxisChooserComponent } from './y-axis-chooser/y-axis-chooser.component';
+import { PlaybackComponent } from './playback/playback.component';
 
 const config: SocketIoConfig = { url: 'http://localhost:5050', options: {} };
 
@@ -67,7 +72,12 @@ const config: SocketIoConfig = { url: 'http://localhost:5050', options: {} };
     InterpretationComponent,
     WeatherOptionsComponent,
     FuelOptionsComponent,
-    ChoicesSummaryComponent
+    ChoicesSummaryComponent,
+    CatchmentOptionsComponent,
+    ViewshedOptionsComponent,
+    XAxisChooserComponent,
+    YAxisChooserComponent,
+    PlaybackComponent
   ],
   imports: [
     BrowserModule,

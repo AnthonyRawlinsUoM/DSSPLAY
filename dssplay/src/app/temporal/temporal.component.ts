@@ -70,69 +70,38 @@ export class TemporalComponent implements OnInit {
         }
     });
 
-    this.scatterchart = new Chart('scatterchart', {
+    // this.linechart = new Chart('violin', {
+    //
+    //     type: 'horizontalViolin',
+    //     data: this.initialData,
+    //     options: {
+    //         legend: {
+    //         display: false
+    //       },
+    //       aspectRatio: 16/9,
+    //       maintainAspectRatio: true,
+    //       scales: {
+    //         xAxes: [{
+    //
+    //             gridLines: {
+    //                 offsetGridLines: true
+    //             }
+    //         }],
+    //         yAxes: [{
+    //           position: 'left',
+    //           ticks: {
+    //               beginAtZero: true,
+    //               suggestedMin: 0,
+    //               suggestedMax: 100,
+    //               stepSize: 10
+    //           }
+    //         }]
+    //       }
+    //     }
+    // });
 
-        type: 'scatter',
-        data: this.initialData,
-        options: {
-            legend: {
-            display: false
-          },
-          aspectRatio: 16/9,
-          maintainAspectRatio: true,
-          scales: {
-            xAxes: [{
-
-                gridLines: {
-                    offsetGridLines: true
-                }
-            }],
-            yAxes: [{
-              position: 'left',
-              ticks: {
-                  beginAtZero: true,
-                  suggestedMin: 0,
-                  suggestedMax: 100,
-                  stepSize: 10
-              }
-            }]
-          }
-        }
-    });
-
-    this.linechart = new Chart('violin', {
-
-        type: 'horizontalViolin',
-        data: this.initialData,
-        options: {
-            legend: {
-            display: false
-          },
-          aspectRatio: 16/9,
-          maintainAspectRatio: true,
-          scales: {
-            xAxes: [{
-
-                gridLines: {
-                    offsetGridLines: true
-                }
-            }],
-            yAxes: [{
-              position: 'left',
-              ticks: {
-                  beginAtZero: true,
-                  suggestedMin: 0,
-                  suggestedMax: 100,
-                  stepSize: 10
-              }
-            }]
-          }
-        }
-    });
-
-    this.charts.push(this.linechart);
+    // this.charts.push(this.linechart);
     this.charts.push(this.boxchart);
-    this.charts.push(this.scatterchart);
   }
 
   onBurnTargetChange(evt) {

@@ -1,0 +1,87 @@
+.armstrong {
+  color: hsl(36, 72%, 56%);
+}
+.cement_creek_east {
+  color: hsl(238, 77%, 85%);
+}
+.yan_yean {
+  color: hsl(176, 100%, 81%);
+}
+.wallaby_creek {
+  color: hsl(219, 36%, 34%);
+}
+.greenvale {
+  color: hsl(137, 88%, 68%);
+}
+.sugarloaf {
+  color: hsl(24, 100%, 50%);
+}
+.silvan {
+  color: hsl(179, 44%, 55%);
+}
+.cardinia {
+  color: hsl(184, 12%, 53%);
+}
+.thomson {
+  color: hsl(204, 30%, 25%);
+}
+.oshannassy {
+  color: hsl(36, 87%, 67%);
+}
+.upper_yarra {
+  color: hsl(8, 21%, 54%);
+}
+.starvation {
+  color: hsl(251, 10%, 33%);
+}
+.big_flume {
+  color: hsl(38, 78%, 74%);
+}
+.mcmahons {
+  color: hsl(26, 68%, 93%);
+}
+.micks_creek {
+  color: hsl(159, 16%, 79%);
+}
+.sawpit_creek {
+  color: hsl(319, 9%, 36%);
+}
+.graceburn {
+  color: hsl(184, 12%, 72%);
+}
+.cornanderrk {
+  color: hsl(352, 93%, 53%);
+}
+.maroondah {
+  color: hsl(4, 86%, 65%);
+}
+.donnelleys_creek {
+  color: hsl(55, 54%, 71%);
+}
+.tarago {
+  color: hsl(152, 7%, 61%);
+}
+.bunyip {
+  color: hsl(350, 74%, 26%);
+}
+.crotty {
+  color: hsl(138, 25%, 39%);
+}
+
+.item.field .ui.toggle.checkbox span.inverted {
+  color: #aaaaaa !important;
+}
+
+.item.field .ui.toggle i.icon {
+  opacity: 0.25 !important;
+}
+.item.field.engaged .ui.toggle i.icon,
+.item.field.engaged .tiny input:checked~i.icon {
+  opacity: 1.0 !important;
+}
+
+.item.field.engaged .ui.toggle.checkbox input:checked~box,
+.item.field.engaged .ui.toggle.checkbox span.inverted,
+.item.field.engaged .ui.toggle.checkbox input:checked~span.inverted {
+  color: white !important;
+}

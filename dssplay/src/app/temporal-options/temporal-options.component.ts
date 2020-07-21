@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Options } from 'ng5-slider';
 import { FormGroup, FormControl } from '@angular/forms';
 import { BurnTarget } from '../burn-target-options/burn-target-options.component';
@@ -9,6 +9,9 @@ import { BurnTarget } from '../burn-target-options/burn-target-options.component
   styleUrls: ['./temporal-options.component.css']
 })
 export class TemporalOptionsComponent implements OnInit {
+  @Input() value = 0;
+  @Input() highValue = 100;
+
   @Output() year_range = new EventEmitter<any>();
   @Output() burnTargetChange = new EventEmitter<Array<BurnTarget>>();
 
@@ -16,8 +19,7 @@ export class TemporalOptionsComponent implements OnInit {
     sliderControl: new FormControl([20, 80])
   });
 
-  value = 0;
-  highValue = 100;
+x
   options: Options = {
     floor: 0,
     ceil: 100
@@ -27,8 +29,13 @@ export class TemporalOptionsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onValueChange(value) {}
-  onHighValueChange(highValue) {}
+  onValueChange(value) {
+    this.year_range.emit([value, this.highValue]);
+  }
+  
+  onHighValueChange(highValue) {
+    this.year_range.emit([this.value, highValue]);
+  }
 
   onBurnTargetChange(evt) {
     this.burnTargetChange.emit(evt);

@@ -7,6 +7,11 @@ import { FeatureCollection, Feature, Geometry } from 'geojson';
 
 import { easing } from 'ts-easing';
 
+export interface Source {
+  layers: any;
+  data: any;
+}
+
 @Component({
   selector: 'app-spatial',
   templateUrl: './spatial.component.html',
@@ -20,6 +25,8 @@ export class SpatialComponent implements OnInit {
   @Output() selectedAreaId = null;
   @Output() selectedArea = null;
   @Output() boundsChange = new EventEmitter<any>();
+
+  sources: Source[] = [];
 
   zoom = [7.78];
 

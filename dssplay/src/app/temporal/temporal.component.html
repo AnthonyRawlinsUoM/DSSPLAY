@@ -24,28 +24,32 @@
       <div class="ui page">
       <div class="ui grid">
         <div class="ui row">
-          <div class="ui twelve wide column">
+          <div class="ui one wide column">
+            <app-y-axis-chooser></app-y-axis-chooser>
+          </div>
+          <div class="ui eleven wide column">
             <h2 class="ui header">(Chart Title)</h2>
-            <div class="chart-container">
+            <div class="ui segment chart-container">
               <canvas id='boxchart' #boxchart></canvas>
             </div>
+            <app-x-axis-chooser></app-x-axis-chooser>
           </div>
           <div class="ui four wide column">
             <app-interpretation></app-interpretation>
           </div>
         </div>
 
-        <div class="ui row">
+        <!-- <div class="ui row">
           <div class="ui eight wide column">
-            <div class="chart-container">
+            <div class="ui segment chart-container">
             <canvas id='violin' #violin></canvas>
           </div></div>
           <div class="ui eight wide column">
-            <div class="chart-container">
+            <div class="ui segment chart-container">
             <canvas id='scatterchart' #scatterchart></canvas>
           </div>
         </div>
-        </div>
+        </div> -->
       </div>
     </div>
 

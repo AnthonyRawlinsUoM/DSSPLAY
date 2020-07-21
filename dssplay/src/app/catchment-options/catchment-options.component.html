@@ -1,0 +1,20 @@
+<div class="ui form">
+    <div class="grouped fields">
+      <h5 class="ui inverted header">Catchments</h5>
+
+      <div class="ui field">
+        <sui-checkbox class="fluid tiny toggle" [(ngModel)]="all" (checkChange)="toggleAll()">
+          <span class="inverted">All catchments</span>
+        </sui-checkbox>
+      </div>
+
+      <div class="ui list fieldset" #catchments>
+        <div class="item field" *ngFor="let c of catchment_options" [ngClass]="{'engaged': c.active}">
+          <sui-checkbox class="fluid tiny toggle" [(ngModel)]="c.active">
+            <i class="circle icon" [ngClass]="c.color"></i>
+            <span class="inverted">{{c.label}}</span>
+          </sui-checkbox>
+        </div>
+      </div>
+    </div>
+  </div>

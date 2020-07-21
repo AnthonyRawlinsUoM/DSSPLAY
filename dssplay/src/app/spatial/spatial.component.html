@@ -15,8 +15,8 @@
      #sidebar>
       <app-toolset [mode]="'spatial'"></app-toolset>
     </sui-sidebar>
-    <sui-sidebar-sibling [isDimmedWhenVisible]="false">
-            <div class="map">
+    <sui-sidebar-sibling [isDimmedWhenVisible]="false" class="map">
+            <!-- <div *ngIf="sources.length > 0"> -->
               <mgl-map
               [style]="style"
                [zoom]="zoom"
@@ -24,8 +24,35 @@
                [fitBounds] = "bounds"
                [fitBoundsOptions]="boundsOptions"
                (mouseMove)="mousemove($event)"
-               (load)="mapLoaded($event)" #mapview>
+               (load)="mapLoaded($event)"
+
+
+               #mapview>
+
+              <!-- <mgl-geojson-source
+                id="src.id"
+                [data]="src.data"
+                *ngFor="let src of sources">
+
+                <mgl-feature
+                *ngFor="let geometry of src.geometries"
+                [geometry]="geometry"></mgl-feature>
+
+              </mgl-geojson-source>
+
+              <mgl-layer
+                *ngFor="let lyr of sources.layers"
+
+                id="lyr.name"
+                type="line"
+                [source]="lyr.source"
+                [paint]="{
+                  'line-color': '#627BC1',
+                  'line-width': 2
+                }"
+              ></mgl-layer> -->
+
              </mgl-map>
-            </div>
+            <!-- </div> -->
     </sui-sidebar-sibling>
 </sui-sidebar-container>
