@@ -5,6 +5,7 @@ import { BurnTarget } from '../burn-target-options/burn-target-options.component
 import { Metric, MODE } from '../metrics/metrics.component';
 
 import "chartjs-chart-box-and-violin-plot/build/Chart.BoxPlot.js";
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-temporal',
@@ -31,7 +32,7 @@ export class TemporalComponent implements OnInit {
 
   metrics: Array<Metric> = [];
 
-  constructor() { }
+  constructor(private da: DataService) { }
 
   ngOnInit(): void {
     this.boxchart = new Chart('boxchart', {
@@ -215,7 +216,7 @@ export class TemporalComponent implements OnInit {
           this.burnTargets.map(bt => {
             // Replace with Service call to socket.io server/Postgres
             for(let mt of this.metrics) {
-              data.push(randomValues(100, 0, 100));
+              data.push(randomValues(10, 25, 75));
             }
           });
 
@@ -262,7 +263,7 @@ export class TemporalComponent implements OnInit {
             // console.log(ds.label);
             if(mt.label === ds.label) {
               console.log('Adding data');
-              data.push(randomValues(100, 0, 100));
+              data.push(randomValues(10, 25, 75));
 
             }
           }
