@@ -9,8 +9,8 @@ export interface Metric {
 }
 
 export enum MODE {
-  spatial = 'spatial',
-  temporal = 'temporal',
+  mapping = 'mapping',
+  charting = 'charting',
   statistical = 'statistical'
 }
 
@@ -28,18 +28,18 @@ export class MetricsComponent implements OnInit {
   options;
 
   initvals = [
-    { label: 'House Loss', option: 'house_loss', results: MODE.temporal, color: 'rgba(74, 31, 31, 0.67)', border: '#4A1F1F'},
-    { label: 'Life Loss', option: 'life_loss', results: MODE.temporal, color: 'rgba(168, 95, 41, 0.67)', border: '#A85F29'},
-    { label: 'Biodiversity', option: 'bio_diversity', results: MODE.temporal, color: 'rgba(73, 96, 9, 0.67)', border: '#496009'},
-    { label: 'Viewshed', option: 'viewshed', results: MODE.spatial, color: 'rgba(11, 135, 162, 0.67)', border: '#0B87A2' },
-    { label: 'Carbon', option: 'carbon', results: MODE.temporal, color: 'rgba(0,0,0, 0.68)', border: '#000000' },
-    { label: 'Debris Flow', option: 'debris_flow', results: MODE.spatial, color: 'rgba(39, 56, 89, 0.67)', border: '#273859' },
-    { label: 'Water Yield', option: 'water_yield', results: MODE.spatial, color: 'rgba(13, 88, 158, 0.67)', border: '#0D589E' },
-    { label: 'RUSLE', option: 'rusle', results: MODE.spatial, color: 'rgba(83, 87, 23, 0.67)', border: '#535717' },
-    { label: 'Mean Erosion Rate', option: 'mean_erosion_rate', results: MODE.spatial, color: 'rgba(61, 38, 51, 0.68)', border: '#3D2633' },
-    { label: 'Infrastructure', option: 'infrastructure', results: MODE.temporal, color: 'rgba(18, 107, 56, 0.66)', border: '#126B38' },
-    { label: 'Prescribed Burn', option: 'p_burn', results: MODE.temporal, color: 'rgba(236, 115, 27, 0.67)', border: '#EC731B' },
-    { label: 'GMA', option: 'gma', results: MODE.temporal, color: 'rgba(30, 38, 222, 0.67)', border: '#1E26DE' }
+    { label: 'House Loss', option: 'house_loss', results: MODE.charting, color: 'rgba(74, 31, 31, 0.67)', border: '#4A1F1F'},
+    { label: 'Life Loss', option: 'life_loss', results: MODE.charting, color: 'rgba(168, 95, 41, 0.67)', border: '#A85F29'},
+    { label: 'Biodiversity', option: 'bio_diversity', results: MODE.charting, color: 'rgba(73, 96, 9, 0.67)', border: '#496009'},
+    { label: 'Viewshed', option: 'viewshed', results: MODE.mapping, color: 'rgba(11, 135, 162, 0.67)', border: '#0B87A2' },
+    { label: 'Carbon', option: 'carbon', results: MODE.charting, color: 'rgba(0,0,0, 0.68)', border: '#000000' },
+    { label: 'Debris Flow', option: 'debris_flow', results: MODE.mapping, color: 'rgba(39, 56, 89, 0.67)', border: '#273859' },
+    { label: 'Water Yield', option: 'water_yield', results: MODE.mapping, color: 'rgba(13, 88, 158, 0.67)', border: '#0D589E' },
+    { label: 'RUSLE', option: 'rusle', results: MODE.mapping, color: 'rgba(83, 87, 23, 0.67)', border: '#535717' },
+    { label: 'Mean Erosion Rate', option: 'mean_erosion_rate', results: MODE.mapping, color: 'rgba(61, 38, 51, 0.68)', border: '#3D2633' },
+    { label: 'Infrastructure', option: 'infrastructure', results: MODE.charting, color: 'rgba(18, 107, 56, 0.66)', border: '#126B38' },
+    { label: 'Prescribed Burn', option: 'p_burn', results: MODE.charting, color: 'rgba(236, 115, 27, 0.67)', border: '#EC731B' },
+    { label: 'GMA', option: 'gma', results: MODE.charting, color: 'rgba(30, 38, 222, 0.67)', border: '#1E26DE' }
   ];
 
   constructor() {

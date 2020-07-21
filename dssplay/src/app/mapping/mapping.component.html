@@ -14,9 +14,6 @@
      direction="right"
      #sidebar>
 
-
-
-
      <div class="ui inverted dense segment">
 
      <sui-accordion [closeOthers]="false" class="ui inverted accordion">
@@ -27,8 +24,8 @@
              </div>
              <div class="ui inverted attached segment" content>
                <app-metrics
-               [mode]="'temporal'"
-               (metricsChange)="onMetricsChange($event)"
+               [mode]="'mapping'"
+               (metricsChange)="metrics = $event"
                ></app-metrics>
              </div>
          </sui-accordion-panel>
@@ -39,13 +36,9 @@
              </div>
              <div class="ui inverted attached segment" content>
 
-               <app-temporal-options
-               [value]="0"
-               [highValue]="100"
-               (burnTargetsChange)="onBurnTargetsChange($event)"
-               >
-
-             </app-temporal-options>
+               <app-mapping-options
+               [(metrics)] = "metrics">
+             </app-mapping-options>
 
              </div>
          </sui-accordion-panel>
@@ -55,46 +48,54 @@
                  Export
              </div>
              <div class="ui inverted attached segment" content>
-                 <app-temporal-export></app-temporal-export>
+                 <app-mapping-export></app-mapping-export>
              </div>
          </sui-accordion-panel>
      </sui-accordion>
      </div>
 
+
+
+
     </sui-sidebar>
-    <sui-sidebar-sibling [isDimmedWhenVisible]="false">
-      <div class="ui page">
-      <div class="ui grid">
-        <div class="ui row">
-          <div class="ui one wide column">
-            <app-y-axis-chooser></app-y-axis-chooser>
-          </div>
-          <div class="ui eleven wide column">
-            <h2 class="ui header">(Chart Title)</h2>
-            <div class="ui segment chart-container">
-              <canvas id='boxchart' #boxchart></canvas>
-            </div>
-            <app-x-axis-chooser></app-x-axis-chooser>
-          </div>
-          <div class="ui four wide column">
-            <app-interpretation></app-interpretation>
-          </div>
-        </div>
-
-        <!-- <div class="ui row">
-          <div class="ui eight wide column">
-            <div class="ui segment chart-container">
-            <canvas id='violin' #violin></canvas>
-          </div></div>
-          <div class="ui eight wide column">
-            <div class="ui segment chart-container">
-            <canvas id='scatterchart' #scatterchart></canvas>
-          </div>
-        </div>
-        </div> -->
-      </div>
-    </div>
+    <sui-sidebar-sibling [isDimmedWhenVisible]="false" class="map">
+            <!-- <div *ngIf="sources.length > 0"> -->
+              <mgl-map
+              [style]="style"
+               [zoom]="zoom"
+               [center]="[145.769, -37.721]"
+               [fitBounds] = "bounds"
+               [fitBoundsOptions]="boundsOptions"
+               (mouseMove)="mousemove($event)"
+               (load)="mapLoaded($event)"
 
 
+               #mapview>
+
+              <!-- <mgl-geojson-source
+                id="src.id"
+                [data]="src.data"
+                *ngFor="let src of sources">
+
+                <mgl-feature
+                *ngFor="let geometry of src.geometries"
+                [geometry]="geometry"></mgl-feature>
+
+              </mgl-geojson-source>
+
+              <mgl-layer
+                *ngFor="let lyr of sources.layers"
+
+                id="lyr.name"
+                type="line"
+                [source]="lyr.source"
+                [paint]="{
+                  'line-color': '#627BC1',
+                  'line-width': 2
+                }"
+              ></mgl-layer> -->
+
+             </mgl-map>
+            <!-- </div> -->
     </sui-sidebar-sibling>
 </sui-sidebar-container>

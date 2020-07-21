@@ -12,8 +12,8 @@ import "chartjs-chart-box-and-violin-plot/build/Chart.BoxPlot.js";
 
 import { Ng5SliderModule } from 'ng5-slider';
 
-import { SpatialComponent } from './spatial/spatial.component';
-import { TemporalComponent } from './temporal/temporal.component';
+import { MappingComponent } from './mapping/mapping.component';
+import { ChartingComponent } from './charting/charting.component';
 
 import { AppComponent } from './app.component';
 import { FooterComponent } from './footer/footer.component';
@@ -26,10 +26,10 @@ import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 
 import { FrappeatorProjectsComponent } from './frappeator-projects/frappeator-projects.component';
 import { FrappeatorProjectComponent } from './frappeator-project/frappeator-project.component';
-import { SpatialOptionsComponent } from './spatial-options/spatial-options.component';
-import { SpatialExportComponent } from './spatial-export/spatial-export.component';
-import { TemporalOptionsComponent } from './temporal-options/temporal-options.component';
-import { TemporalExportComponent } from './temporal-export/temporal-export.component';
+import { MappingOptionsComponent } from './mapping-options/mapping-options.component';
+import { MappingExportComponent } from './mapping-export/mapping-export.component';
+import { ChartingOptionsComponent } from './charting-options/charting-options.component';
+import { ChartingExportComponent } from './charting-export/charting-export.component';
 import { MetricsComponent } from './metrics/metrics.component';
 import { BurnTargetOptionsComponent } from './burn-target-options/burn-target-options.component';
 import { InterpretationComponent } from './interpretation/interpretation.component';
@@ -54,14 +54,14 @@ const config: SocketIoConfig = { url: 'http://localhost:5050', options: {} };
     PageNotFoundComponent,
     HeaderComponent,
     NavComponent,
-    SpatialComponent,
-    TemporalComponent,
+    MappingComponent,
+    ChartingComponent,
     FrappeatorProjectsComponent,
     FrappeatorProjectComponent,
-    SpatialOptionsComponent,
-    SpatialExportComponent,
-    TemporalOptionsComponent,
-    TemporalExportComponent,
+    MappingOptionsComponent,
+    MappingExportComponent,
+    ChartingOptionsComponent,
+    ChartingExportComponent,
     MetricsComponent,
     BurnTargetOptionsComponent,
     InterpretationComponent,
@@ -76,12 +76,11 @@ const config: SocketIoConfig = { url: 'http://localhost:5050', options: {} };
     TimelineComponent
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    CommonModule,
-    ReactiveFormsModule,
     ChartModule,
     Ng5SliderModule,
     SuiModule,

@@ -4,11 +4,11 @@ import { Metric } from '../metrics/metrics.component';
 import { BurnTarget } from '../burn-target-options/burn-target-options.component';
 
 @Component({
-  selector: 'app-spatial-options',
-  templateUrl: './spatial-options.component.html',
-  styleUrls: ['./spatial-options.component.css']
+  selector: 'app-mapping-options',
+  templateUrl: './mapping-options.component.html',
+  styleUrls: ['./mapping-options.component.css']
 })
-export class SpatialOptionsComponent implements OnInit {
+export class MappingOptionsComponent implements OnInit {
 
   @Input() metrics: Array<Metric>;
   @Output() metricsChange = new EventEmitter<Array<Metric>>();

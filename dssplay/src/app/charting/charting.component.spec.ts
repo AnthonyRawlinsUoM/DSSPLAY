@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TemporalExportComponent } from './temporal-export.component';
+import { ChartingComponent } from './charting.component';
 
-describe('TemporalExportComponent', () => {
-  let component: TemporalExportComponent;
-  let fixture: ComponentFixture<TemporalExportComponent>;
+describe('ChartingComponent', () => {
+  let component: ChartingComponent;
+  let fixture: ComponentFixture<ChartingComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TemporalExportComponent ]
+      declarations: [ ChartingComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TemporalExportComponent);
+    fixture = TestBed.createComponent(ChartingComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

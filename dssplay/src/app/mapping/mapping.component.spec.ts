@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SpatialComponent } from './spatial.component';
+import { MappingComponent } from './mapping.component';
 
-describe('SpatialComponent', () => {
-  let component: SpatialComponent;
-  let fixture: ComponentFixture<SpatialComponent>;
+describe('MappingComponent', () => {
+  let component: MappingComponent;
+  let fixture: ComponentFixture<MappingComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SpatialComponent ]
+      declarations: [ MappingComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SpatialComponent);
+    fixture = TestBed.createComponent(MappingComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

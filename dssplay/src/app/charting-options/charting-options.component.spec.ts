@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SpatialExportComponent } from './spatial-export.component';
+import { ChartingOptionsComponent } from './charting-options.component';
 
-describe('SpatialExportComponent', () => {
-  let component: SpatialExportComponent;
-  let fixture: ComponentFixture<SpatialExportComponent>;
+describe('ChartingOptionsComponent', () => {
+  let component: ChartingOptionsComponent;
+  let fixture: ComponentFixture<ChartingOptionsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SpatialExportComponent ]
+      declarations: [ ChartingOptionsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SpatialExportComponent);
+    fixture = TestBed.createComponent(ChartingOptionsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

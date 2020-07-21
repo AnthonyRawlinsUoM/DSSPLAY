@@ -21,14 +21,14 @@ export class AppComponent {
       icon: 'home icon'
     },
     {
-      path: 'spatial',
-      name: 'Spatial',
+      path: 'mapping',
+      name: 'Mapping',
       icon: 'map icon'
     },
     {
-      path: 'temporal',
-      name: 'Temporal',
-      icon: 'clock icon'
+      path: 'charting',
+      name: 'Charting',
+      icon: 'line chart icon'
     },
   ];
 }

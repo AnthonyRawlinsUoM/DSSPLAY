@@ -5,11 +5,11 @@ import { BurnTarget } from '../burn-target-options/burn-target-options.component
 import { Metric } from '../metrics/metrics.component';
 
 @Component({
-  selector: 'app-temporal-options',
-  templateUrl: './temporal-options.component.html',
-  styleUrls: ['./temporal-options.component.css']
+  selector: 'app-charting-options',
+  templateUrl: './charting-options.component.html',
+  styleUrls: ['./charting-options.component.css']
 })
-export class TemporalOptionsComponent implements OnInit {
+export class ChartingOptionsComponent implements OnInit {
   @Input() value = 0;
   @Input() highValue = 100;
   @Input() metrics: Array<Metric>;

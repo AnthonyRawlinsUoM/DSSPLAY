@@ -8,11 +8,11 @@ import "chartjs-chart-box-and-violin-plot/build/Chart.BoxPlot.js";
 import { DataService } from '../data.service';
 
 @Component({
-  selector: 'app-temporal',
-  templateUrl: './temporal.component.html',
-  styleUrls: ['./temporal.component.css']
+  selector: 'app-charting',
+  templateUrl: './charting.component.html',
+  styleUrls: ['./charting.component.css']
 })
-export class TemporalComponent implements OnInit {
+export class ChartingComponent implements OnInit {
 
     burnTargets: Array<BurnTarget> = [];
     @Output() burnTargetsChange = new EventEmitter<Array<BurnTarget>>();

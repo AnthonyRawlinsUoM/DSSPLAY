@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TemporalOptionsComponent } from './temporal-options.component';
+import { MappingOptionsComponent } from './mapping-options.component';
 
-describe('TemporalOptionsComponent', () => {
-  let component: TemporalOptionsComponent;
-  let fixture: ComponentFixture<TemporalOptionsComponent>;
+describe('MappingOptionsComponent', () => {
+  let component: MappingOptionsComponent;
+  let fixture: ComponentFixture<MappingOptionsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TemporalOptionsComponent ]
+      declarations: [ MappingOptionsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TemporalOptionsComponent);
+    fixture = TestBed.createComponent(MappingOptionsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

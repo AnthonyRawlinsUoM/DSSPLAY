@@ -13,11 +13,11 @@ export interface Source {
 }
 
 @Component({
-  selector: 'app-spatial',
-  templateUrl: './spatial.component.html',
-  styleUrls: ['./spatial.component.css']
+  selector: 'app-mapping',
+  templateUrl: './mapping.component.html',
+  styleUrls: ['./mapping.component.css']
 })
-export class SpatialComponent implements OnInit {
+export class MappingComponent implements OnInit {
   @ViewChild('mapview', { static: false }) mapview: Map;
 
   @Input() focus?: any = { "type": "FeatureCollection", "features": [] };
@@ -56,7 +56,7 @@ export class SpatialComponent implements OnInit {
   }
 
   onMetricsChange(event) {
-    console.log('Spatial got new metrics');
+    console.log('Mapping got new metrics');
   }
 
   onBoundsChange(bounds:LngLatBounds) {
