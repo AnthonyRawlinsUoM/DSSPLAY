@@ -2,8 +2,9 @@
                   [options]="options"
                   labelField="label"
                   valueField="option"
-                  [maxSelected]="7"
+                  [maxSelected]="2"
                   icon="filter"
+                  (selectedOptionsChange)="onSelectedOptionsChange($event)"
                   #metric_select>
     <div class="ui icon search input">
         <i class="search icon"></i>

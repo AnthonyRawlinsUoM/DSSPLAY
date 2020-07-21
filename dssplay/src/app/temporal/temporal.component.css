@@ -6,3 +6,6 @@
 .translucent {
   opacity: 0.75;
 }
+.ui.page {
+  padding: 3em;
+}

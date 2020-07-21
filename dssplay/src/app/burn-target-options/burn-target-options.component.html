@@ -1,10 +1,10 @@
-<div class="ui mini buttons">
+<div class="ui fluid buttons">
   <label class="ui blue button label">PB Levels: </label>
   <button
     *ngFor="let opt of burn_target_options"
     class="ui blue button darker"
     (click)="opt.active = !opt.active;emit()"
-    [ngClass]="{'active': opt.active}">
+    [ngClass]="{'green active': opt.active}">
     {{opt.value}}
   </button>
 </div>

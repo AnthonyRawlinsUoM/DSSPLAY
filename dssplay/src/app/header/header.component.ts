@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import {TransitionController, Transition, TransitionDirection} from "@hochzehn/ng2-semantic-ui";
 
 @Component({
@@ -7,19 +7,24 @@ import {TransitionController, Transition, TransitionDirection} from "@hochzehn/n
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  @Input() title;
+  @Input() routes;
 
   public transitionController = new TransitionController();
 
   constructor() { }
 
   ngOnInit(): void {
+    this.transitionController.stopAll();
+    this.transitionController.animate(
+        new Transition('slide', 500, TransitionDirection.Out));
   }
 
   onmouseenter(evt) {
     // console.log('entering');
     this.transitionController.stopAll();
     this.transitionController.animate(
-        new Transition('fade', 500, TransitionDirection.In));
+        new Transition('slide', 500, TransitionDirection.In));
   }
   onmouseover(evt) {
     // console.log('over');
@@ -28,7 +33,7 @@ export class HeaderComponent implements OnInit {
     // console.log('leaving');
     this.transitionController.stopAll();
     this.transitionController.animate(
-        new Transition('fade', 500, TransitionDirection.Out));
+        new Transition('slide', 500, TransitionDirection.Out));
   }
 
   public animate(transitionName:string = "scale") {

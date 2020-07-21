@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export interface BurnTarget {
   value: number;
   label: string;
@@ -11,7 +11,7 @@ export interface BurnTarget {
 })
 export class BurnTargetOptionsComponent implements OnInit {
 
-  @Output() BurnTargetChange = new EventEmitter<Array<BurnTarget>>();
+  @Output() burnTargetChange = new EventEmitter<Array<BurnTarget>>();
 
   burn_target_options:BurnTarget[] = [
     {value: 0, label: 'PB 0', active: false},
@@ -26,7 +26,7 @@ export class BurnTargetOptionsComponent implements OnInit {
   }
 
   emit() {
-    this.BurnTargetChange.emit(
+    this.burnTargetChange.emit(
       this.burn_target_options
       .filter((bto) => {
         return (bto.active);

@@ -35,6 +35,7 @@ import { SpatialMetricsComponent } from './spatial-metrics/spatial-metrics.compo
 import { TemporalMetricsComponent } from './temporal-metrics/temporal-metrics.component';
 import { MetricsComponent } from './metrics/metrics.component';
 import { BurnTargetOptionsComponent } from './burn-target-options/burn-target-options.component';
+import { InterpretationComponent } from './interpretation/interpretation.component';
 
 const config: SocketIoConfig = { url: 'http://localhost:5050', options: {} };
 
@@ -59,7 +60,8 @@ const config: SocketIoConfig = { url: 'http://localhost:5050', options: {} };
     SpatialMetricsComponent,
     TemporalMetricsComponent,
     MetricsComponent,
-    BurnTargetOptionsComponent
+    BurnTargetOptionsComponent,
+    InterpretationComponent
   ],
   imports: [
     BrowserModule,

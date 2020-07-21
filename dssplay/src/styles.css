@@ -6,8 +6,8 @@
 /* @import '~@swimlane/ngx-datatable/themes/material.scss'; */
 /* @import '~@swimlane/ngx-datatable/assets/icons.css'; */
 
-* .ui.blue.button.darker.active,
-* .ui.blue.button.darker.active:active {
-  background-color: #63bcf9 !important;
+*.blue.button.darker.active,
+*.blue.button.darker.active:active {
+  background-color: #73f06c !important;
   color: #000000;
 }

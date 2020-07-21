@@ -13,19 +13,46 @@
      class="inverted vertical very wide translucent"
      direction="right"
      #sidebar>
-      <app-toolset [mode]="'temporal'"></app-toolset>
+      <app-toolset
+      [mode]="'temporal'"
+      (metricChange)="onMetricChange($event)"
+      (burnTargetChange)="onBurnTargetChange($event)"
+      ></app-toolset>
 
       <div class="ui attached inverted segment">
         <h5 class="ui inverted header">Prescribed Burning Targets</h5>
-        <app-burn-target-options (BurnTargetChange)="onBurnTargetChange($event)"></app-burn-target-options>
       </div>
 
     </sui-sidebar>
     <sui-sidebar-sibling [isDimmedWhenVisible]="false">
+      <div class="ui page">
+      <div class="ui grid">
+        <div class="ui row">
+          <div class="ui twelve wide column">
+            <h2 class="ui header">(Chart Title)</h2>
+            <div class="chart-container">
+              <canvas id='boxchart' #boxchart></canvas>
+            </div>
+          </div>
+          <div class="ui four wide column">
+            <app-interpretation></app-interpretation>
+          </div>
+        </div>
 
-      <div class="chart-container">
-        <canvas id='canvas' ></canvas>
+        <div class="ui row">
+          <div class="ui eight wide column">
+            <div class="chart-container">
+            <canvas id='linechart' #linechart></canvas>
+          </div></div>
+          <div class="ui eight wide column">
+            <div class="chart-container">
+            <canvas id='scatterchart' #scatterchart></canvas>
+          </div>
+        </div>
+        </div>
       </div>
+    </div>
+
 
     </sui-sidebar-sibling>
 </sui-sidebar-container>

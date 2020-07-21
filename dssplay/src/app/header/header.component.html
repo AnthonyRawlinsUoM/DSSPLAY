@@ -2,9 +2,10 @@
 (mouseenter)="onmouseenter($event)"
 (mouseover)="onmouseover($event)"
 (mouseleave)="onmouseleave($event)"
+[suiTransition]="transitionController"
 >
   <div class="ui main text container">
-    <div class="ui grid" [suiTransition]="transitionController">
+    <div class="ui grid" >
       <div class="ui four wide column">
         <img class="ui fluid circular image" src="/assets/images/frozone.jpg">
       </div>
@@ -16,3 +17,8 @@
     <app-notifications></app-notifications>
   </div>
 </div>
+  <app-nav [title]="title" [routes]="routes"
+  (mouseenter)="onmouseenter($event)"
+  (mouseover)="onmouseover($event)"
+  (mouseleave)="onmouseleave($event)"
+  ></app-nav>

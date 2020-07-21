@@ -1,4 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { BurnTarget } from '../burn-target-options/burn-target-options.component';
+import { Metric } from '../metrics/metrics.component';
 
 @Component({
   selector: 'app-toolset',
@@ -6,8 +8,10 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./toolset.component.css']
 })
 export class ToolsetComponent implements OnInit {
-
   @Input() mode;
+
+  @Output() burnTargetChange = new EventEmitter<Array<BurnTarget>>();
+  @Output() metricChange = new EventEmitter<Array<Metric>>();
 
   options_panel = true;
   series_panel = true;
@@ -17,6 +21,14 @@ export class ToolsetComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  onBurnTargetChange(event) {
+    this.burnTargetChange.emit(event);
+  }
+
+  onMetricChange(event) {
+    this.metricChange.emit(event);
   }
 
 }
