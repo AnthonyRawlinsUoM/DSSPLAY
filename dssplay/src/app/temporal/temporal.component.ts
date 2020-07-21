@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import * as Chart from 'chart.js';
 import { ChartConfiguration, ChartData } from 'chart.js';
+import { BurnTarget } from '../burn-target-options/burn-target-options.component';
+import { Metric, MODE } from '../metrics/metrics.component';
+
+import "chartjs-chart-box-and-violin-plot/build/Chart.BoxPlot.js";
 
 @Component({
   selector: 'app-temporal',
@@ -13,45 +17,19 @@ export class TemporalComponent implements OnInit {
 
   initialData: any = {
     // define label tree
-    labels: ["PB0", "PB1", "PB3", "PB5"],
-    datasets: [
-      {
-        label: "House Loss",
-        backgroundColor: "rgba(255,0,0,0.5)",
-        borderColor: "red",
-        borderWidth: 1,
-        outlierColor: "#999999",
-        padding: 10,
-        itemRadius: 0,
-        data: [
-          randomValues(100, 0, 100),
-          randomValues(100, 0, 20),
-          randomValues(100, 20, 70),
-          randomValues(100, 60, 100),
-        ]
-      },
-      {
-        label: "Life Loss",
-        backgroundColor: "rgba(0,0,255,0.5)",
-        borderColor: "blue",
-        borderWidth: 1,
-        outlierColor: "#999999",
-        padding: 10,
-        itemRadius: 0,
-        data: [
-          randomValues(100, 60, 100),
-          randomValues(100, 0, 100),
-          randomValues(100, 0, 20),
-          randomValues(100, 20, 70),
-        ]
-      }
-    ]
+    labels: [],
+    datasets: []
   };
+
   boxchart: Chart;
   linechart: Chart;
   scatterchart: Chart;
-    burnTargets: any;
 
+  charts: Array<Chart> = [];
+
+  burnTargets: Array<BurnTarget> = [];
+
+  metrics: Array<Metric> = [];
 
   constructor() { }
 
@@ -97,12 +75,7 @@ export class TemporalComponent implements OnInit {
         data: this.initialData,
         options: {
             legend: {
-            display: true,
-            position: 'top',
-            align: 'start',
-            labels: {
-              boxWidth: 16
-            }
+            display: false
           },
           aspectRatio: 16/9,
           maintainAspectRatio: true,
@@ -126,18 +99,13 @@ export class TemporalComponent implements OnInit {
         }
     });
 
-    this.linechart = new Chart('linechart', {
+    this.linechart = new Chart('violin', {
 
-        type: 'line',
+        type: 'horizontalViolin',
         data: this.initialData,
         options: {
             legend: {
-            display: true,
-            position: 'top',
-            align: 'start',
-            labels: {
-              boxWidth: 16
-            }
+            display: false
           },
           aspectRatio: 16/9,
           maintainAspectRatio: true,
@@ -160,64 +128,162 @@ export class TemporalComponent implements OnInit {
           }
         }
     });
+
+    this.charts.push(this.linechart);
+    this.charts.push(this.boxchart);
+    this.charts.push(this.scatterchart);
   }
 
   onBurnTargetChange(evt) {
     console.log('Got new Burn Targets');
-      console.log(evt);
+    console.log(evt);
     this.burnTargets = evt;
-
-      // evt.map(bt => )
-    let tlabels = []
-    this.boxchart.data.datasets.map(ds => {
-      let tdata = [];
-
-      for(let i=0; i< this.burnTargets.length; i++ ) {
-        tdata.push(randomValues(100, 0, 100));
-        tlabels.indexOf(this.burnTargets[i].label) === -1 ? tlabels.push(this.burnTargets[i].label) : console.log('.');
-      }
-      ds.data = tdata;
-
-    });
-    this.boxchart.data.labels = tlabels;
-    this.boxchart.update();
+    this.refreshCharts();
   }
 
   onMetricChange(event) {
     console.log('Got new Metrics');
     console.log(event);
-    let tlabels = []
-    event.map(e => {
-      this.boxchart.data.datasets.map(ds => {
-        if (e.option === ds.label) {
-          // This one active so show data
-          let tdata = [];
+    this.metrics = event;
+    this.refreshCharts();
+  }
 
-          for(let i=0; i< this.burnTargets.length; i++ ) {
-            tdata.push(randomValues(100, 0, 100));
-            tlabels.indexOf(this.burnTargets[i].label) === -1 ? tlabels.push(this.burnTargets[i].label) : console.log('.');
-          }
-          ds.data = tdata;
-        } else {
-          // Dataset doesn't exist so add it.
-          this.boxchart.data.datasets.push({
-            label: e.label,
-            backgroundColor: "rgba(0,0,255,0.5)",
-            borderColor: "blue",
-            borderWidth: 1,
-            outlierColor: "#999999",
-            padding: 10,
-            itemRadius: 0,
-            data: [
-              randomValues(100, 60, 100)
-            ]
-          });
+  public colorOfMetric(metric) {
+    return this.metrics
+    .filter(m => m.label === metric)
+    .map(m => {
+      return m.color;
+    });
+  }
+
+  public borderColorOfMetric(metric) {
+    return this.metrics
+    .filter(m => m.label === metric)
+    .map(m => {
+      return m.border;
+    });
+  }
+
+  refreshCharts() {
+
+    if(this.metrics.length >0 && this.burnTargets.length > 0) {
+
+    // Every chart...
+    for(let c of this.charts) {
+
+
+
+      // nullify non-enabled datasets/metrics
+      c.data.datasets
+      .map(ds => {
+        if(ds.label == this.metrics[0].label || ds.label == this.metrics[1].label) {
+          ds.data = [];
         }
       });
-    });
-    this.boxchart.data.labels = tlabels;
 
-    this.boxchart.update();
+      // Which do we have?
+      let have = c.data.datasets
+      .map(ds => {
+        return ds.label;
+      });
+      console.log('Have: ');
+      console.log(have);
+
+      // Which do we not have?
+      let missing = [];
+      let active = [];
+
+      this.metrics.map(m => {
+        if(have.indexOf(m.label) == -1) {
+          missing.push(m.label);
+        } else {
+          active.push(m);
+        }
+      });
+
+
+
+      if(missing.length > 0) {
+        console.log('Missing items:');
+        console.log(missing);
+
+        let col = 0;
+
+        // Add dataset from template
+        missing.map(miss =>{
+          let data = [];
+          this.burnTargets.map(bt => {
+            // Replace with Service call to socket.io server/Postgres
+            for(let mt of this.metrics) {
+              data.push(randomValues(100, 0, 100));
+            }
+          });
+
+          // console.log(data);
+
+          c.data.datasets.push({
+            label: miss,
+            backgroundColor: this.colorOfMetric(miss)[0], // TODO - auto colorize
+            borderColor: this.borderColorOfMetric(miss)[0],
+            borderWidth: 1,
+            // itemRadius: 0.2,
+            data: data
+          });
+
+          col++;
+        });
+
+      }
+
+      let removals = [];
+
+      for (let ds of c.data.datasets) {
+        let good = false;
+        for(let m of this.metrics) {
+          if(ds.label === m.label) {
+            good = true;
+          }
+        }
+        if (!good) {
+          removals.push(ds);
+        }
+      }
+      c.data.datasets = c.data.datasets.filter((r) => !removals.includes(r));
+
+
+      // All present now
+      c.data.datasets
+      .map(ds => {
+        let data = [];
+        this.burnTargets.map(bt => {
+          // Replace with Service call to socket.io server/Postgres
+
+          for(let mt of this.metrics) {
+            // console.log(ds.label);
+            if(mt.label === ds.label) {
+              console.log('Adding data');
+              data.push(randomValues(100, 0, 100));
+
+            }
+          }
+        });
+
+        console.log(data);
+        ds.data = data;
+      });
+
+
+      // Update labels
+      c.data.labels = this.burnTargets
+      .map(bt => {
+        return bt.label;
+      });
+
+      console.log(c.data.labels);
+
+      c.update();
+      }
+    }
   }
 
 
