@@ -5,48 +5,8 @@
 --dark-sienna: hsla(352, 49%, 9%, 1);
 --amazon: hsla(138, 25%, 39%, 1); */
 
-.ui.inverted.midnight,
-.ui.segment.midnight {
-  background-color: #1a535c !important;
-}
-.ui.inverted.goldcrayola,
-.ui.segment.goldcrayola {
-  background-color: #dcbf85 !important;
-}
-.ui.inverted.morningblue,
-.ui.segment.morningblue {
-  background-color: #93a29b !important;
-}
-.ui.inverted.darksienna,
-.ui.segment.darksienna {
-  background-color: #230c0f !important;
-}
-.ui.inverted.amazon,
-.ui.segment.amazon {
-  background-color: #4a7c59 !important;
-}
-.ui.inverted.copper,
-.ui.segment.copper {
-  background-color: #D1603D !important;
-}
-.ui.inverted.airblue,
-.ui.segment.airblue  {
-  background-color: #78A1BB !important;
-}
-.ui.inverted.mintcream,
-.ui.segment.mintcream {
-  background-color: #EBF5EE !important;
-}
-.ui.inverted.maxgreen,
-.ui.segment.maxgreen  {
-  background-color: #4D8B31 !important;
-}
-.ui.inverted.bdazzledblue,
-.ui.segment.bdazzledblue {
-  background-color: #3B5998 !important;
-}
 
 
-.ui.inverted.shadow.segment.subtle {
+.ui.shadow.segment.subtle {
   box-shadow: inset 0px 5px 10px rgba(0, 0, 0, 0.37);
 }

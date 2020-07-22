@@ -33,7 +33,7 @@
     </div>
 
     </sui-sidebar>
-    <sui-sidebar-sibling [isDimmedWhenVisible]="false">
+    <sui-sidebar-sibling [isDimmedWhenVisible]="true">
       <div class="ui page">
       <div class="ui grid">
 
@@ -56,10 +56,12 @@
         </div>
 
         <div class="ui row">
-          <div class="ui eight wide column">
+          <div class="ui five wide column"></div>
+          <div class="ui eleven wide column">
             <div class="ui segment chart-container">
             <canvas id='violin' #violin></canvas>
-          </div></div>
+          </div>
+        </div>
 
           <!-- <div class="ui eight wide column">
             <div class="ui segment chart-container">

@@ -1,6 +1,6 @@
 <div class="ui form" *ngIf="this.metrics.length > 0 && checkActive()">
+  <h3 class="ui inverted header explain">Viewsheds <app-explanation-link></app-explanation-link></h3>
     <div class="grouped fields">
-      <h5 class="ui inverted header">Viewsheds</h5>
 
       <div class="ui field" [ngClass]="{'engaged': all}">
         <sui-checkbox class="fluid tiny toggle" [(ngModel)]="all" (checkChange)="toggleAll()">
@@ -17,4 +17,6 @@
         </div>
       </div>
     </div>
+
+    <div class="ui divider"></div>
   </div>

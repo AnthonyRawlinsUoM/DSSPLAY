@@ -15,44 +15,17 @@
      #sidebar>
 
      <div class="ui inverted dense segment">
-
-     <sui-accordion [closeOthers]="false" class="ui inverted accordion">
-         <sui-accordion-panel [isOpen]="true" class="attached segment">
-             <div title>
-                 <i class="dropdown icon"></i>
-                 Metrics
-             </div>
-             <div class="ui inverted attached segment" content>
-               <app-metrics
-               [mode]="'mapping'"
-               (metricsChange)="metrics = $event"
-               ></app-metrics>
-             </div>
-         </sui-accordion-panel>
-         <sui-accordion-panel [(isOpen)]="options_panel" class="attached segment">
-             <div title>
-                 <i class="dropdown icon"></i>
-                 Options
-             </div>
-             <div class="ui inverted attached segment" content>
-
-               <app-mapping-options
-               [(metrics)] = "metrics">
-             </app-mapping-options>
-
-             </div>
-         </sui-accordion-panel>
-         <sui-accordion-panel [(isOpen)]="export_panel" class="attached segment">
-             <div title>
-                 <i class="dropdown icon"></i>
-                 Export
-             </div>
-             <div class="ui inverted attached segment" content>
-                 <app-mapping-export></app-mapping-export>
-             </div>
-         </sui-accordion-panel>
-     </sui-accordion>
-     </div>
+      <app-metrics
+       [mode]="'mapping'"
+       (metricsChange)="onMetricsChange($event)"
+       >
+      </app-metrics>
+      <app-choiceflow></app-choiceflow>
+      <app-mapping-options
+        [(metrics)] = "metrics"
+        (burnTargetsChange)="onBurnTargetsChange($event)">
+      </app-mapping-options>
+    </div>
 
 
 

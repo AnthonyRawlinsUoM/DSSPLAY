@@ -50,6 +50,7 @@ import { ExplainDirective } from './explain.directive';
 import { WeatherPanelsComponent } from './weather-panels/weather-panels.component';
 import { FuelPanelsComponent } from './fuel-panels/fuel-panels.component';
 import { UserRoleChooserComponent } from './user-role-chooser/user-role-chooser.component';
+import { GlowDirective } from './glow.directive';
 
 const config: SocketIoConfig = { url: 'http://localhost:5050', options: {} };
 
@@ -89,7 +90,8 @@ const config: SocketIoConfig = { url: 'http://localhost:5050', options: {} };
     ExplainDirective,
     WeatherPanelsComponent,
     FuelPanelsComponent,
-    UserRoleChooserComponent
+    UserRoleChooserComponent,
+    GlowDirective
   ],
   imports: [
     CommonModule,

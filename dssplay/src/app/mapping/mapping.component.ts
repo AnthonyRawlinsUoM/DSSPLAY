@@ -43,6 +43,7 @@ export class MappingComponent implements OnInit {
   mapviewer?: MapComponent;
 
   style = "mapbox://styles/anthonyrawlinsuom/ckctrexe332ho1inaqb2ul5x9";
+    burnTargets: any;
 
   constructor() { }
 
@@ -55,10 +56,13 @@ export class MappingComponent implements OnInit {
     // }, 2000)
   }
 
-  onMetricsChange(event) {
-    console.log('Mapping got new metrics');
+  onBurnTargetsChange(event) {
+    this.burnTargets = event;
   }
 
+  onMetricsChange(event) {
+    this.metrics = event;
+  }
   onBoundsChange(bounds:LngLatBounds) {
     console.log('Moving!');
     this.bounds = bounds;
