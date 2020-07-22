@@ -10,35 +10,63 @@ import { Metric } from '../metrics/metrics.component';
   styleUrls: ['./charting-options.component.css']
 })
 export class ChartingOptionsComponent implements OnInit {
-  @Input() value = 0;
-  @Input() highValue = 100;
+
   @Input() metrics: Array<Metric>;
   @Input() burnTargets: Array<BurnTarget>;
 
   @Output() year_range = new EventEmitter<any>();
+  @Output() reps_range = new EventEmitter<any>();
+
   @Output() metricsChange = new EventEmitter<Array<Metric>>();
   @Output() burnTargetsChange = new EventEmitter<Array<BurnTarget>>();
 
+
+  years_lower = 0;
+  years_upper = 50;
   yearGroup: FormGroup = new FormGroup({
-    sliderControl: new FormControl([20, 80])
+    sliderYearsControl: new FormControl([0, 50])
   });
 
-x
-  options: Options = {
+  years_options: Options = {
     floor: 0,
-    ceil: 100
+    ceil: 50
   };
+
+  reps_lower = 0;
+  reps_upper = 50;
+  repsGroup: FormGroup = new FormGroup({
+    sliderRepsControl: new FormControl([0, 50])
+  });
+
+  reps_options: Options = {
+    floor: 0,
+    ceil: 50
+  };
+
+  harvesting_on = false;
+  harvesting_off = true;
+
+  absolute_or_relative_terms = 'absolute'; // or 'relative'
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  onValueChange(value) {
-    this.year_range.emit([value, this.highValue]);
+  onYearValueChange(value) {
+    this.year_range.emit([value, this.years_upper]);
   }
 
-  onHighValueChange(highValue) {
-    this.year_range.emit([this.value, highValue]);
+  onYearUpperChange(highValue) {
+    this.year_range.emit([this.years_lower, highValue]);
+  }
+
+  onRepsValueChange(value) {
+    this.reps_range.emit([value, this.reps_upper]);
+  }
+
+  onRepsUpperChange(highValue) {
+    this.reps_range.emit([this.reps_lower, highValue]);
   }
 
   onBurnTargetsChange(event){

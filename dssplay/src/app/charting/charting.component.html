@@ -1,7 +1,10 @@
 <div class="ui top attached inverted black menu">
+
+  <a href="" class="item"><i class="ui server icon"></i> Data Sources</a>
+
     <div class="right menu">
 
-    <a class="item" (click)="sidebar.toggle()">
+    <a class="right labeled item" (click)="sidebar.toggle()">
         <i class="wrench icon"></i> Tools
     </a>
   </div>
@@ -18,57 +21,30 @@
 
 
      <div class="ui inverted dense segment">
-
-     <sui-accordion [closeOthers]="false" class="ui inverted accordion">
-         <sui-accordion-panel [isOpen]="true" class="attached segment">
-             <div title>
-                 <i class="dropdown icon"></i>
-                 Metrics
-             </div>
-             <div class="ui inverted attached segment" content>
-               <app-metrics
-               [mode]="'charting'"
-               (metricsChange)="onMetricsChange($event)"
-               ></app-metrics>
-             </div>
-         </sui-accordion-panel>
-         <sui-accordion-panel [(isOpen)]="options_panel" class="attached segment">
-             <div title>
-                 <i class="dropdown icon"></i>
-                 Options
-             </div>
-             <div class="ui inverted attached segment" content>
-
-               <app-charting-options
-               [value]="0"
-               [highValue]="100"
-               (burnTargetsChange)="onBurnTargetsChange($event)"
-               >
-
-             </app-charting-options>
-
-             </div>
-         </sui-accordion-panel>
-         <sui-accordion-panel [(isOpen)]="export_panel" class="attached segment">
-             <div title>
-                 <i class="dropdown icon"></i>
-                 Export
-             </div>
-             <div class="ui inverted attached segment" content>
-                 <app-charting-export></app-charting-export>
-             </div>
-         </sui-accordion-panel>
-     </sui-accordion>
-     </div>
+      <app-metrics
+       [mode]="'charting'"
+       (metricsChange)="onMetricsChange($event)"
+       >
+      </app-metrics>
+      <app-choiceflow></app-choiceflow>
+      <app-charting-options
+        (burnTargetsChange)="onBurnTargetsChange($event)">
+      </app-charting-options>
+    </div>
 
     </sui-sidebar>
     <sui-sidebar-sibling [isDimmedWhenVisible]="false">
       <div class="ui page">
       <div class="ui grid">
+
         <div class="ui row">
-          <div class="ui one wide column">
+
+          <div class="ui five wide column">
             <app-y-axis-chooser></app-y-axis-chooser>
+            <div class="ui divider"></div>
+              <app-interpretation></app-interpretation>
           </div>
+
           <div class="ui eleven wide column">
             <h2 class="ui header">(Chart Title)</h2>
             <div class="ui segment chart-container">
@@ -76,22 +52,21 @@
             </div>
             <app-x-axis-chooser></app-x-axis-chooser>
           </div>
-          <div class="ui four wide column">
-            <app-interpretation></app-interpretation>
-          </div>
+
         </div>
 
-        <!-- <div class="ui row">
+        <div class="ui row">
           <div class="ui eight wide column">
             <div class="ui segment chart-container">
             <canvas id='violin' #violin></canvas>
           </div></div>
-          <div class="ui eight wide column">
+
+          <!-- <div class="ui eight wide column">
             <div class="ui segment chart-container">
-            <canvas id='scatterchart' #scatterchart></canvas>
-          </div>
+              <canvas id='scatterchart' #scatterchart></canvas>
+            </div>
+          </div> -->
         </div>
-        </div> -->
       </div>
     </div>
 

@@ -1,0 +1,19 @@
+<div class="ui link cards fluid inverted three column equal height grid">
+
+  <div class="ui column" *ngFor="let fto of fuel_type_options">
+    <div class="ui fluid card"
+    (click)="fto.active = !fto.active; emit();"
+    [ngClass]="{'active' : fto.active}">
+      <div class="image">
+        <img src="assets/images/{{ fto.image }}">
+      </div>
+      <div class="content">
+        <a class="header">{{ fto.label }}</a>
+        <div class="description">
+          {{ fto.description }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

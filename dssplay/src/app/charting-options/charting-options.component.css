@@ -1,0 +1,17 @@
+*.button.darker.active,
+*.button.darker.active:active{
+  background-color: #73f06c !important;
+  color: rgba(0, 0, 0, 0.95);
+}
+.ui.inverted.shadow.segment {
+  box-shadow: inset 0px 5px 20px #000;
+}
+
+.explain {
+  width: 100%;
+  text-align: center;
+}
+
+.explain app-explanation-link {
+  float: right;
+}

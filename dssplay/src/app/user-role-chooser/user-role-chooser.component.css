@@ -1,17 +1,9 @@
-/* You can add global styles to this file, and also import other style files */
-@import "~mapbox-gl/dist/mapbox-gl.css";
-@import "~@mapbox/mapbox-gl-geocoder/lib/mapbox-gl-geocoder.css";
-
-/* @import '~@swimlane/ngx-datatable/index.css'; */
-/* @import '~@swimlane/ngx-datatable/themes/material.scss'; */
-/* @import '~@swimlane/ngx-datatable/assets/icons.css'; */
-
-*.blue.button.darker.active,
-*.blue.button.darker.active:active {
-  background-color: #73f06c !important;
-  color: #000000;
-}
-
+/* CSS */
+/* --midnight-green-eagle-green: hsla(188, 56%, 23%, 1);
+--gold-crayola: hsla(40, 55%, 69%, 1);
+--morning-blue: hsla(152, 7%, 61%, 1);
+--dark-sienna: hsla(352, 49%, 9%, 1);
+--amazon: hsla(138, 25%, 39%, 1); */
 
 .ui.inverted.midnight,
 .ui.segment.midnight {
@@ -53,7 +45,8 @@
 .ui.segment.bdazzledblue {
   background-color: #3B5998 !important;
 }
-.ui.inverted.mintcream,
-.ui.vertical.segment.mintcream {
-  background-color: #EBF5EE !important;
+
+
+.ui.inverted.shadow.segment.subtle {
+  box-shadow: inset 0px 5px 10px rgba(0, 0, 0, 0.37);
 }

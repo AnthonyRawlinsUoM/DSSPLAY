@@ -58,3 +58,15 @@
   /* border: 1px solid #1E26DE;
   border-radius: 16px; */
 }
+.ui.inverted.shadow.segment {
+  box-shadow: inset 0px 5px 20px #000;
+}
+
+.explain {
+  width: 100%;
+  text-align: center;
+}
+
+.explain app-explanation-link {
+  float: right;
+}

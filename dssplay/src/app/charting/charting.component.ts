@@ -34,7 +34,7 @@ export class ChartingComponent implements OnInit {
   export_panel = true;
 
   boxchart: Chart;
-  linechart: Chart;
+  violin: Chart;
   scatterchart: Chart;
 
   charts: Array<Chart> = [];
@@ -77,37 +77,37 @@ export class ChartingComponent implements OnInit {
         }
     });
 
-    // this.linechart = new Chart('violin', {
-    //
-    //     type: 'horizontalViolin',
-    //     data: this.initialData,
-    //     options: {
-    //         legend: {
-    //         display: false
-    //       },
-    //       aspectRatio: 16/9,
-    //       maintainAspectRatio: true,
-    //       scales: {
-    //         xAxes: [{
-    //
-    //             gridLines: {
-    //                 offsetGridLines: true
-    //             }
-    //         }],
-    //         yAxes: [{
-    //           position: 'left',
-    //           ticks: {
-    //               beginAtZero: true,
-    //               suggestedMin: 0,
-    //               suggestedMax: 100,
-    //               stepSize: 10
-    //           }
-    //         }]
-    //       }
-    //     }
-    // });
+    this.violin = new Chart('violin', {
 
-    // this.charts.push(this.linechart);
+        type: 'horizontalViolin',
+        data: this.initialData,
+        options: {
+            legend: {
+            display: false
+          },
+          aspectRatio: 16/9,
+          maintainAspectRatio: true,
+          scales: {
+            xAxes: [{
+
+                gridLines: {
+                    offsetGridLines: true
+                }
+            }],
+            yAxes: [{
+              position: 'left',
+              ticks: {
+                  beginAtZero: true,
+                  suggestedMin: 0,
+                  suggestedMax: 100,
+                  stepSize: 10
+              }
+            }]
+          }
+        }
+    });
+
+    this.charts.push(this.violin);
     this.charts.push(this.boxchart);
     this.refreshCharts({});
   }
@@ -160,8 +160,6 @@ export class ChartingComponent implements OnInit {
       .map(ds => {
         return ds.label;
       });
-      // console.log('Have: ');
-      // console.log(have);
 
       // Which do we not have?
       let missing = [];
@@ -178,8 +176,6 @@ export class ChartingComponent implements OnInit {
 
 
       if(missing.length > 0) {
-        // console.log('Missing items:');
-        // console.log(missing);
 
         let col = 0;
 
@@ -192,8 +188,6 @@ export class ChartingComponent implements OnInit {
               data.push(randomValues(10, 25, 75));
             }
           });
-
-          // console.log(data);
 
           c.data.datasets.push({
             label: miss,
@@ -242,7 +236,6 @@ export class ChartingComponent implements OnInit {
           }
         });
 
-        // console.log(data);
         ds.data = data;
       });
 

@@ -38,7 +38,7 @@ export class MetricsComponent implements OnInit {
     { label: 'RUSLE', option: 'rusle', results: MODE.mapping, color: 'rgba(83, 87, 23, 0.67)', border: '#535717' },
     { label: 'Mean Erosion Rate', option: 'mean_erosion_rate', results: MODE.mapping, color: 'rgba(61, 38, 51, 0.68)', border: '#3D2633' },
     { label: 'Infrastructure', option: 'infrastructure', results: MODE.charting, color: 'rgba(18, 107, 56, 0.66)', border: '#126B38' },
-    { label: 'Prescribed Burn', option: 'p_burn', results: MODE.charting, color: 'rgba(236, 115, 27, 0.67)', border: '#EC731B' },
+    // { label: 'Prescribed Burn', option: 'p_burn', results: MODE.charting, color: 'rgba(236, 115, 27, 0.67)', border: '#EC731B' },
     { label: 'GMA', option: 'gma', results: MODE.charting, color: 'rgba(30, 38, 222, 0.67)', border: '#1E26DE' }
   ];
 

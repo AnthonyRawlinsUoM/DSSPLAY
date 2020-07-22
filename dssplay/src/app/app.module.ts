@@ -42,6 +42,14 @@ import { XAxisChooserComponent } from './x-axis-chooser/x-axis-chooser.component
 import { YAxisChooserComponent } from './y-axis-chooser/y-axis-chooser.component';
 import { PlaybackComponent } from './playback/playback.component';
 import { TimelineComponent } from './timeline/timeline.component';
+import { ComparatorChoicesComponent } from './comparator-choices/comparator-choices.component';
+import { ChoiceflowComponent } from './choiceflow/choiceflow.component';
+import { ExplanationLinkComponent } from './explanation-link/explanation-link.component';
+import { ExplanationComponent } from './explanation/explanation.component';
+import { ExplainDirective } from './explain.directive';
+import { WeatherPanelsComponent } from './weather-panels/weather-panels.component';
+import { FuelPanelsComponent } from './fuel-panels/fuel-panels.component';
+import { UserRoleChooserComponent } from './user-role-chooser/user-role-chooser.component';
 
 const config: SocketIoConfig = { url: 'http://localhost:5050', options: {} };
 
@@ -73,7 +81,15 @@ const config: SocketIoConfig = { url: 'http://localhost:5050', options: {} };
     XAxisChooserComponent,
     YAxisChooserComponent,
     PlaybackComponent,
-    TimelineComponent
+    TimelineComponent,
+    ComparatorChoicesComponent,
+    ChoiceflowComponent,
+    ExplanationLinkComponent,
+    ExplanationComponent,
+    ExplainDirective,
+    WeatherPanelsComponent,
+    FuelPanelsComponent,
+    UserRoleChooserComponent
   ],
   imports: [
     CommonModule,

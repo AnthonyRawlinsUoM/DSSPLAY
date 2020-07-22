@@ -1,0 +1,19 @@
+<div class="ui link cards fluid inverted three column equal height grid">
+
+  <div class="ui column" *ngFor="let wmo of weather_model_options">
+    <div class="ui fluid card"
+    (click)="wmo.active = !wmo.active; emit();"
+    [ngClass]="{'active' : wmo.active}">
+      <div class="image">
+        <img src="assets/images/{{ wmo.image }}">
+      </div>
+      <div class="content">
+        <a class="header">{{ wmo.label }}</a>
+        <div class="description">
+          {{ wmo.description }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

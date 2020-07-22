@@ -1,31 +1,189 @@
-<h5 class="ui inverted header">Prescribed Burn Targets</h5>
-<app-burn-target-options (burnTargetsChange)="onBurnTargetsChange($event)"></app-burn-target-options>
-<div class="ui divider"></div>
+<div class="ui inverted shadow segment">
 
-<app-fuel-options></app-fuel-options>
+  <!-- Start: BurnTargets|Policy -->
+  <h3 class="ui inverted header explain">Prescribed Burn Targets <app-explanation-link></app-explanation-link></h3>
+  <!-- <p>TODO: <del>Singular</del> | <del>All</del> | <del>Compare</del></p> -->
+  <app-burn-target-options (burnTargetsChange)="onBurnTargetsChange($event)"></app-burn-target-options>
+  <div class="ui divider"></div>
+  <!-- End: BurnTargets -->
 
-<div class="ui divider"></div>
 
-<app-weather-options></app-weather-options>
-<div class="ui divider"></div>
+  <!-- Start: Fuel|Model -->
+  <h3 class="ui inverted header explain">Fuel <app-explanation-link></app-explanation-link></h3>
+  <p>TODO: Singular | All | Compare</p>
+  <app-fuel-panels></app-fuel-panels>
+  <div class="ui divider"></div>
+  <!-- End: Fuel -->
 
-<h5 class="ui inverted header">Aggregation Options</h5>
 
-<div class="ui fieldset" [formGroup]="yearGroup">
-  <div class="ui field">
-    <div class="label">Years</div>
-      <ng5-slider
-        [(value)]="value"
-        [(highValue)]="highValue"
-        [options]="options"
-        formControlName="sliderControl">
-      </ng5-slider>
-    </div>
-<!-- <p>
-  {{ yearGroup.value.sliderControl[0] }}
-</p>
-<p>
-  {{ yearGroup.value.sliderControl[1] }}
-</p> -->
+  <!-- Start: Harvesting|Policy  -->
+  <h3 class="ui inverted header explain">Harvesting <app-explanation-link></app-explanation-link></h3>
+  <!-- <p>TODO: <del>On/Off/Both/Either</del></p> -->
+
+  <div class="ui fluid buttons">
+    <button
+      class="ui teal labeled icon button darker"
+      (click)="harvesting_on = !harvesting_on"
+      [ngClass]="{'green active': harvesting_on}">
+      <i class="clockwise rotated tree icon"></i> On
+    </button>
+    <button
+      class="ui teal right labeled icon button darker"
+      (click)="harvesting_off = !harvesting_off"
+      [ngClass]="{'green active': harvesting_off}">
+      <i class="tree icon"></i> Off
+    </button>
+  </div>
+
+  <div class="ui divider"></div>
+  <!-- End: Harvesting -->
+
+
+  <!-- Start: Weather:Model -->
+  <h3 class="ui inverted header explain">Weather <app-explanation-link></app-explanation-link></h3>
+  <p>TODO: Singular | All | Compare</p>
+  <!-- <app-weather-options></app-weather-options> -->
+  <app-weather-panels></app-weather-panels>
+  <div class="ui divider"></div>
+  <!-- End: Weather -->
+
+
+  <!-- Start: Replicates|Confidence -->
+  <h3 class="ui inverted header explain">Replicates <app-explanation-link></app-explanation-link></h3>
+  <p>TODO: Singular | All | Confidence</p>
+  <div class="ui fieldset" [formGroup]="repsGroup">
+    <div class="ui field">
+        <ng5-slider
+          [value]="reps_lower"
+          [highValue]="reps_upper"
+
+          (valueChange)="onRepsValueChange($event)"
+          (highValueChange)="onRepsUpperChange($event)"
+
+          [options]="reps_options"
+          formControlName="sliderRepsControl">
+        </ng5-slider>
+      </div>
+  <!-- <p>
+    {{ yearGroup.value.sliderControl[0] }}
+  </p>
+  <p>
+    {{ yearGroup.value.sliderControl[1] }}
+  </p> -->
+  </div>
+  <div class="ui divider"></div>
+  <!-- End: Replicates -->
+
+  <!-- Start: SimulationTime|Randomness -->
+  <h3 class="ui inverted header explain">Simuation Length <app-explanation-link></app-explanation-link></h3>
+  <p>TODO: Singular | All | <del>Range</del></p>
+  <div class="ui fieldset" [formGroup]="yearGroup">
+    <div class="ui field">
+        <ng5-slider
+          [value]="years_lower"
+          [highValue]="years_upper"
+
+          (valueChange)="onYearValueChange($event)"
+          (highValueChange)="onYearUpperChange($event)"
+
+          [options]="years_options"
+          formControlName="sliderYearsControl">
+        </ng5-slider>
+      </div>
+  <!-- <p>
+    {{ yearGroup.value.sliderControl[0] }}
+  </p>
+  <p>
+    {{ yearGroup.value.sliderControl[1] }}
+  </p> -->
+  </div>
+  <div class="ui divider"></div>
+  <!-- End: SimulationTime -->
+
+  <!-- Start: Terms|Absolute|Relative -->
+  <h3 class="ui inverted header explain">Show results as <app-explanation-link></app-explanation-link></h3>
+  <div class="ui fluid buttons">
+    <button
+      class="ui brown labeled icon button darker"
+      (click)="absolute_or_relative_terms = 'absolute'"
+      [ngClass]="{'green active': absolute_or_relative_terms=='absolute'}">
+      <i class="dollar sign icon"></i> Absolute
+    </button>
+    <div class="or"></div>
+    <button
+      class="ui brown right labeled icon button darker"
+      (click)="absolute_or_relative_terms = 'relative'"
+      [ngClass]="{'green active': absolute_or_relative_terms == 'relative'}">
+      <i class="percent icon"></i> Relative
+    </button>
+  </div>
+  <!-- End: Terms -->
 </div>
-<div class="ui divider"></div>
+
+<!-- Start: SQL Generator -->
+<div class="ui inverted shadow segment">
+
+  <h3 class="ui inverted header explain">Save Query <app-explanation-link></app-explanation-link></h3>
+  <p>These parameters can be saved for future use, or further comparsion.</p>
+
+  <div class="ui two column stackable center aligned grid">
+    <div class="ui vertical divider">Or</div>
+    <div class="middle aligned row">
+      <div class="column">
+        <div class="ui inverted icon header">
+          <i class="cloud upload icon"></i>
+          Save to cloud
+        </div>
+        <div class="ui fluid primary button">
+          Store to...
+        </div>
+      </div>
+      <div class="column">
+        <div class="ui inverted icon header">
+          <i class="download icon"></i>
+          Download
+        </div>
+        <div class="ui fluid primary button">
+          Save as...
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End: SQL Generator -->
+
+
+<!--  Start: ExportData -->
+
+<div class="ui inverted shadow segment">
+
+  <h3 class="ui inverted header explain">Export Data <app-explanation-link></app-explanation-link></h3>
+  <p>These data can be saved for use in other applications.</p>
+
+  <div class="ui two column stackable center aligned grid">
+    <div class="ui vertical divider">Or</div>
+    <div class="middle aligned row">
+      <div class="column">
+        <div class="ui inverted icon header">
+          <i class="file pdf icon"></i>
+          Download as PDF
+        </div>
+        <div class="ui fluid primary icon button">
+          <i class="save icon"></i> Save as...
+        </div>
+      </div>
+      <div class="column">
+        <div class="ui inverted icon header">
+          <i class="file excel icon"></i>
+          Download as Excel
+        </div>
+        <div class="ui fluid primary icon button">
+          <i class="save icon"></i>
+          Save as...
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- End: ExportData -->
