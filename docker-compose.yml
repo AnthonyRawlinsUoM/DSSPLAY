@@ -20,7 +20,7 @@ services:
     app:
         image: anthonyrawlinsuom/dssplay
         ports:
-          - 8181:8181
+          - 5050:5050
         environment:
           - PG_USER=postgres
           - PG_HOST=postgreserver
@@ -61,7 +61,7 @@ services:
           - dss-network
           - staging-network
         ports:
-          - "5432:5432"
+          - "6543:5432"
         deploy:
             mode: replicated
             replicas: 1
