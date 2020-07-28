@@ -1,4 +1,4 @@
-import {version} from '../../package.json';
+import {version, name} from '../../package.json';
 
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
@@ -6,6 +6,7 @@ import {version} from '../../package.json';
 
 export const environment = {
     version: version + '-dev',
+    name: name,
     production: false
 };
 

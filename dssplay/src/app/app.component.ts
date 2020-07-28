@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 // import {TransitionController} from "ng2-semantic-ui";
-import {environment } from '../environments/environment';
+import { environment } from '../environments/environment';
 
 const version = environment.version;
-const title = environment.title;
+const title = environment.name;
 
 @Component({
   selector: 'app-root',
