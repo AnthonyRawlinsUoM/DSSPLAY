@@ -13,7 +13,6 @@ import "chartjs-chart-box-and-violin-plot/build/Chart.BoxPlot.js";
 import { Ng5SliderModule } from 'ng5-slider';
 
 import { MappingComponent } from './mapping/mapping.component';
-import { ChartingComponent } from './charting/charting.component';
 
 import { AppComponent } from './app.component';
 import { FooterComponent } from './footer/footer.component';
@@ -26,8 +25,6 @@ import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 
 import { MappingOptionsComponent } from './mapping-options/mapping-options.component';
 import { MappingExportComponent } from './mapping-export/mapping-export.component';
-import { ChartingOptionsComponent } from './charting-options/charting-options.component';
-import { ChartingExportComponent } from './charting-export/charting-export.component';
 import { MetricsComponent } from './metrics/metrics.component';
 import { BurnTargetOptionsComponent } from './burn-target-options/burn-target-options.component';
 import { InterpretationComponent } from './interpretation/interpretation.component';
@@ -69,11 +66,8 @@ const config: SocketIoConfig = { url: 'http://localhost:5050', options: {} };
     HeaderComponent,
     NavComponent,
     MappingComponent,
-    ChartingComponent,
     MappingOptionsComponent,
     MappingExportComponent,
-    ChartingOptionsComponent,
-    ChartingExportComponent,
     MetricsComponent,
     BurnTargetOptionsComponent,
     InterpretationComponent,
