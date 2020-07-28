@@ -9,6 +9,7 @@ const redisAdapter = require('socket.io-redis');
 const app = express();
 const uuidv4 = require('uuid/v4');
 const moment = require('moment');
+const package = require('./package.json');
 
 app.use(express.static(path.join(__dirname, '/dist/dssplay')));
 
@@ -392,5 +393,5 @@ io.on('connection', (socket) => {
 });
 
 server.listen(port, () => {
-  console.log('ReactiveServer Server running on', port);
+  console.log(package.title + ' Server (v'+ package.version +') running on', port);
 });

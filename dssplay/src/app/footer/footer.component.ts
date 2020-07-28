@@ -10,7 +10,6 @@ export class FooterComponent implements OnInit {
   @Input() title;
   @Input() version;
   @Input() routes;
-  @Input() codename;
 
   constructor() { }
 

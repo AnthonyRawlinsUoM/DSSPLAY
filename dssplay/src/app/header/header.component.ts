@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import {TransitionController, Transition, TransitionDirection} from "ngx-fomantic-ui";
 
+
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -11,6 +13,7 @@ export class HeaderComponent implements OnInit {
   @Input() routes;
 
   about = false;
+
 
   public transitionController = new TransitionController();
 

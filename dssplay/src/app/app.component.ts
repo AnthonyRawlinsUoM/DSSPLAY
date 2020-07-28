@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 // import {TransitionController} from "ng2-semantic-ui";
+import {environment } from '../environments/environment';
+
+const version = environment.version;
+const title = environment.title;
 
 @Component({
   selector: 'app-root',
@@ -10,9 +14,8 @@ export class AppComponent {
 
     // public transitionController = new TransitionController();
 
-  title = 'Frozone';
-  version = '0.0.1';
-  codename = 'DSSPlay';
+  title = title;
+  version = version;
 
   routes = [
     {
