@@ -25,6 +25,6 @@ COPY --from=build /usr/src/app .
 
 # Deployment
 ENV TZ Australia/Melbourne
-EXPOSE 5050
+EXPOSE 4040
 
 CMD ["node", "app.js"]

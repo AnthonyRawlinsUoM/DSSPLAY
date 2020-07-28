@@ -20,7 +20,7 @@ services:
     app:
         image: anthonyrawlinsuom/dssplay
         ports:
-          - 5050:5050
+          - 4040:4040
         environment:
           - PG_USER=postgres
           - PG_HOST=postgreserver
@@ -35,15 +35,15 @@ services:
         deploy:
             placement:
                 constraints:
-                  - node.role == manager
-                  # - node.hostname == Charcoal
+                  # - node.role == manager
+                  - node.hostname == deepblack
                   # - node.labels.NFS == attached
             labels:
               - "traefik.enable=true"
-              - "traefik.http.routers.dssplay.rule=Host(`dssplay.lightning.deepblack.cloud`)"
+              - "traefik.http.routers.dssplay.rule=Host(`www.dssplay.lightning.deepblack.cloud`)"
               - "traefik.http.routers.dssplay.entrypoints=web-secured"
               - "traefik.http.routers.dssplay.tls.certresolver=letsencryptresolver"
-              - "traefik.http.services.dssplay.loadbalancer.server.port=8181"
+              - "traefik.http.services.dssplay.loadbalancer.server.port=4040"
               - "traefik.http.services.dssplay.loadbalancer.passhostheader=true"
               - "traefik.docker.network=staging-network"
 
@@ -59,23 +59,44 @@ services:
           - /media/tony/Seagate6TB_ext4/data/dssplay/postgres:/var/lib/postgresql/data
         networks:
           - dss-network
-          - staging-network
         ports:
           - "6543:5432"
+
+
+    pgadmin:
+        image: dpage/pgadmin4
+        environment:
+          - PGADMIN_DEFAULT_EMAIL=sense@icloud.com
+          - PGADMIN_DEFAULT_PASSWORD=FuelMoisture2017
+          - PGADMIN_LISTEN_ADDRESS=0.0.0.0
+          - PGADMIN_LISTEN_PORT=5050
+
+          # - POSTGRES_USER=postgres
+          # - POSTGRES_PASSWORD=secret
+          # - PGPASSWORD=secret
+          # - POSTGRES_DB=postgres
+          # - PGDATA=/var/lib/postgresql/data/pgdata
+        ports:
+            - "5050:5050"
+        volumes:
+          - /media/tony/Seagate6TB_ext4/data/dssplay/pgadmin:/var/lib/pgadmin
+        networks:
+          - dss-network
+          - staging-network
         deploy:
             mode: replicated
             replicas: 1
             placement:
                 constraints:
-                  - node.role == manager
-                  # - node.hostname == Charcoal
+                  # - node.role == manager
+                  - node.hostname == deepblack
             labels:
               - "traefik.enable=true"
-              - "traefik.http.routers.dssplay.rule=Host(`postgres.dssplay.lightning.deepblack.cloud`)"
-              - "traefik.http.routers.dssplay.entrypoints=web-secured"
-              - "traefik.http.routers.dssplay.tls.certresolver=letsencryptresolver"
-              - "traefik.http.services.dssplay.loadbalancer.server.port=5432"
-              - "traefik.http.services.dssplay.loadbalancer.passhostheader=true"
+              - "traefik.http.routers.postgres.rule=Host(`pgadmin.dssplay.lightning.deepblack.cloud`)"
+              - "traefik.http.routers.postgres.entrypoints=web-secured"
+              - "traefik.http.routers.postgres.tls.certresolver=letsencryptresolver"
+              - "traefik.http.services.postgres.loadbalancer.server.port=5050"
+              - "traefik.http.services.postgres.loadbalancer.passhostheader=true"
               - "traefik.docker.network=staging-network"
 
 networks:

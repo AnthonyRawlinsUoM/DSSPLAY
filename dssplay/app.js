@@ -39,7 +39,7 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '/dist/dssplay/index.html'))
 });
 
-const port = process.env.PORT || '5050';
+const port = process.env.PORT || '4040';
 app.set('port', port);
 
 const server = http.createServer(app);
