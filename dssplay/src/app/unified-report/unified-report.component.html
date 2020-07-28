@@ -11,8 +11,8 @@
 </div>
 <div class="ui fullscreen">
 
-    <sui-sidebar-container>
-        <sui-sidebar
+    <fui-sidebar-container>
+        <fui-sidebar
             [transition]="'overlay'"
             [isVisible]="true"
             class="inverted vertical very wide translucent raised segment"
@@ -37,16 +37,16 @@
 
 
 
-        </sui-sidebar>
-        <sui-sidebar-sibling
+        </fui-sidebar>
+        <fui-sidebar-sibling
             [isDimmedWhenVisible]="false"
             class="map"
         >
-            <sui-accordion
+            <fui-accordion
                 [closeOthers]="false"
                 class="styled fluid inverted black"
             >
-                <sui-accordion-panel [isOpen]="true">
+                <fui-accordion-panel [isOpen]="true">
                     <div title>
                         <i class="dropdown icon"></i>
                         Spatial Analysis
@@ -100,10 +100,10 @@
                             </div>
                         </div>
                     </div>
-                </sui-accordion-panel>
+                </fui-accordion-panel>
 
 
-                <sui-accordion-panel [isOpen]="true">
+                <fui-accordion-panel [isOpen]="true">
                     <div title>
                         <i class="dropdown icon"></i>
                         Statistical Analysis
@@ -150,8 +150,8 @@
                             </div>
                         </div>
                     </div>
-                </sui-accordion-panel>
-            </sui-accordion>
+                </fui-accordion-panel>
+            </fui-accordion>
 
 
 
@@ -159,6 +159,6 @@
 
             </div>
 
-        </sui-sidebar-sibling>
-    </sui-sidebar-container>
+        </fui-sidebar-sibling>
+    </fui-sidebar-container>
 </div>

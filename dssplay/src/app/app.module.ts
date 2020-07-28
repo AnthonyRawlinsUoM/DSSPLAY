@@ -1,12 +1,13 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { AppRoutingModule } from './app-routing.module';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppRoutingModule } from './app-routing.module';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
+
 // import {} from 'maxird-ng-semantic-ui';
-import { SuiModule } from '@hochzehn/ng2-semantic-ui';
+import { FomanticUIModule } from 'ngx-fomantic-ui';
 import { ChartModule } from "angular2-chartjs";
 import "chartjs-chart-box-and-violin-plot/build/Chart.BoxPlot.js";
 
@@ -21,7 +22,6 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HeaderComponent } from './header/header.component';
 import { NavComponent } from './nav/nav.component';
-import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 
 import { MappingOptionsComponent } from './mapping-options/mapping-options.component';
 import { MappingExportComponent } from './mapping-export/mapping-export.component';
@@ -105,7 +105,7 @@ const config: SocketIoConfig = { url: 'http://localhost:5050', options: {} };
     AppRoutingModule,
     ChartModule,
     Ng5SliderModule,
-    SuiModule,
+    FomanticUIModule,
      SocketIoModule.forRoot(config),
      NgxMapboxGLModule.withConfig({
          accessToken: 'pk.eyJ1IjoiYW50aG9ueXJhd2xpbnN1b20iLCJhIjoiY2o1dm81NTIwMDN6MTJxbjlvOHBiNHdlOSJ9.lt8I4sU0ceA6N8Tnnmx2ig', // Optionnal, can also be set per map (accessToken input of mgl-map)

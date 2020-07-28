@@ -1,7 +1,7 @@
 <div class="ui inverted form">
     <div class="grouped fields">
         <div class="field" *ngFor="let f of fuel_options">
-            <sui-radio-button name="fuel" [value]="f.option" [(ngModel)]="fuel_choice">{{ f.label }}</sui-radio-button>
+            <fui-radio-button name="fuel" [value]="f.option" [(ngModel)]="fuel_choice">{{ f.label }}</fui-radio-button>
         </div>
     </div>
     <!-- <p>Fuel: {{ fuel_choice | json }}</p> -->

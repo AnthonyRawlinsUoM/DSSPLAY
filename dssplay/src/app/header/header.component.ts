@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {TransitionController, Transition, TransitionDirection} from "@hochzehn/ng2-semantic-ui";
+import {TransitionController, Transition, TransitionDirection} from "ngx-fomantic-ui";
 
 @Component({
   selector: 'app-header',

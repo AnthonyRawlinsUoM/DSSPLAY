@@ -1,28 +1,49 @@
-<ng-template let-option #optionTemplate>
-    <i class="circle icon" [ngClass]="option.option"></i>{{ option.label }}
-</ng-template>
-<h3 class="ui inverted header explain">Choose metrics to inspect <app-explanation-link></app-explanation-link></h3>
+<h3 class="ui inverted header explain">Choose metrics to inspect <app-explanation-link></app-explanation-link>
+</h3>
 <div class="ui inverted shadow segment">
-  <sui-multi-select [(ngModel)]="selected"
-                    [options]="options"
-                    labelField="label"
-                    valueField="option"
-                    [maxSelected]="7"
-                    [optionTemplate]="optionTemplate"
-                    icon="line chart"
-                    (selectedOptionsChange)="onSelectedOptionsChange($event)"
-                    #metric_select>
-      <div class="ui icon search input">
-          <i class="search icon"></i>
-          <input suiSelectSearch type="text" placeholder="Search options...">
-      </div>
-      <div class="divider"></div>
-      <div class="header">
-          <i class="line chart icon"></i>
-          Metrics
-      </div>
-      <div class="scrolling menu">
-          <sui-select-option [value]="o" *ngFor="let o of metric_select.filteredOptions"></sui-select-option>
-      </div>
-  </sui-multi-select>
+
+    <ng-template
+        let-option
+        #metricOptionsTemplate
+    >
+        <i
+            class="circle icon"
+            [ngClass]="option.option"
+        ></i>{{ option.label }}
+    </ng-template>
+
+    <fui-multi-select
+        [(ngModel)]="selected"
+        [options]="options"
+        labelField="label"
+        valueField="option"
+        [maxSelected]="7"
+        icon="line chart"
+        [optionTemplate]="metricOptionsTemplate"
+        (selectedOptionsChange)="onSelectedOptionsChange($event)"
+        #metric_select
+    >
+        <div class="ui icon search input">
+            <i class="search icon"></i>
+            <input
+                fuiSelectSearch
+                type="text"
+                placeholder="Search options..."
+            >
+        </div>
+        <div class="divider"></div>
+        <div class="header">
+            <i class="line chart icon"></i>
+            Metrics
+        </div>
+        <div class="scrolling menu">
+
+            <fui-select-option
+                [value]="o"
+                *ngFor="let o of metric_select.filteredOptions"
+            ></fui-select-option>
+        </div>
+
+    </fui-multi-select>
 </div>
+<!-- [optionTemplate]="optionTemplate" -->
