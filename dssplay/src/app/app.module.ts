@@ -24,8 +24,6 @@ import { HeaderComponent } from './header/header.component';
 import { NavComponent } from './nav/nav.component';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 
-import { FrappeatorProjectsComponent } from './frappeator-projects/frappeator-projects.component';
-import { FrappeatorProjectComponent } from './frappeator-project/frappeator-project.component';
 import { MappingOptionsComponent } from './mapping-options/mapping-options.component';
 import { MappingExportComponent } from './mapping-export/mapping-export.component';
 import { ChartingOptionsComponent } from './charting-options/charting-options.component';
@@ -42,7 +40,6 @@ import { XAxisChooserComponent } from './x-axis-chooser/x-axis-chooser.component
 import { YAxisChooserComponent } from './y-axis-chooser/y-axis-chooser.component';
 import { PlaybackComponent } from './playback/playback.component';
 import { TimelineComponent } from './timeline/timeline.component';
-import { ComparatorChoicesComponent } from './comparator-choices/comparator-choices.component';
 import { ChoiceflowComponent } from './choiceflow/choiceflow.component';
 import { ExplanationLinkComponent } from './explanation-link/explanation-link.component';
 import { ExplanationComponent } from './explanation/explanation.component';
@@ -51,6 +48,14 @@ import { WeatherPanelsComponent } from './weather-panels/weather-panels.componen
 import { FuelPanelsComponent } from './fuel-panels/fuel-panels.component';
 import { UserRoleChooserComponent } from './user-role-chooser/user-role-chooser.component';
 import { GlowDirective } from './glow.directive';
+import { DockableDirective } from './dockable.directive';
+import { DraggableDirective } from './draggable.directive';
+import { ResizableDirective } from './resizable.directive';
+import { ViewpanelComponent } from './viewpanel/viewpanel.component';
+import { PanelContainerComponent } from './panel-container/panel-container.component';
+import { PanelResizeHandleComponent } from './panel-resize-handle/panel-resize-handle.component';
+import { PanelComponent } from './panel/panel.component';
+import { UnifiedReportComponent } from './unified-report/unified-report.component';
 
 const config: SocketIoConfig = { url: 'http://localhost:5050', options: {} };
 
@@ -65,8 +70,6 @@ const config: SocketIoConfig = { url: 'http://localhost:5050', options: {} };
     NavComponent,
     MappingComponent,
     ChartingComponent,
-    FrappeatorProjectsComponent,
-    FrappeatorProjectComponent,
     MappingOptionsComponent,
     MappingExportComponent,
     ChartingOptionsComponent,
@@ -83,7 +86,6 @@ const config: SocketIoConfig = { url: 'http://localhost:5050', options: {} };
     YAxisChooserComponent,
     PlaybackComponent,
     TimelineComponent,
-    ComparatorChoicesComponent,
     ChoiceflowComponent,
     ExplanationLinkComponent,
     ExplanationComponent,
@@ -91,7 +93,15 @@ const config: SocketIoConfig = { url: 'http://localhost:5050', options: {} };
     WeatherPanelsComponent,
     FuelPanelsComponent,
     UserRoleChooserComponent,
-    GlowDirective
+    GlowDirective,
+    DockableDirective,
+    DraggableDirective,
+    ResizableDirective,
+    ViewpanelComponent,
+    PanelContainerComponent,
+    PanelResizeHandleComponent,
+    PanelComponent,
+    UnifiedReportComponent
   ],
   imports: [
     CommonModule,

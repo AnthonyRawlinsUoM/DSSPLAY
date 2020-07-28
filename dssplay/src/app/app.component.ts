@@ -21,14 +21,10 @@ export class AppComponent {
       icon: 'home icon'
     },
     {
-      path: 'mapping',
-      name: 'Mapping',
-      icon: 'map icon'
-    },
-    {
-      path: 'charting',
-      name: 'Charting',
+      path: 'reports',
+      name: 'Reports',
       icon: 'line chart icon'
     },
+
   ];
 }

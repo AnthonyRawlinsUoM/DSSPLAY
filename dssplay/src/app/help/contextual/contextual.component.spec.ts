@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FrappeatorProjectComponent } from './frappeator-project.component';
+import { ContextualComponent } from './contextual.component';
 
-describe('FrappeatorProjectComponent', () => {
-  let component: FrappeatorProjectComponent;
-  let fixture: ComponentFixture<FrappeatorProjectComponent>;
+describe('ContextualComponent', () => {
+  let component: ContextualComponent;
+  let fixture: ComponentFixture<ContextualComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FrappeatorProjectComponent ]
+      declarations: [ ContextualComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FrappeatorProjectComponent);
+    fixture = TestBed.createComponent(ContextualComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,0 +1,21 @@
+  <div class="ui vertical segments" *ngIf="mode=='vertical'" >
+
+  <div class="ui inverted top attached segment" resizable #north>
+    top section
+  </div>
+  
+    <div class="ui divider handle"></div>
+
+  <div class="ui bottom attached segment" resizable #south>
+    bottom section
+  </div>
+</div>
+
+<div class="ui horizontal segments" *ngIf="mode=='horizontal'">
+<div class="ui inverted attached segment" resizable #east>
+  left section
+</div>
+  <div class="ui divider handle"></div>
+<div  class="ui attached segment" resizable #west>
+  right section
+</div>

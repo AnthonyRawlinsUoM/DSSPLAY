@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ComparatorChoicesComponent } from './comparator-choices.component';
+import { UnifiedReportComponent } from './unified-report.component';
 
-describe('ComparatorChoicesComponent', () => {
-  let component: ComparatorChoicesComponent;
-  let fixture: ComponentFixture<ComparatorChoicesComponent>;
+describe('UnifiedReportComponent', () => {
+  let component: UnifiedReportComponent;
+  let fixture: ComponentFixture<UnifiedReportComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ComparatorChoicesComponent ]
+      declarations: [ UnifiedReportComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ComparatorChoicesComponent);
+    fixture = TestBed.createComponent(UnifiedReportComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

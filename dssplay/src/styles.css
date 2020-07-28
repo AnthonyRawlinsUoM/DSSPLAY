@@ -12,8 +12,9 @@
   color: #000000;
 }
 
+*.segment.black { background-color: #000000 !important; }
 *.segment.richblackfogra { background-color: #01161e !important; }
-*.segment.black-chocolate { background-color: #1f1300 !important; }
+*.segment.blackchocolate { background-color: #1f1300 !important; }
 *.segment.darksienna { background-color: #230c0f !important; }
 *.segment.jet { background-color: #333232 !important; }
 *.segment.beige { background-color: #eff6e0 !important; }
@@ -91,4 +92,14 @@ i.ui.icon.mintcream { color: #EBF5EE !important; }
 *.ui.attached.segments,
 *.ui.attached.segment {
   border-width: 0 !important;
+}
+
+.ui.styled.accordion.inverted .dropdown.icon,
+.ui.styled.accordion.inverted .accordion .dropdown.icon {
+    color: #2274a5;
+}
+
+.ui.styled.accordion.inverted .active.title .dropdown.icon,
+.ui.styled.accordion.inverted .accordion .active.title .dropdown.icon {
+    color: #d7263d !important;
 }

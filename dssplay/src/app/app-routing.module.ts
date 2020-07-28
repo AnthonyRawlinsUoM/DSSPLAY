@@ -5,12 +5,12 @@ import { MappingComponent } from './mapping/mapping.component';
 import { ChartingComponent } from './charting/charting.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { UserRoleChooserComponent } from './user-role-chooser/user-role-chooser.component';
+import { UnifiedReportComponent } from './unified-report/unified-report.component';
 
 
 const routes: Routes = [
   { path:'welcome', component: WelcomeComponent, data: {state: 'welcome'}},
-  { path:'mapping', component: MappingComponent, data: {state: 'mapping'}},
-  { path:'charting', component: ChartingComponent, data: {state: 'charting'}},
+  { path:'reports', component: UnifiedReportComponent, data: {state: 'reports'}},
 
   { path:'', component: WelcomeComponent, data: {state: 'welcome'}},
   { path: '**', component: PageNotFoundComponent, data: { state: '404' } }

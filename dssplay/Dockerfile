@@ -1,4 +1,4 @@
-FROM node:current-alpine
+FROM node:lts-alpine3.11 as build
 MAINTAINER Anthony Rawlins <anthony.rawlins@unimelb.edu.au>
 
 # Make working dir
@@ -9,12 +9,17 @@ WORKDIR /usr/src/app
 COPY . .
 RUN npm install --no-optional
 
-# DEVELOPMENT
-# EXPOSE 3335
+RUN mkdir -p /usr/src/app/dist
+
+COPY ./dist ./dist
+
+# Clean slate
+FROM node:lts-alpine3.11
+WORKDIR /usr/src/app
+COPY --from=build /usr/src/app .
 
 # Deployment
-EXPOSE 5050
-
 ENV TZ Australia/Melbourne
+EXPOSE 5050
 
 CMD ["npm", "run", "reactive"]

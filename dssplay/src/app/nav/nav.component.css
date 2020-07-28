@@ -5,3 +5,6 @@
   margin-top: 0;
   margin-bottom: 0;
 }
+.borderless.raised.menu {
+    border-radius: 0;
+}

@@ -1,3 +1,21 @@
-<a href="#" class="right floated">
-  <i class="ui question circle icon" appExplain></i>
+<a
+    class="right floated"
+    (click)="showhelp=true"
+>
+    <i
+        class="ui question circle icon"
+        appExplain
+    ></i>
 </a>
+
+<sui-modal
+    [isClosable]="true"
+    *ngIf="showhelp"
+    (dismissed)="showhelp=false"
+    #modal
+>
+    <div class="header">Help</div>
+    <div class="content">
+        {{ help }}
+    </div>
+</sui-modal>

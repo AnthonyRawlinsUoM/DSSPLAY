@@ -1,17 +1,53 @@
-.Site {
+body,
+html {
+  background-color: #444444;
+}
+
+.SiteContainer {
   display: flex;
-  min-height: 100vh;
+  /* max-height: 100vh; */
   flex-direction: column;
+
+  /* align-items: stretch;
+  align-content: stretch;
+  align-self: stretch; */
+  height: 100vh;
   background-color: #000000;
 }
-.Site-content {
+
+#header {
+  flex:0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  height: 4em;
+}
+#header .menu {
+    border-radius: 0;
+}
+.Site {
   flex: 1;
-  background-color: rgb(224, 228, 231)
+  align-self: stretch;
+  align-content: stretch;
+  align-items: stretch;
+  height: calc(100vh - 4em - 10em);
+  margin-top: 4em;
+  position: relative;
+  background-color: #444444;
 }
-.Site-header,
-footer {
-  flex: none; /* 2 */
+
+#footer {
+  flex: 0;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  height: 10em;
 }
+
 .vertical.stripe {
   padding-top: 2em;
   padding-bottom: 2em;

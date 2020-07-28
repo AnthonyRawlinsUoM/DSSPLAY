@@ -1,7 +1,21 @@
-<div class="Site">
-<app-header [title]="title" [routes]="routes"></app-header>
-<div class="Site-content segment">
-  <router-outlet class="ui vertical stripe"></router-outlet>
-</div>
-<app-footer [title]="title" [routes]="routes" [version]="version" [codename]="codename"></app-footer>
+<div class="SiteContainer">
+
+    <app-nav
+        [title]="title"
+        [routes]="routes"
+        id="header"
+    ></app-nav>
+
+    <div class="Site">
+        <router-outlet id="content"></router-outlet>
+    </div>
+
+    <app-footer
+        [title]="title"
+        [routes]="routes"
+        [version]="version"
+        [codename]="codename"
+        id="footer"
+    ></app-footer>
+
 </div>

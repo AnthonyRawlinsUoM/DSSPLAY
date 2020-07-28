@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FrappeatorProjectsComponent } from './frappeator-projects.component';
+import { ViewpanelComponent } from './viewpanel.component';
 
-describe('FrappeatorProjectsComponent', () => {
-  let component: FrappeatorProjectsComponent;
-  let fixture: ComponentFixture<FrappeatorProjectsComponent>;
+describe('ViewpanelComponent', () => {
+  let component: ViewpanelComponent;
+  let fixture: ComponentFixture<ViewpanelComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FrappeatorProjectsComponent ]
+      declarations: [ ViewpanelComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FrappeatorProjectsComponent);
+    fixture = TestBed.createComponent(ViewpanelComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

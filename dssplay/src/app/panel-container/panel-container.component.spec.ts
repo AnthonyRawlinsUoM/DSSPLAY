@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FrappeFiltersComponent } from './frappe-filters.component';
+import { PanelContainerComponent } from './panel-container.component';
 
-describe('FrappeFiltersComponent', () => {
-  let component: FrappeFiltersComponent;
-  let fixture: ComponentFixture<FrappeFiltersComponent>;
+describe('PanelContainerComponent', () => {
+  let component: PanelContainerComponent;
+  let fixture: ComponentFixture<PanelContainerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FrappeFiltersComponent ]
+      declarations: [ PanelContainerComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FrappeFiltersComponent);
+    fixture = TestBed.createComponent(PanelContainerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SecnarioSelectorComponent } from './secnario-selector.component';
+import { PanelResizeHandleComponent } from './panel-resize-handle.component';
 
-describe('SecnarioSelectorComponent', () => {
-  let component: SecnarioSelectorComponent;
-  let fixture: ComponentFixture<SecnarioSelectorComponent>;
+describe('PanelResizeHandleComponent', () => {
+  let component: PanelResizeHandleComponent;
+  let fixture: ComponentFixture<PanelResizeHandleComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SecnarioSelectorComponent ]
+      declarations: [ PanelResizeHandleComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SecnarioSelectorComponent);
+    fixture = TestBed.createComponent(PanelResizeHandleComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

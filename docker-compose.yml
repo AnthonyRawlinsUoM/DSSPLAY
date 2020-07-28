@@ -1,0 +1,85 @@
+version: "3.7"
+services:
+    mq:
+        image: redis
+        deploy:
+            placement:
+                constraints:
+                  - node.role == manager
+            update_config:
+                parallelism: 1
+                delay: 3s
+        volumes:
+          # - /nfs/pyromancer/Projects/PBA/redis/data:/data
+          - /media/tony/Seagate6TB_ext4/data/dssplay/redis/:/data
+        ports:
+          - 6381:6379
+        networks:
+          - dss-network
+
+    app:
+        image: anthonyrawlinsuom/dssplay
+        ports:
+          - 8181:8181
+        environment:
+          - PG_USER=postgres
+          - PG_HOST=postgreserver
+          - PG_PASSWORD=secret
+          - PG_DATABASE=postgres
+          - PG_PORT=5432
+          - PROTOCOL=https
+          - WEB=dss.lightning.deepblack.cloud
+        networks:
+            - staging-network
+            - dss-network
+        deploy:
+            placement:
+                constraints:
+                  # - node.role == manager
+                  - node.hostname == Charcoal
+                  # - node.labels.NFS == attached
+            labels:
+              - "traefik.enable=true"
+              - "traefik.http.routers.dssplay.rule=Host(`dss.lightning.deepblack.cloud`)"
+              - "traefik.http.routers.dssplay.entrypoints=web-secured"
+              - "traefik.http.routers.dssplay.tls.certresolver=letsencryptresolver"
+              - "traefik.http.services.dssplay.loadbalancer.server.port=8181"
+              - "traefik.http.services.dssplay.loadbalancer.passhostheader=true"
+              - "traefik.docker.network=staging-network"
+
+    postgreserver:
+        image: postgres
+        environment:
+          - POSTGRES_USER=postgres
+          - POSTGRES_PASSWORD=secret
+          - PGPASSWORD=secret
+          - POSTGRES_DB=postgres
+          - PGDATA=/var/lib/postgresql/data/pgdata
+        volumes:
+          - /media/tony/Seagate6TB_ext4/data/dssplay/postgres:/var/lib/postgresql/data
+        networks:
+          - dss-network
+          - staging-network
+        ports:
+          - "5432:5432"
+        deploy:
+            mode: replicated
+            replicas: 1
+            placement:
+                constraints:
+                  - node.hostname == Charcoal
+            labels:
+              - "traefik.enable=true"
+              - "traefik.http.routers.postgres.rule=Host(`postgres.dss.lightning.deepblack.cloud`)"
+              - "traefik.http.routers.postgres.entrypoints=web-secured"
+              - "traefik.http.routers.postgres.tls.certresolver=letsencryptresolver"
+              - "traefik.http.services.postgres.loadbalancer.server.port=5432"
+              - "traefik.http.services.postgres.loadbalancer.passhostheader=true"
+              - "traefik.docker.network=staging-network"
+
+networks:
+    dss-network:
+        driver: overlay
+        attachable: true
+    staging-network:
+        external: true

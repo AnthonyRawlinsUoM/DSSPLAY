@@ -1,20 +1,30 @@
-<div class="ui borderless main menu" style>
+<div
+    class="ui borderless main menu raised"
+    style
+>
+    <a
+        class="item"
+        *ngFor="let r of routes"
+        [routerLink]="r.path"
+        [routerLinkActive]="'active'"
+        [routerLinkActiveOptions]="{exact:true}"
+        appGlow
+    ><i [class]="r.icon"></i> {{r.name}}</a>
+
+
+    <div class="right menu">
         <a
+            href="https://insite.dss.cloud.bushfirebehaviour.net.au/"
+            target="_blank"
             class="item"
-            *ngFor="let r of routes"
-            [routerLink]="r.path"
-            [routerLinkActive]="'active'"
-            [routerLinkActiveOptions]="{exact:true}"
             appGlow
-        ><i [class]="r.icon"></i> {{r.name}}</a>
-
-
-        <div class="right menu">
-          <a href="https://insite.dss.cloud.bushfirebehaviour.net.au/"
-          target="_blank" class="item" appGlow>
+        >
             Missing Data? Add more @
-            <img src="assets/images/insite.png" class="ui small logo icon"/>
+            <img
+                src="assets/images/insite.png"
+                class="ui small logo icon"
+            />
             DSS: <strong>INSITE</strong>
-          </a>
-        </div>
+        </a>
+    </div>
 </div>

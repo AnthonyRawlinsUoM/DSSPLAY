@@ -1,5 +1,5 @@
 import { Output, Component, AfterViewInit, ViewChild, ElementRef, EventEmitter, OnInit, Input } from '@angular/core';
-import { Map, FitBoundsOptions, LngLatBoundsLike, LngLatBounds } from 'mapbox-gl';
+import { Map, FitBoundsOptions, LngLatBoundsLike, LngLatBounds, Source } from 'mapbox-gl';
 import { MapComponent } from 'ngx-mapbox-gl';
 import { Chart, ChartData, ChartConfiguration } from 'chart.js';
 import { filter, map } from 'rxjs/operators';
@@ -7,10 +7,10 @@ import { FeatureCollection, Feature, Geometry } from 'geojson';
 
 import { easing } from 'ts-easing';
 
-export interface Source {
-  layers: any;
-  data: any;
-}
+// export interface Source {
+//   layers: any;
+//   data: any;
+// }
 
 @Component({
   selector: 'app-mapping',
