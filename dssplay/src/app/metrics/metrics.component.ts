@@ -87,4 +87,9 @@ export class MetricsComponent implements OnInit {
   public styling(o) {
     return '{ color: ' + o.color + '; border: 1px solid ' + o.border + '; }';
   }
+
+  // Gets aroung the incompatability of ngx-fomantic-ui and the ng-template for options
+  public formatter(option:any, query?:string):string {
+    return `<i class="${option.option} circle icon"></i> ${option.label}`;
+}
 }

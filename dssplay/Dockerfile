@@ -16,12 +16,15 @@ COPY ./dist ./dist
 # Clean slate
 FROM node:lts-alpine3.11
 WORKDIR /usr/src/app
-RUN mkdir -p /usr/src/app/dist
-COPY --from=build /usr/src/app/dist ./dist
-COPY --from=build /usr/src/app/package.json ./package.json
-COPY --from=build /usr/src/app/app.js ./app.js
+# RUN mkdir -p /usr/src/app/dist
+# COPY --from=build /usr/src/app/dist ./dist
+# COPY --from=build /usr/src/app/package.json ./package.json
+# COPY --from=build /usr/src/app/app.js ./app.js
+
+COPY --from=build /usr/src/app .
+
 # Deployment
 ENV TZ Australia/Melbourne
 EXPOSE 5050
 
-CMD ["npm", "run", "reactive"]
+CMD ["node", "app.js"]

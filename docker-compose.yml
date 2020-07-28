@@ -35,12 +35,12 @@ services:
         deploy:
             placement:
                 constraints:
-                  # - node.role == manager
-                  - node.hostname == Charcoal
+                  - node.role == manager
+                  # - node.hostname == Charcoal
                   # - node.labels.NFS == attached
             labels:
               - "traefik.enable=true"
-              - "traefik.http.routers.dssplay.rule=Host(`dss.lightning.deepblack.cloud`)"
+              - "traefik.http.routers.dssplay.rule=Host(`dssplay.lightning.deepblack.cloud`)"
               - "traefik.http.routers.dssplay.entrypoints=web-secured"
               - "traefik.http.routers.dssplay.tls.certresolver=letsencryptresolver"
               - "traefik.http.services.dssplay.loadbalancer.server.port=8181"
@@ -67,14 +67,15 @@ services:
             replicas: 1
             placement:
                 constraints:
-                  - node.hostname == Charcoal
+                  - node.role == manager
+                  # - node.hostname == Charcoal
             labels:
               - "traefik.enable=true"
-              - "traefik.http.routers.postgres.rule=Host(`postgres.dss.lightning.deepblack.cloud`)"
-              - "traefik.http.routers.postgres.entrypoints=web-secured"
-              - "traefik.http.routers.postgres.tls.certresolver=letsencryptresolver"
-              - "traefik.http.services.postgres.loadbalancer.server.port=5432"
-              - "traefik.http.services.postgres.loadbalancer.passhostheader=true"
+              - "traefik.http.routers.dssplay.rule=Host(`postgres.dssplay.lightning.deepblack.cloud`)"
+              - "traefik.http.routers.dssplay.entrypoints=web-secured"
+              - "traefik.http.routers.dssplay.tls.certresolver=letsencryptresolver"
+              - "traefik.http.services.dssplay.loadbalancer.server.port=5432"
+              - "traefik.http.services.dssplay.loadbalancer.passhostheader=true"
               - "traefik.docker.network=staging-network"
 
 networks:

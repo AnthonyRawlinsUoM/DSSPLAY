@@ -103,3 +103,83 @@ i.ui.icon.mintcream { color: #EBF5EE !important; }
 .ui.styled.accordion.inverted .accordion .active.title .dropdown.icon {
     color: #d7263d !important;
 }
+
+
+
+.circle.icon.house_loss {
+  color: rgba(74, 31, 31, 0.67);
+  /* border: 1px solid #4A1F1F;
+  border-radius: 16px; */
+}
+.circle.icon.life_loss {
+  color: rgba(168, 95, 41, 0.67);
+  /* border: 1px solid #A85F29;
+  border-radius: 16px; */
+}
+.circle.icon.bio_diversity {
+  color: rgba(73, 96, 9, 0.67);
+  /* border: 1px solid #496009;
+  border-radius: 16px; */
+}
+.circle.icon.viewshed {
+  color: rgba(11, 135, 162, 0.67);
+  /* border: 1px solid #0B87A2;
+  border-radius: 16px; */
+}
+.circle.icon.carbon {
+  color: rgba(0,0,0, 0.68);
+  /* border: 1px solid #000000;
+  border-radius: 16px; */
+}
+.circle.icon.debris_flow {
+  color: rgba(39, 56, 89, 0.67);
+  /* border: 1px solid #273859;
+  border-radius: 16px; */
+}
+.circle.icon.water_yield {
+  color: rgba(13, 88, 158, 0.67);
+  /* border: 1px solid #0D589E;
+  border-radius: 16px; */
+}
+.circle.icon.rusle {
+  color: rgba(83, 87, 23, 0.67);
+  /* border: 1px solid #535717;
+  border-radius: 16px; */
+}
+.circle.icon.mean_erosion_rate {
+  color: rgba(61, 38, 51, 0.68);
+  /* border: 1px solid #3D2633;
+  border-radius: 16px; */
+}
+.circle.icon.infrastructure {
+  color: rgba(18, 107, 56, 0.66);
+  /* border: 1px solid #126B38;
+  border-radius: 16px; */
+}
+.circle.icon.p_burn {
+  color: rgba(236, 115, 27, 0.67);
+  /* border: 1px solid #EC731B;
+  border-radius: 16px; */
+}
+.circle.icon.gma {
+  color: rgba(30, 38, 222, 0.67);
+  /* border: 1px solid #1E26DE;
+  border-radius: 16px; */
+}
+.ui.link.cards div.ui.fluid.card,
+.ui.link.cards div.ui.fluid.card .div.content,
+.ui.link.cards div.ui.fluid.card.active,
+.ui.link.cards div.ui.fluid.card.active:hover {
+    border: 0px solid #000000 !important;
+  /* Make it subtly glow on dark backgrounds */
+    background-color: #FFFFFF !important;
+}
+
+.ui.link.cards div.ui.fluid.card:hover,
+.ui.link.cards div.ui.fluid.card.active,
+.ui.link.cards div.ui.fluid.card.active:hover {
+    border: 0 !important;
+  /* Make it subtly glow on dark backgrounds */
+    background-color: #FFFFFF !important;
+  box-shadow: 0px 0px 15px #73f06c !important;
+}

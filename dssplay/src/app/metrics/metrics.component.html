@@ -2,7 +2,7 @@
 </h3>
 <div class="ui inverted shadow segment">
 
-    <ng-template
+    <!-- <ng-template
         let-option
         #metricOptionsTemplate
     >
@@ -10,7 +10,7 @@
             class="circle icon"
             [ngClass]="option.option"
         ></i>{{ option.label }}
-    </ng-template>
+    </ng-template> -->
 
     <fui-multi-select
         [(ngModel)]="selected"
@@ -19,10 +19,11 @@
         valueField="option"
         [maxSelected]="7"
         icon="line chart"
-        [optionTemplate]="metricOptionsTemplate"
+        [optionFormatter]="formatter"
         (selectedOptionsChange)="onSelectedOptionsChange($event)"
         #metric_select
     >
+
         <div class="ui icon search input">
             <i class="search icon"></i>
             <input

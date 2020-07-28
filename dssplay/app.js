@@ -393,5 +393,5 @@ io.on('connection', (socket) => {
 });
 
 server.listen(port, () => {
-  console.log(package.title + ' Server (v'+ package.version +') running on', port);
+  console.log(package.name + ' Server (v'+ package.version +') running on', port);
 });
