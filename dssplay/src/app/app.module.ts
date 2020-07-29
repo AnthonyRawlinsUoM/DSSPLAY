@@ -53,8 +53,13 @@ import { PanelContainerComponent } from './panel-container/panel-container.compo
 import { PanelResizeHandleComponent } from './panel-resize-handle/panel-resize-handle.component';
 import { PanelComponent } from './panel/panel.component';
 import { UnifiedReportComponent } from './unified-report/unified-report.component';
+import { TestComponent } from './test/test.component';
+import { ErrorHandlerComponent } from './error-handler/error-handler.component';
 
-const config: SocketIoConfig = { url: 'http://localhost:5050', options: {} };
+const PORT = 4041;
+
+// const config: SocketIoConfig = { url: 'http://localhost:4040', options: {} };
+const config: SocketIoConfig = { url: `http://localhost:${PORT}`, options: {} };
 
 @NgModule({
   declarations: [
@@ -95,7 +100,9 @@ const config: SocketIoConfig = { url: 'http://localhost:5050', options: {} };
     PanelContainerComponent,
     PanelResizeHandleComponent,
     PanelComponent,
-    UnifiedReportComponent
+    UnifiedReportComponent,
+    TestComponent,
+    ErrorHandlerComponent
   ],
   imports: [
     CommonModule,

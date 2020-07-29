@@ -1,0 +1,11 @@
+<fui-modal
+    [isClosable]="true"
+    *ngIf="errors && errors.length > 0"
+    (dismissed)="erros=null;"
+    #modal
+>
+    <div class="header">Error</div>
+    <div class="content">
+        {{ errors | json }}
+    </div>
+</fui-modal>

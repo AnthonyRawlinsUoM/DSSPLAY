@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 // import {TransitionController} from "ng2-semantic-ui";
 import { environment } from '../environments/environment';
+import { DataService } from './data.service';
 
 const version = environment.version;
 const title = environment.name;
@@ -30,4 +31,6 @@ export class AppComponent {
     },
 
   ];
+
+
 }

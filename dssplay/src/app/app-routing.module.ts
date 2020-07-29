@@ -3,12 +3,14 @@ import { Routes, RouterModule } from '@angular/router';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { UnifiedReportComponent } from './unified-report/unified-report.component';
-
+import { TestComponent } from './test/test.component';
 
 const routes: Routes = [
   { path:'welcome', component: WelcomeComponent, data: {state: 'welcome'}},
   { path:'reports', component: UnifiedReportComponent, data: {state: 'reports'}},
 
+  { path:'test', component: TestComponent, data: {state: 'test'}},
+  
   { path:'', component: WelcomeComponent, data: {state: 'welcome'}},
   { path: '**', component: PageNotFoundComponent, data: { state: '404' } }
 ];
