@@ -6,6 +6,11 @@ import { DataService } from './data.service';
 const version = environment.version;
 const title = environment.name;
 
+export interface LogEntry {
+    timestamp;
+    entry;
+}
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -17,6 +22,8 @@ export class AppComponent {
 
   title = title;
   version = version;
+
+  log_entries = [];
 
   routes = [
     {
@@ -32,5 +39,10 @@ export class AppComponent {
 
   ];
 
+  constructor(private dat: DataService) {
+      this.dat.getLog().subscribe(log => {
+          this.log_entries.push(log);
+      })
+  }
 
 }

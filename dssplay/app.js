@@ -79,13 +79,14 @@ io.on('connection', (socket) => {
         res => {
             // const result = res.rows.map(x => x[2]);
             // const fields = res.fields.map(field => field.name);
-
+            socket.emit('log', '[' + moment.now() + '] Server got envelope from: ' + socket.id);
 
             console.log('Sending response: ' + res.rows);
             socket.emit('sql-response', {sender: envelope.sender, result: res.rows
         });
     }).catch(e => {
         socket.error(e);
+        socket.emit('log', '[' + moment.now() + '] Error: ' + socket.id + e.stack);
     });
   });
 

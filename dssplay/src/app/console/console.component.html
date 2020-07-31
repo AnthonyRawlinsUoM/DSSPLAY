@@ -1,1 +1,6 @@
-<p>console works!</p>
+<div class="ui inverted console segment">
+    <div
+        class="logline"
+        *ngFor="let entry of log_entries"
+    >{{ entry }}</div>
+</div>

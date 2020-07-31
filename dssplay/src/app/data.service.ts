@@ -35,4 +35,12 @@ export class DataService {
             });
         })
     }
+
+    getLog() {
+        return Observable.create(observer => {
+            this.socket.fromEvent('log').subscribe(log => {
+                observer.next(log);
+            });
+        });
+    }
 }
