@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Envelope, DataService } from '../data.service';
+import * as dataforge from 'data-forge';
 
 @Component({
   selector: 'app-test',
@@ -8,51 +9,68 @@ import { Envelope, DataService } from '../data.service';
 })
 export class TestComponent implements OnInit {
 
-  constructor(private dat: DataService) { }
-  houses_lost;
-  houses_exposed;
-  people_exposed;
+  results = [
+      {name: 'houses_lost', rows: [], columns: []},
+      {name: 'houses_exposed', rows: [], columns: []},
+      {name: 'people_exposed', rows: [], columns: []}
+  ];
+
   errors;
+  selectedPage;
+
+  constructor(private dat: DataService) { }
 
   ngOnInit() {
-      this.dat.getErrors().subscribe(e=> {
-          this.errors = e;
-      },
-      err => {
-          console.error(err);
-      });
 
-      this.dat.sendSQL({sql:`
+      this.fetch('houses_exposed', `
 
       SELECT houses_exposed, regime_id, scenario_id, replicate_id
       FROM peoplehouseloss
 
-      `, sender: 'houses_exposed'}).subscribe(data => {
-          if (data.sender == 'houses_exposed') this.houses_exposed = data.result;
-      }, err => {
-          console.error(err);
-          this.errors = err;
-      });
+      `);
 
-      this.dat.sendSQL({sql:`
-
-      SELECT houses_lost, regime_id, scenario_id, replicate_id
-      FROM peoplehouseloss
-
-      `, sender: 'houses_lost'}).subscribe(data => {
-          if (data.sender == 'houses_lost') this.houses_lost = data.result;
-      }, err => {
-          console.error(err);
-          this.errors = err;
-      });
-
-      this.dat.sendSQL({sql:`
+      this.fetch('people_exposed', `
 
       SELECT people_exposed, regime_id, scenario_id, replicate_id
       FROM peoplehouseloss
 
-      `, sender: 'people_exposed'}).subscribe(data => {
-          if (data.sender == 'people_exposed') this.people_exposed = data.result;
+      `);
+
+      this.fetch('houses_lost', `
+
+      SELECT houses_lost, regime_id, scenario_id, replicate_id
+      FROM peoplehouseloss
+
+      `);
+
+  }
+
+  fetch(vname, sql) {
+      this.dat.sendSQL({sql: sql, sender: vname}).subscribe(data => {
+          if (data.sender == vname) {
+              console.log(data.result);
+
+              let rows = [];
+              let columns = [];
+
+              for (let row of data.result) {
+                  console.log(row);
+                  for (let k of Object.entries(row)) {
+                      if (columns.indexOf(k[0]) == -1) {
+                          columns.push(k[0]);
+                      }
+                  }
+                  let r = [];
+                  for (let col of columns) {
+                      r.push(row[col]);
+                  }
+                  rows.push(r);
+              }
+              this.results.filter(r => r.name == vname).map(r => {
+                  r.rows = rows;
+                  r.columns = columns;
+              });
+          }
       }, err => {
           console.error(err);
           this.errors = err;
@@ -60,3 +78,5 @@ export class TestComponent implements OnInit {
   }
 
 }
+
+function fastpivot(a){"use strict";var t={};if("string"!=typeof a&&a.length>0){var l=Object.keys(a[0]),n={};l.forEach(function(a){n[a]={},n[a]._labels=[],n[a]._labelsdata=[],n[a]._data={}}),a.forEach(function(a,t){l.forEach(function(t){var l=a[t];n[t]._data[l]=(n[t]._data[l]||0)+1,n[t]._labels[l]=null})}),l.forEach(function(a){for(var t in n[a]._data)n[a]._labelsdata.push(n[a]._data[t]);n[a]._labels=Object.keys(n[a]._labels)}),t=n}return t}

@@ -12,7 +12,7 @@ import { ChartModule } from "angular2-chartjs";
 import "chartjs-chart-box-and-violin-plot/build/Chart.BoxPlot.js";
 
 import { Ng5SliderModule } from 'ng5-slider';
-
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { MappingComponent } from './mapping/mapping.component';
 
 import { AppComponent } from './app.component';
@@ -55,6 +55,7 @@ import { PanelComponent } from './panel/panel.component';
 import { UnifiedReportComponent } from './unified-report/unified-report.component';
 import { TestComponent } from './test/test.component';
 import { ErrorHandlerComponent } from './error-handler/error-handler.component';
+import { ConsoleComponent } from './console/console.component';
 
 const PORT = 4041;
 
@@ -102,7 +103,8 @@ const config: SocketIoConfig = { url: `http://localhost:${PORT}`, options: {} };
     PanelComponent,
     UnifiedReportComponent,
     TestComponent,
-    ErrorHandlerComponent
+    ErrorHandlerComponent,
+    ConsoleComponent
   ],
   imports: [
     CommonModule,
@@ -113,6 +115,7 @@ const config: SocketIoConfig = { url: `http://localhost:${PORT}`, options: {} };
     ChartModule,
     Ng5SliderModule,
     FomanticUIModule,
+    NgxDatatableModule,
      SocketIoModule.forRoot(config),
      NgxMapboxGLModule.withConfig({
          accessToken: 'pk.eyJ1IjoiYW50aG9ueXJhd2xpbnN1b20iLCJhIjoiY2o1dm81NTIwMDN6MTJxbjlvOHBiNHdlOSJ9.lt8I4sU0ceA6N8Tnnmx2ig', // Optionnal, can also be set per map (accessToken input of mgl-map)

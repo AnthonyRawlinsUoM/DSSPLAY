@@ -13,6 +13,8 @@ export class ErrorHandlerComponent implements OnInit {
     constructor(private dat: DataService) {}
 
     ngOnInit() {
+        this.errors = [];
+        
         this.dat.getErrors().subscribe(e=> {
             this.errors = e;
         },

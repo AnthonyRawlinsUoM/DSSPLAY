@@ -10,7 +10,7 @@ const app = express();
 const uuidv4 = require('uuid/v4');
 const moment = require('moment');
 const package = require('./package.json');
-
+const R = require('ramda');
 
 const { Pool, Client } = require('pg');
 const client = new Client();
@@ -77,8 +77,13 @@ io.on('connection', (socket) => {
     console.log('Got message from website: ' + envelope.sql);
     pool.query(envelope.sql).then(
         res => {
-            console.log('Sending response: ' + JSON.stringify(res.rows));
-            socket.emit('sql-response', {sender: envelope.sender, result: res.rows});
+            // const result = res.rows.map(x => x[2]);
+            // const fields = res.fields.map(field => field.name);
+
+
+            console.log('Sending response: ' + res.rows);
+            socket.emit('sql-response', {sender: envelope.sender, result: res.rows
+        });
     }).catch(e => {
         socket.error(e);
     });
