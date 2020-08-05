@@ -35,10 +35,18 @@
     <!-- <p>TODO: <del>On/Off/Both/Either</del></p> -->
 
     <div class="ui fluid buttons">
-        <button class="ui teal labeled icon button darker" (click)="harvesting_on = !harvesting_on" [ngClass]="{'green active': harvesting_on}">
+        <button
+            class="ui teal labeled icon button darker"
+            (click)="harvesting_on = !harvesting_on"
+            [ngClass]="{'green active': harvesting_on}"
+        >
             <i class="clockwise rotated tree icon"></i> On
         </button>
-        <button class="ui teal right labeled icon button darker" (click)="harvesting_off = !harvesting_off" [ngClass]="{'green active': harvesting_off}">
+        <button
+            class="ui teal right labeled icon button darker"
+            (click)="harvesting_off = !harvesting_off"
+            [ngClass]="{'green active': harvesting_off}"
+        >
             <i class="tree icon"></i> Off
         </button>
     </div>
@@ -61,9 +69,19 @@
     <h3 class="ui inverted header explain">Replicates <app-explanation-link></app-explanation-link>
     </h3>
     <p>TODO: Singular | All | Confidence</p>
-    <div class="ui fieldset" [formGroup]="repsGroup">
+    <div
+        class="ui fieldset"
+        [formGroup]="repsGroup"
+    >
         <div class="ui field">
-            <ng5-slider [value]="reps_lower" [highValue]="reps_upper" (valueChange)="onRepsValueChange($event)" (highValueChange)="onRepsUpperChange($event)" [options]="reps_options" formControlName="sliderRepsControl">
+            <ng5-slider
+                [value]="reps_lower"
+                [highValue]="reps_upper"
+                (valueChange)="onRepsValueChange($event)"
+                (highValueChange)="onRepsUpperChange($event)"
+                [options]="reps_options"
+                formControlName="sliderRepsControl"
+            >
             </ng5-slider>
         </div>
         <!-- <p>
@@ -80,9 +98,19 @@
     <h3 class="ui inverted header explain">Simuation Length <app-explanation-link></app-explanation-link>
     </h3>
     <p>TODO: Singular | All | <del>Range</del></p>
-    <div class="ui fieldset" [formGroup]="yearGroup">
+    <div
+        class="ui fieldset"
+        [formGroup]="yearGroup"
+    >
         <div class="ui field">
-            <ng5-slider [value]="years_lower" [highValue]="years_upper" (valueChange)="onYearValueChange($event)" (highValueChange)="onYearUpperChange($event)" [options]="years_options" formControlName="sliderYearsControl">
+            <ng5-slider
+                [value]="years_lower"
+                [highValue]="years_upper"
+                (valueChange)="onYearValueChange($event)"
+                (highValueChange)="onYearUpperChange($event)"
+                [options]="years_options"
+                formControlName="sliderYearsControl"
+            >
             </ng5-slider>
         </div>
         <!-- <p>
@@ -99,11 +127,19 @@
     <h3 class="ui inverted header explain">Show results as <app-explanation-link></app-explanation-link>
     </h3>
     <div class="ui fluid buttons">
-        <button class="ui brown labeled icon button darker" (click)="absolute_or_relative_terms = 'absolute'" [ngClass]="{'green active': absolute_or_relative_terms=='absolute'}">
+        <button
+            class="ui brown labeled icon button darker"
+            (click)="absolute_or_relative_terms = 'absolute'"
+            [ngClass]="{'green active': absolute_or_relative_terms=='absolute'}"
+        >
             <i class="dollar sign icon"></i> Absolute
         </button>
         <div class="or"></div>
-        <button class="ui brown right labeled icon button darker" (click)="absolute_or_relative_terms = 'relative'" [ngClass]="{'green active': absolute_or_relative_terms == 'relative'}">
+        <button
+            class="ui brown right labeled icon button darker"
+            (click)="absolute_or_relative_terms = 'relative'"
+            [ngClass]="{'green active': absolute_or_relative_terms == 'relative'}"
+        >
             <i class="percent icon"></i> Relative
         </button>
     </div>
@@ -178,3 +214,8 @@
     </div>
 </div>
 <!-- End: ExportData -->
+
+
+<!-- Start: Summary -->
+<app-choices-summary></app-choices-summary>
+<!-- End: Summary -->

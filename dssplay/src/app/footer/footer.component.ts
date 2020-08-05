@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-footer',
@@ -11,7 +12,11 @@ export class FooterComponent implements OnInit {
   @Input() version;
   @Input() routes;
 
-  constructor() { }
+  constructor(private dat: DataService) {
+      this.dat.logEntry('Testing: 1!');
+      this.dat.logEntry('Testing: 2!');
+      this.dat.logEntry('Testing: 3!');
+  }
 
   ngOnInit(): void {
   }

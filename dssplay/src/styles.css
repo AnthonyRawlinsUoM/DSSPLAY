@@ -12,34 +12,34 @@
   color: #000000;
 }
 
-*.segment.black { background-color: #000000 !important; }
-*.segment.richblackfogra { background-color: #01161e !important; }
-*.segment.blackchocolate { background-color: #1f1300 !important; }
-*.segment.darksienna { background-color: #230c0f !important; }
-*.segment.jet { background-color: #333232 !important; }
-*.segment.beige { background-color: #eff6e0 !important; }
-*.segment.tumbleweed { background-color: #e0ab8f !important; }
-*.segment.crimson { background-color: #d7263d !important; }
-*.segment.darkliverhorses { background-color: #5b3e35 !important; }
-*.segment.bole { background-color: #824938 !important; }
-*.segment.copper { background-color: #D1603D !important; }
-*.segment.shadowbrown { background-color: #88795c !important; }
-*.segment.goldcrayola { background-color: #dcbf85 !important; }
-*.segment.teagreen { background-color: #C4E4AE !important; }
-*.segment.pistachio { background-color: #99D17B !important; }
-*.segment.amazon { background-color: #4a7c59 !important; }
-*.segment.ferngreen { background-color: #697B5B !important; }
-*.segment.maxgreen  { background-color: #4D8B31 !important; }
-*.segment.darkjunglegreen { background-color: #1f2421 !important; }
-*.segment.midnighteagle { background-color: #124559 !important; }
-*.segment.midnight { background-color: #1a535c !important; }
-*.segment.bdazzledblue { background-color: #3B5998 !important; }
-*.segment.starcommandblue { background-color: #2274a5 !important; }
-*.segment.tealblue { background-color: #598392 !important; }
-*.segment.airblue { background-color: #78A1BB !important; }
-*.segment.morningblue { background-color: #93a29b !important; }
-*.segment.cambridge { background-color: #aec3b0 !important; }
-*.segment.mintcream { background-color: #EBF5EE !important; }
+*.menu.black, *.segment.black { background-color: #000000 !important; }
+*.menu.richblackfogra, *.segment.richblackfogra { background-color: #01161e !important; }
+*.menu.blackchocolate, *.segment.blackchocolate { background-color: #1f1300 !important; }
+*.menu.darksienna, *.segment.darksienna { background-color: #230c0f !important; }
+*.menu.jet, *.segment.jet { background-color: #333232 !important; }
+*.menu.beige, *.segment.beige { background-color: #eff6e0 !important; }
+*.menu.tumbleweed, *.segment.tumbleweed { background-color: #e0ab8f !important; }
+*.menu.crimson, *.segment.crimson { background-color: #d7263d !important; }
+*.menu.darkliverhorses, *.segment.darkliverhorses { background-color: #5b3e35 !important; }
+*.menu.bole, *.segment.bole { background-color: #824938 !important; }
+*.menu.copper, *.segment.copper { background-color: #D1603D !important; }
+*.menu.shadowbrown, *.segment.shadowbrown { background-color: #88795c !important; }
+*.menu.goldcrayola, *.segment.goldcrayola { background-color: #dcbf85 !important; }
+*.menu.teagreen, *.segment.teagreen { background-color: #C4E4AE !important; }
+*.menu.pistachio, *.segment.pistachio { background-color: #99D17B !important; }
+*.menu.amazon, *.segment.amazon { background-color: #4a7c59 !important; }
+*.menu.ferngreen, *.segment.ferngreen { background-color: #697B5B !important; }
+*.menu.maxgreen, *.segment.maxgreen  { background-color: #4D8B31 !important; }
+*.menu.darkjunglegreen, *.segment.darkjunglegreen { background-color: #1f2421 !important; }
+*.menu.midnighteagle, *.segment.midnighteagle { background-color: #124559 !important; }
+*.menu.midnight, *.segment.midnight { background-color: #1a535c !important; }
+*.menu.bdazzledblue, *.segment.bdazzledblue { background-color: #3B5998 !important; }
+*.menu.starcommandblue, *.segment.starcommandblue { background-color: #2274a5 !important; }
+*.menu.tealblue, *.segment.tealblue { background-color: #598392 !important; }
+*.menu.airblue, *.segment.airblue { background-color: #78A1BB !important; }
+*.menu.morningblue, *.segment.morningblue { background-color: #93a29b !important; }
+*.menu.cambridge, *.segment.cambridge { background-color: #aec3b0 !important; }
+*.menu.mintcream, *.segment.mintcream { background-color: #EBF5EE !important; }
 
 i.ui.icon.richblackfogra { color: #01161e !important; }
 i.ui.icon.black-chocolate { color: #1f1300 !important; }

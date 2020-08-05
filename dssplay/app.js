@@ -66,34 +66,35 @@ const io = socketIO(server);
 
 io.on('connection', (socket) => {
   /* CONNECTION CODE */
-  console.log('A new WebsiteUser has connected: ' + socket.id);
+  broadcast(io, 'User with Session ID: ' + socket.id + ' has connected.');
+  log(socket, 'Your socket ID is: ' + socket.id);
+
   socket.on('disconnect', function () {
-    io.emit('log', 'User (' + socket.id + ') has disconnected');
+    broadcast(io, 'User (' + socket.id + ') has disconnected');
   });
-  io.emit('log', 'User with Session ID: ' + socket.id + ' has connected.');
+
+  log(socket, 'Welcome to ' + package.name + ' v' + package.version );
 
   /* QUERY CODE */
   socket.on('sql-query', (envelope) => {
-    console.log('Got message from website: ' + envelope.sql);
+    log(socket, 'Got message from website: ' + envelope.sql);
     pool.query(envelope.sql).then(
         res => {
             // const result = res.rows.map(x => x[2]);
             // const fields = res.fields.map(field => field.name);
-            socket.emit('log', '[' + moment.now() + '] Server got envelope from: ' + socket.id);
+            log(socket, 'Server got envelope from: ' + socket.id);
+            log(socket, 'Sending response: ' + res.rows);
 
-            console.log('Sending response: ' + res.rows);
-            socket.emit('sql-response', {sender: envelope.sender, result: res.rows
-        });
+            socket.emit('sql-response', { sender: envelope.sender, result: res.rows });
     }).catch(e => {
         socket.error(e);
-        socket.emit('log', '[' + moment.now() + '] Error: ' + socket.id + e.stack);
+        log(socket, 'Error: ' + socket.id + e.stack);
     });
   });
 
   /* LOGGING CODE */
   socket.on('log-entry', (entry) => {
-    console.log(entry);
-    socket.emit('log', entry);
+    log(socket, entry);
   });
 
 });
@@ -101,3 +102,13 @@ io.on('connection', (socket) => {
 server.listen(port, () => {
   console.log(package.name + ' Server (v'+ package.version +') running on', port);
 });
+
+function broadcast(io, message) {
+    io.emit('[' + moment().format() + '] ', message);
+}
+
+function log(socket, message) {
+    // msg_str = '[' + moment().format() + '] ' + message;
+    console.log(message);
+    socket.emit('log', {timestamp: moment().format(), message: message});
+}

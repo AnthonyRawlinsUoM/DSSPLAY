@@ -1,54 +1,75 @@
 body,
 html {
-  background-color: #444444;
+  background-color: rgb(27,28,29);
 }
 
 .SiteContainer {
-  display: flex;
+  /* display: flex; */
   /* max-height: 100vh; */
-  flex-direction: column;
+  /* flex-direction: column; */
 
   /* align-items: stretch;
   align-content: stretch;
   align-self: stretch; */
+  /* height: 100vh; */
+  background-color: rgb(27,28,29);
   height: 100vh;
-  background-color: #000000;
+  max-height: 100vh !important;
+  display: flex;
+  flex-direction: column;
 }
 
-#header {
-  flex:0;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 5;
-  height: 4em;
+ #header {
+    box-shadow: 0px 10px 15px rgb(27,28,29);
+
 }
 #header .menu {
     border-radius: 0;
 }
-.Site {
-  flex: 1;
-  align-self: stretch;
-  align-content: stretch;
-  align-items: stretch;
-  height: calc(100vh - 4em - 10em);
-  margin-top: 4em;
-  position: relative;
-  background-color: #444444;
-}
 
-#footer {
-  flex: 0;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 5;
-  height: 10em;
+#footer
+.ui.bottom.attached.inverted.footer.segment {
+background: rgb(27,28,29);
 }
 
 .vertical.stripe {
   padding-top: 2em;
   padding-bottom: 2em;
+}
+.ui.vertical.transparent.overlay.bottom.sidebar ,
+.ui.transparent.overlay.bottom.sidebar ,
+.ui.inverted.vertical.transparent.overlay.bottom.sidebar ,
+.ui.inverted.transparent.overlay.bottom.sidebar {
+    background: transparent !important;
+    border-radius: none;
+}
+
+.ui.translucent {
+    background-color: rgba(27,28,29, 0.75) !important;
+}
+
+.pushable {
+    height: auto !important;
+}
+
+
+.ui.viewport {
+    /* flex: 1; */
+    overflow-y: scroll;
+    display:block;
+    padding-bottom: 15em;
+    /* height: calc(100vh - 4em - 10em); */
+}
+.flexy {
+    flex: 1;
+}
+.not_flexy {
+    flex: 0;
+}
+.foot_panel {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow-y: hidden;
 }

@@ -3,6 +3,8 @@ import { Options } from 'ng5-slider';
 import { Metric } from '../metrics/metrics.component';
 import { BurnTarget } from '../burn-target-options/burn-target-options.component';
 import { FormGroup, FormControl } from '@angular/forms';
+import { DataService } from '../data.service';
+import { SqlBuilderService } from '../sql-builder.service';
 
 @Component({
   selector: 'app-mapping-options',
@@ -25,7 +27,7 @@ export class MappingOptionsComponent implements OnInit {
   yearGroup: FormGroup = new FormGroup({
     sliderYearsControl: new FormControl([0, 50])
   });
-  
+
   years_options: Options = {
     floor: 0,
     ceil: 50
@@ -48,28 +50,38 @@ export class MappingOptionsComponent implements OnInit {
 
   absolute_or_relative_terms = 'absolute'; // or 'relative'
 
-  constructor() { }
+  constructor(private dat: DataService, private builder: SqlBuilderService) { }
 
   ngOnInit(): void {
   }
 
   onYearValueChange(value) {
+    this.years_lower = value;
     this.year_range.emit([value, this.years_upper]);
+    this.dat.logEntry('Changing years to: ' + [value, this.years_upper]);
   }
 
   onYearUpperChange(highValue) {
+    this.years_upper = highValue;
     this.year_range.emit([this.years_lower, highValue]);
+    this.dat.logEntry('Changing years to: ' + [this.years_lower, highValue]);
   }
 
   onRepsValueChange(value) {
+      this.reps_lower = value;
     this.reps_range.emit([value, this.reps_upper]);
+    this.dat.logEntry('Changing replicates to: ' + [value, this.reps_upper]);
   }
 
   onRepsUpperChange(highValue) {
+      this.reps_upper = highValue;
     this.reps_range.emit([this.reps_lower, highValue]);
+    this.dat.logEntry('Changing replicates to: ' + [this.reps_lower, highValue]);
   }
 
   onBurnTargetsChange(event){
     this.burnTargetsChange.emit(event);
+    let burn_targets = event.map(bt => bt.label);
+    this.dat.logEntry('Changing Burn Targets to: ' + burn_targets);
   }
 }

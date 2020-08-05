@@ -8,7 +8,7 @@ const title = environment.name;
 
 export interface LogEntry {
     timestamp;
-    entry;
+    message;
 }
 
 @Component({
@@ -23,7 +23,8 @@ export class AppComponent {
   title = title;
   version = version;
 
-  log_entries = [];
+  log_entries;
+  show_console = false;
 
   routes = [
     {
@@ -37,12 +38,30 @@ export class AppComponent {
       icon: 'line chart icon'
     },
 
+    {
+      path: 'test',
+      name: 'Test',
+      icon: 'line chart icon'
+    },
+
+    {
+      path: 'sql',
+      name: 'SQL',
+      icon: 'line chart icon'
+    },
+
   ];
 
   constructor(private dat: DataService) {
+
+  }
+
+  ngOnInit() {
+      this.log_entries = [];
+
       this.dat.getLog().subscribe(log => {
           this.log_entries.push(log);
-      })
+      });
   }
 
 }

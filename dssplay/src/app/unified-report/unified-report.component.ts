@@ -51,6 +51,8 @@ export class UnifiedReportComponent implements OnInit {
         datasets: []
     };
 
+    show_sidebar = false;
+
     constructor(private da: DataService) { }
 
     ngOnInit(): void {
@@ -264,7 +266,7 @@ export class UnifiedReportComponent implements OnInit {
         }
       }
     }
-    
+
     onBoundsChange(bounds: LngLatBounds) {
         console.log('Moving!');
         this.bounds = bounds;

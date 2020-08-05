@@ -1,21 +1,64 @@
-<app-error-handler></app-error-handler>
-<div class="SiteContainer">
-
+<div class="ui fluid container SiteContainer">
     <app-nav
         [title]="title"
         [routes]="routes"
         id="header"
+        class="top attached notflexy segment"
     ></app-nav>
 
-    <div class="Site">
+
+    <div class="ui viewport flexy">
         <router-outlet id="content"></router-outlet>
     </div>
 
-    <app-footer
-        [title]="title"
-        [routes]="routes"
-        [version]="version"
-        id="footer"
-    ></app-footer>
-    <app-console [log]="log"></app-console>
+
+
+    <div class="ui inverted translucent foot_panel notflexy">
+        <div class="ui inverted bdazzledblue menu toolbar top attached">
+
+            <a
+                class="item"
+                (click)="show_console = !show_console"
+                *ngIf="show_console"
+            >
+                <i class="caret square down icon"></i>
+                Footer
+            </a>
+
+            <a
+                class="item"
+                (click)="show_console = !show_console"
+                *ngIf="!show_console"
+            >
+                <i class="caret square up icon"></i>
+                Console
+            </a>
+
+        </div>
+        <fui-sidebar-container class="bottom attached">
+            <fui-sidebar
+                [transition]="'push'"
+                [isVisible]="show_console"
+                direction="bottom"
+                class=" ui vertical translucent"
+                #footerbar
+            >
+                <app-console [log_entries]="log_entries"></app-console>
+            </fui-sidebar>
+
+
+            <fui-sidebar-sibling
+                [isDimmedWhenVisible]="false"
+                class=" ui translucent"
+            >
+                <app-footer
+                    [title]="title"
+                    [routes]="routes"
+                    [version]="version"
+                ></app-footer>
+            </fui-sidebar-sibling>
+
+        </fui-sidebar-container>
+    </div>
 </div>
+<app-error-handler></app-error-handler>

@@ -1,164 +1,143 @@
-<div class="ui inverted menu raised toolbar">
-    <div class="right menu">
+<fui-sidebar-container>
+    <fui-sidebar
+        [transition]="'overlay'"
+        [isVisible]="show_sidebar"
+        class="inverted vertical very wide translucent raised segment"
+        direction="right"
+        #sidebar
+    >
 
-        <a
-            class="item"
-            (click)="sidebar.toggle()"
-        >
-            <i class="wrench icon"></i> Tools
-        </a>
-    </div>
-</div>
-<div class="ui fullscreen">
-
-    <fui-sidebar-container>
-        <fui-sidebar
-            [transition]="'overlay'"
-            [isVisible]="true"
-            class="inverted vertical very wide translucent raised segment"
-            direction="right"
-            #sidebar
-        >
-
-            <div class="ui inverted dense segment">
-                <app-metrics
-                    [mode]="'mapping'"
-                    (metricsChange)="onMetricsChange($event)"
-                >
-                </app-metrics>
-                <app-choiceflow></app-choiceflow>
-                <app-mapping-options
-                    [(metrics)]="metrics"
-                    (burnTargetsChange)="onBurnTargetsChange($event)"
-                >
-                </app-mapping-options>
-            </div>
-
-
-
-
-        </fui-sidebar>
-        <fui-sidebar-sibling
-            [isDimmedWhenVisible]="false"
-            class="map"
-        >
-            <fui-accordion
-                [closeOthers]="false"
-                class="styled fluid inverted black"
+        <div class="ui inverted dense segment">
+            <app-metrics
+                [mode]="'mapping'"
+                (metricsChange)="onMetricsChange($event)"
             >
-                <fui-accordion-panel [isOpen]="true">
-                    <div title>
-                        <i class="dropdown icon"></i>
-                        Spatial Analysis
-                    </div>
-                    <div content>
-                        <div
-                            class="ui vertical panels"
-                            #viewpaneltest
-                        >
-                            <div
-                                class="ui inverted panel"
-                                resizable
-                            >
-                                <!-- <div *ngIf="sources.length > 0"> -->
-                                <mgl-map
-                                    [style]="style"
-                                    [zoom]="zoom"
-                                    [center]="[145.769, -37.721]"
-                                    [fitBounds]="bounds"
-                                    [fitBoundsOptions]="boundsOptions"
-                                    (mouseMove)="mousemove($event)"
-                                    (load)="mapLoaded($event)"
-                                    #mapview
-                                >
+            </app-metrics>
+            <app-choiceflow></app-choiceflow>
+            <app-mapping-options
+                [(metrics)]="metrics"
+                (burnTargetsChange)="onBurnTargetsChange($event)"
+            >
+            </app-mapping-options>
+        </div>
 
-                                    <!-- <mgl-geojson-source
-                  id="src.id"
-                  [data]="src.data"
-                  *ngFor="let src of sources">
+    </fui-sidebar>
 
-                  <mgl-feature
-                  *ngFor="let geometry of src.geometries"
-                  [geometry]="geometry"></mgl-feature>
 
-                </mgl-geojson-source>
+    <fui-sidebar-sibling
+        [isDimmedWhenVisible]="false"
+        class="fullscreen"
+    >
 
-                <mgl-layer
-                  *ngFor="let lyr of sources.layers"
+        <div class="ui inverted bdazzledblue menu toolbar top attached">
 
-                  id="lyr.name"
-                  type="line"
-                  [source]="lyr.source"
-                  [paint]="{
-                    'line-color': '#627BC1',
-                    'line-width': 2
-                  }"
-                ></mgl-layer> -->
+            <a
+                class="item"
+                (click)="show_sidebar = !show_sidebar"
+                (mouseover)="show_sidebar = true;"
+            >
+                <i class="wrench icon"></i> Tools
+            </a>
+        </div>
+        <div class="ui stackable two column grid">
+            <div class="ui column">
 
-                                </mgl-map>
-                                <!-- </div> -->
+                <div
+                    class="ui inverted segment"
+                    resizable
+                >
+                    <div class="ui grid">
+                        <div class="ui row">
+                            <div class="ui five wide column">
+                                <app-y-axis-chooser></app-y-axis-chooser>
+                                <div class="ui divider"></div>
+                                <app-interpretation></app-interpretation>
+                            </div>
+                            <div class="ui eleven wide column">
+                                <h2 class="ui inverted header">(Chart Title)</h2>
+                                <div class="ui segment chart-container">
+                                    <canvas
+                                        id='boxchart'
+                                        #boxchart
+                                    ></canvas>
+                                </div>
+                                <app-x-axis-chooser></app-x-axis-chooser>
                             </div>
                         </div>
-                    </div>
-                </fui-accordion-panel>
-
-
-                <fui-accordion-panel [isOpen]="true">
-                    <div title>
-                        <i class="dropdown icon"></i>
-                        Statistical Analysis
-                    </div>
-                    <div content>
-                        <div
-                            class="ui inverted panel segment"
-                            resizable
-                        >
-                            <div class="ui grid">
-                                <div class="ui row">
-                                    <div class="ui five wide column">
-                                        <app-y-axis-chooser></app-y-axis-chooser>
-                                        <div class="ui divider"></div>
-                                        <app-interpretation></app-interpretation>
-                                    </div>
-                                    <div class="ui eleven wide column">
-                                        <h2 class="ui inverted header">(Chart Title)</h2>
-                                        <div class="ui segment chart-container">
-                                            <canvas
-                                                id='boxchart'
-                                                #boxchart
-                                            ></canvas>
-                                        </div>
-                                        <app-x-axis-chooser></app-x-axis-chooser>
-                                    </div>
+                        <div class="ui row">
+                            <div class="ui five wide column"></div>
+                            <div class="ui eleven wide column">
+                                <div class="ui segment chart-container">
+                                    <canvas
+                                        id='violin'
+                                        #violin
+                                    ></canvas>
                                 </div>
-                                <div class="ui row">
-                                    <div class="ui five wide column"></div>
-                                    <div class="ui eleven wide column">
-                                        <div class="ui segment chart-container">
-                                            <canvas
-                                                id='violin'
-                                                #violin
-                                            ></canvas>
-                                        </div>
-                                    </div>
-                                    <!-- <div class="ui eight wide column">
+                            </div>
+                            <!-- <div class="ui eight wide column">
                           <div class="ui segment chart-container">
                             <canvas id='scatterchart' #scatterchart></canvas>
                           </div>
                         </div> -->
-                                </div>
+                        </div>
+                        <div class="ui row">
+                            <div class="ui eight wide column">
+                                <app-stats-panel></app-stats-panel>
+                            </div>
+                            <div class="ui eight wide column">
+                                <app-stats-panel></app-stats-panel>
                             </div>
                         </div>
                     </div>
-                </fui-accordion-panel>
-            </fui-accordion>
+                </div>
+            </div>
+            <div class="ui column">
 
+                <div
+                    class="ui inverted segment"
+                    resizable
+                >
+                    <!-- <div *ngIf="sources.length > 0"> -->
+                    <mgl-map
+                        [style]="style"
+                        [zoom]="zoom"
+                        [center]="[145.769, -37.721]"
+                        [fitBounds]="bounds"
+                        [fitBoundsOptions]="boundsOptions"
+                        (mouseMove)="mousemove($event)"
+                        (load)="mapLoaded($event)"
+                        #mapview
+                    >
 
+                        <!-- <mgl-geojson-source
+              id="src.id"
+              [data]="src.data"
+              *ngFor="let src of sources">
 
-            <div class="ui attached inverted segment">
+              <mgl-feature
+              *ngFor="let geometry of src.geometries"
+              [geometry]="geometry"></mgl-feature>
+
+            </mgl-geojson-source>
+
+            <mgl-layer
+              *ngFor="let lyr of sources.layers"
+
+              id="lyr.name"
+              type="line"
+              [source]="lyr.source"
+              [paint]="{
+                'line-color': '#627BC1',
+                'line-width': 2
+              }"
+            ></mgl-layer> -->
+
+                    </mgl-map>
+                    <!-- </div> -->
+                </div>
 
             </div>
+        </div>
 
-        </fui-sidebar-sibling>
-    </fui-sidebar-container>
-</div>
+    </fui-sidebar-sibling>
+</fui-sidebar-container>

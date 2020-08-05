@@ -1,0 +1,38 @@
+span.timestamp {
+    color: rgb(41, 128, 255);
+}
+
+span.message {
+    color: rgb(134, 187, 255);
+}
+.ui.scrolling {
+    max-height: 15em;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+.ui.transparent {
+    background: transparent !important;
+    border-radius: none;
+}
+#console,
+.ui.inverted.console.segment {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12px;
+    text-shadow: 0px 2px 5px rgb(12,13,14);
+    color: #008122;
+    background-color: transparent !important;
+    border-radius: 0;
+    box-shadow: inset 0px 10px 150px rgb(12,13,14);
+    padding: 4em;
+    line-height: 1.75em;
+    min-height: 15em;
+    /* position: relative; */
+    /* position:absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000 !important; */
+    /* border: solid 2em rgb(27,28,29) !important; */
+
+    flex: none;
+}

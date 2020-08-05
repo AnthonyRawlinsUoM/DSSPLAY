@@ -1,0 +1,52 @@
+<fui-sidebar-container>
+    <fui-sidebar
+        [transition]="'overlay'"
+        [isVisible]="show_sidebar"
+        class="inverted vertical very wide translucent raised segment"
+        direction="right"
+        #sidebar
+    >
+
+        <div class="ui inverted dense segment">
+            <app-metrics
+                [mode]="'mapping'"
+                (metricsChange)="onMetricsChange($event)"
+            >
+            </app-metrics>
+            <app-choiceflow></app-choiceflow>
+            <app-mapping-options
+                [(metrics)]="metrics"
+                (burnTargetsChange)="onBurnTargetsChange($event)"
+            >
+            </app-mapping-options>
+        </div>
+
+    </fui-sidebar>
+
+
+    <fui-sidebar-sibling
+        [isDimmedWhenVisible]="false"
+        class="fullscreen"
+    >
+        <div class="ui inverted bdazzledblue menu toolbar top attached">
+
+            <a
+                class="item"
+                (click)="show_sidebar = !show_sidebar"
+                (mouseover)="show_sidebar = true;"
+            >
+                <i class="wrench icon"></i> Tools
+            </a>
+        </div>
+
+        <app-sql-builder [the_query]="query"></app-sql-builder>
+
+        <app-dataframe-table
+            [results]="results"
+            (orderChange)="onOrderChange($event)"
+            (limitChange)="onLimitChange($event)"
+        ></app-dataframe-table>
+
+
+    </fui-sidebar-sibling>
+</fui-sidebar-container>

@@ -43,4 +43,8 @@ export class DataService {
             });
         });
     }
+    
+    logEntry(log_entry: string) {
+        this.socket.emit("log-entry", log_entry);
+    }
 }

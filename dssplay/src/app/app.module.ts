@@ -56,6 +56,10 @@ import { UnifiedReportComponent } from './unified-report/unified-report.componen
 import { TestComponent } from './test/test.component';
 import { ErrorHandlerComponent } from './error-handler/error-handler.component';
 import { ConsoleComponent } from './console/console.component';
+import { SqlBuilderComponent } from './sql-builder/sql-builder.component';
+import { StatsPanelComponent } from './stats-panel/stats-panel.component';
+import { SqlControllerComponent } from './sql-controller/sql-controller.component';
+import { DataframeTableComponent } from './dataframe-table/dataframe-table.component';
 
 const PORT = 4041;
 
@@ -104,7 +108,11 @@ const config: SocketIoConfig = { url: `http://localhost:${PORT}`, options: {} };
     UnifiedReportComponent,
     TestComponent,
     ErrorHandlerComponent,
-    ConsoleComponent
+    ConsoleComponent,
+    SqlBuilderComponent,
+    StatsPanelComponent,
+    SqlControllerComponent,
+    DataframeTableComponent
   ],
   imports: [
     CommonModule,
