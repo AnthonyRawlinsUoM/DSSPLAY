@@ -4,6 +4,12 @@ import { DataService } from '../data.service';
 import { LimitOptions, DIRECTION } from '../dataframe-table/dataframe-table.component';
 import { of } from 'rxjs';
 
+
+export interface DataFrame {
+    
+}
+
+
 @Component({
     selector: 'app-sql-controller',
     templateUrl: './sql-controller.component.html',

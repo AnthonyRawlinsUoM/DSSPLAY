@@ -13,7 +13,7 @@ const package = require('./package.json');
 const R = require('ramda');
 
 const { Pool, Client } = require('pg');
-const client = new Client();
+const client = new Client('postgresql://postgres:secret@192.168.1.188:5432/Froximal');
 const pool = new Pool();
 
 client.connect();
