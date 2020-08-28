@@ -61,7 +61,7 @@ import { StatsPanelComponent } from './stats-panel/stats-panel.component';
 import { SqlControllerComponent } from './sql-controller/sql-controller.component';
 import { DataframeTableComponent } from './dataframe-table/dataframe-table.component';
 
-const PORT = 4041;
+const PORT = 4040;
 
 // const config: SocketIoConfig = { url: 'http://localhost:4040', options: {} };
 const config: SocketIoConfig = { url: `http://localhost:${PORT}`, options: {} };

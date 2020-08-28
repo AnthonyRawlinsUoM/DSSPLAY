@@ -16,6 +16,9 @@
             <app-choiceflow></app-choiceflow>
             <app-mapping-options
                 [(metrics)]="metrics"
+                (fuelChange)="onFuelChange($event)"
+                (harvest_on)="on_harvesting($event)"
+                (harvest_off)="off_harvesting($event)"
                 (burnTargetsChange)="onBurnTargetsChange($event)"
             >
             </app-mapping-options>
@@ -29,6 +32,7 @@
         class="fullscreen"
     >
         <div class="ui inverted bdazzledblue menu toolbar top attached">
+            <div class="right menu">
 
             <a
                 class="item"
@@ -39,13 +43,20 @@
             </a>
         </div>
 
-        <app-sql-builder [the_query]="query"></app-sql-builder>
+        </div>
+        <div>
+            <fui-dimmer [(isDimmed)]="tableIsDimmed" isClickable="false">
+            <div class="loader"></div></fui-dimmer>
+        <!-- <app-sql-builder [the_query]="query"></app-sql-builder> -->
 
         <app-dataframe-table
             [results]="results"
             (orderChange)="onOrderChange($event)"
             (limitChange)="onLimitChange($event)"
-        ></app-dataframe-table>
+        >
+    </app-dataframe-table>
+
+</div>
 
 
     </fui-sidebar-sibling>

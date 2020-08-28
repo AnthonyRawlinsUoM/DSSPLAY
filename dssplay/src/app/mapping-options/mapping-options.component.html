@@ -24,7 +24,8 @@
     <h3 class="ui inverted header explain">Fuel <app-explanation-link></app-explanation-link>
     </h3>
     <!-- <p>TODO: Singular | All | Compare</p> -->
-    <app-fuel-panels></app-fuel-panels>
+    <app-fuel-panels
+    (fuelChange)="onFuelChange($event)"></app-fuel-panels>
     <div class="ui divider"></div>
     <!-- End: Fuel -->
 
@@ -37,15 +38,15 @@
     <div class="ui fluid buttons">
         <button
             class="ui teal labeled icon button darker"
-            (click)="harvesting_on = !harvesting_on"
+            (click)="toggleHarvesting(true)"
             [ngClass]="{'green active': harvesting_on}"
         >
             <i class="clockwise rotated tree icon"></i> On
         </button>
         <button
             class="ui teal right labeled icon button darker"
-            (click)="harvesting_off = !harvesting_off"
-            [ngClass]="{'green active': harvesting_off}"
+            (click)="toggleHarvesting(false)"
+            [ngClass]="{'green active': !harvesting_on}"
         >
             <i class="tree icon"></i> Off
         </button>

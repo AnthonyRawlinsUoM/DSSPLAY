@@ -47,10 +47,11 @@
     </table>
     <fui-pagination
         [collectionSize]="v.rows.length"
-        [pageSize]="1"
+        [pageSize]="pageSize"
         [hasNavigationLinks]="true"
         [hasBoundaryLinks]="true"
         [(page)]="selectedPage"
+        (pageChange)="onLimitChange($event)"
     >
     </fui-pagination>
 </div>

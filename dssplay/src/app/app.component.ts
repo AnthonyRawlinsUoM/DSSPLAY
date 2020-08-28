@@ -38,11 +38,11 @@ export class AppComponent {
       icon: 'line chart icon'
     },
 
-    {
-      path: 'test',
-      name: 'Test',
-      icon: 'line chart icon'
-    },
+    // {
+    //   path: 'test',
+    //   name: 'Test',
+    //   icon: 'line chart icon'
+    // },
 
     {
       path: 'sql',

@@ -14,12 +14,12 @@ export interface FuelType {
 })
 export class FuelPanelsComponent implements OnInit {
 
-  @Output() fuel = new EventEmitter<string>();
+  @Output() fuelChange = new EventEmitter<Array<FuelType>>();
 
   fuel_types;
 
   fuel_type_options:FuelType[] = [
-    {value: 'inv_exp_fuel', label: 'Inverse Exponential with LANDIS', image: 'inv_exp_fuel.png', active: false},
+    {value: 'invexp', label: 'Inverse Exponential with LANDIS', image: 'inv_exp_fuel.png', active: false},
     {value: 'nar_obs_fuel', label: 'NARCLiM Observed with LANDIS', image: 'nar_obs_fuel.png', active: false},
     {value: 'nar_fut_fuel', label: 'NARCLiM Future with LANDIS', image: 'nar_fut_fuel.png', active: false},
   ];
@@ -40,6 +40,6 @@ export class FuelPanelsComponent implements OnInit {
     });
 
     console.log(this.fuel_types);
-    this.fuel.emit(this.fuel_types);
+    this.fuelChange.emit(this.fuel_types);
   }
 }

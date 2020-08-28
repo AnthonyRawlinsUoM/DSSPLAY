@@ -15,7 +15,7 @@ export class FuelOptionsComponent implements OnInit {
   @Output() fuel = new EventEmitter<Fuel>();
 
   fuel_options = [
-    {label: 'Inverse Exponential with LANDIS', option: 'inv_exp_fuel'},
+    {label: 'Inverse Exponential with LANDIS', option: 'invexp'},
     {label: 'NARCLIM Future with LANDIS', option: 'future_landis_fuel'},
     {label: 'NARCLIM Observed with LANDIS', option: 'observed_landis_fuel'}
   ]

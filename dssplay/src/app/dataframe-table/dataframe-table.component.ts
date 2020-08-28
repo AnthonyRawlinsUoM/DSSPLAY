@@ -25,13 +25,13 @@ export class DataframeTableComponent implements OnInit {
 
     limit: LimitOptions;
     order: Map<string, DIRECTION>;
-    selectedPage;
+    pageSize = 2;
+    selectedPage = 0;
 
   constructor(private dat: DataService) { }
 
   ngOnInit() {
       this.order = new Map<string, DIRECTION>();
-      this.order.set('id', DIRECTION.DESC);
   }
 
   sortby(column:string, direction) {
@@ -47,4 +47,11 @@ export class DataframeTableComponent implements OnInit {
       }
       this.orderChange.emit(this.order);
   }
+
+  onLimitChange(event){
+      console.log(event);
+      this.limitChange.emit({limited: 1000, offset_amount: (this.selectedPage-1) * this.pageSize});
+  }
+
+
 }

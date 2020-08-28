@@ -16,6 +16,9 @@
             <app-choiceflow></app-choiceflow>
             <app-mapping-options
                 [(metrics)]="metrics"
+                (fuelChange)="onFuelChange($event)"
+                (harvest_on)="on_harvesting($event)"
+                (harvest_off)="off_harvesting($event)"
                 (burnTargetsChange)="onBurnTargetsChange($event)"
             >
             </app-mapping-options>
@@ -30,7 +33,7 @@
     >
 
         <div class="ui inverted bdazzledblue menu toolbar top attached">
-
+            <div class="right menu">
             <a
                 class="item"
                 (click)="show_sidebar = !show_sidebar"
@@ -38,7 +41,20 @@
             >
                 <i class="wrench icon"></i> Tools
             </a>
+            </div>
         </div>
+
+        <fui-dimmer [(isDimmed)]="tableIsDimmed" isClickable="false">
+        <div class="loader"></div></fui-dimmer>
+    <!-- <app-sql-builder [the_query]="query"></app-sql-builder> -->
+
+    <app-dataframe-table
+        [results]="results"
+        (orderChange)="onOrderChange($event)"
+        (limitChange)="onLimitChange($event)"
+    >
+</app-dataframe-table>
+
         <div class="ui stackable two column grid">
             <div class="ui column">
 
@@ -82,12 +98,19 @@
                         </div>
                         <div class="ui row">
                             <div class="ui eight wide column">
-                                <app-stats-panel></app-stats-panel>
+                                <!-- <app-dataframe-table
+                                    [results]="results"
+                                    (orderChange)="onOrderChange($event)"
+                                    (limitChange)="onLimitChange($event)"
+                                >
+                                </app-dataframe-table> -->
                             </div>
                             <div class="ui eight wide column">
                                 <app-stats-panel></app-stats-panel>
                             </div>
                         </div>
+
+                        <app-sql-controller></app-sql-controller>
                     </div>
                 </div>
             </div>

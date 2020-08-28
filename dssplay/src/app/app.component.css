@@ -21,7 +21,6 @@ html {
 
  #header {
     box-shadow: 0px 10px 15px rgb(27,28,29);
-
 }
 #header .menu {
     border-radius: 0;
@@ -56,20 +55,21 @@ background: rgb(27,28,29);
 .ui.viewport {
     /* flex: 1; */
     overflow-y: scroll;
+    flex-grow: 1;
     display:block;
-    padding-bottom: 15em;
+    /* padding-bottom: 15em; */
     /* height: calc(100vh - 4em - 10em); */
 }
 .flexy {
-    flex: 1;
+    flex-grow: 1;
 }
 .not_flexy {
-    flex: 0;
+    /* flex: 0; */
 }
 .foot_panel {
-    position: fixed;
-    bottom: 0;
+    /* position: fixed; */
+    /* bottom: 0;
     left: 0;
-    right: 0;
-    overflow-y: hidden;
+    right: 0; */
+    /* overflow-y: hidden; */
 }

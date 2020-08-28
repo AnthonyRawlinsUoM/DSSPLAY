@@ -11,10 +11,10 @@ const uuidv4 = require('uuid/v4');
 const moment = require('moment');
 const package = require('./package.json');
 const R = require('ramda');
-
+const pd = require("node-pandas")
 const { Pool, Client } = require('pg');
 const client = new Client('postgresql://postgres:secret@192.168.1.188:5432/Froximal');
-const pool = new Pool();
+const pool = new Pool({connectionString:'postgresql://postgres:secret@192.168.1.188:5432/Froximal'});
 
 client.connect();
 
@@ -77,19 +77,28 @@ io.on('connection', (socket) => {
 
   /* QUERY CODE */
   socket.on('sql-query', (envelope) => {
+    log(socket, socket.id);
     log(socket, 'Got message from website: ' + envelope.sql);
-    pool.query(envelope.sql).then(
-        res => {
-            // const result = res.rows.map(x => x[2]);
-            // const fields = res.fields.map(field => field.name);
-            log(socket, 'Server got envelope from: ' + socket.id);
-            log(socket, 'Sending response: ' + res.rows);
+    pool.connect((err, client, release) => {
+      if (err) {
+        return console.error('Error acquiring client', err.stack)
+      }
+      client.query(envelope.sql).then(
+          res => {
+              // const result = res.rows.map(x => x[2]);
+              // const fields = res.fields.map(field => field.name);
+              log(socket, 'Server got envelope from: ' + socket.id);
+              log(socket, 'Sending response.');
+              // log(socket, pd.DataFrame(res.rows, res.columns).show);
 
-            socket.emit('sql-response', { sender: envelope.sender, result: res.rows });
-    }).catch(e => {
-        socket.error(e);
-        log(socket, 'Error: ' + socket.id + e.stack);
-    });
+              socket.emit('sql-response', { sender: envelope.sender, result: res.rows });
+
+      }).catch(e => {
+          socket.error(e);
+          log(socket, 'Error: ' + socket.id + e.stack);
+      })
+
+    })
   });
 
   /* LOGGING CODE */
