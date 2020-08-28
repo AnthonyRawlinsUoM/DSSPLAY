@@ -1,24 +1,65 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input,EventEmitter,Output } from '@angular/core';
 import { DataService } from '../data.service';
 import { FuelType } from '../fuel-panels/fuel-panels.component';
-
+import { BurnTarget } from '../burn-target-options/burn-target-options.component';
+import { Metric } from '../metrics/metrics.component';
 import { LimitOptions, DIRECTION } from '../dataframe-table/dataframe-table.component';
 import { of } from 'rxjs';
+import { easing } from 'ts-easing';
+
+import DataFrame, { Row } from 'dataframe-js';
+
+/*
+const df = new DataFrame(data, columns);
+
+// From a collection (easier)
+const df = new DataFrame([
+    {c1: 1, c2: 6}, // <------- A row
+    {c4: 1, c3: 2}
+], ['c1', 'c2', 'c3', 'c4']);
+
+// From a table
+const df = new DataFrame([
+    [1, 6, 9, 10, 12], // <------- A row
+    [1, 2],
+    [6, 6, 9, 8, 9, 12],
+], ['c1', 'c2', 'c3', 'c4', 'c5', 'c6']);
+
+// From a dictionnary (Hash)
+const df = new DataFrame({
+    column1: [3, 6, 8], // <------ A column
+    column2: [3, 4, 5, 6],
+}, ['column1', 'column2']);
+
+// From files
+DataFrame.fromText('/my/absolue/path/myfile.txt').then(df => df);
+DataFrame.fromDSV('/my/absolue/path/myfile.txt').then(df => df);
+DataFrame.fromPSV('http://myurl/myfile.psv').then(df => df);
+DataFrame.fromTSV('http://myurl/myfile.tsv').then(df => df);
+DataFrame.fromCSV('http://myurl/myfile.csv').then(df => df);
+DataFrame.fromJSON('http://myurl/myfile.json').then(df => df);
+DataFrame.fromJSON(new File(...)).then(df => df);
+*/
 
 
 @Component({
-    selector: 'app-sql-controller',
-    templateUrl: './sql-controller.component.html',
-    styleUrls: ['./sql-controller.component.css']
+    selector: 'app-modular-report',
+    templateUrl: './modular-report.component.html',
+    styleUrls: ['./modular-report.component.css']
 })
-export class SqlControllerComponent implements OnInit {
+export class ModularReportComponent implements OnInit {
+
+    @Output() dataframe: EventEmitter<DataFrame> = new EventEmitter<DataFrame>();
 
     show_sidebar = false;
     query;
     tableIsDimmed = false;
     metrics;
     metrics_tables;
-    burnTargets;
+
+    burnTargets: Array<BurnTarget> = [];
+    burn_targets: Array<number>;
+
     default_ordering: Map<string, DIRECTION>;
     limits;
     ordering = '';
@@ -28,9 +69,7 @@ export class SqlControllerComponent implements OnInit {
     harvesting_on = false;
     harvesting_off = false;
 
-
     errors;
-
     results = [
         {
             rows: [
@@ -45,12 +84,12 @@ export class SqlControllerComponent implements OnInit {
     constructor(private dat: DataService) { }
 
     ngOnInit() {
-        this.dat.logEntry('Initiating SQLQueryController()');
-        this.limits = this.setLimits(1000, 0); // Set tiny for testing
-        this.default_ordering = new Map();
+        this.default_ordering = new Map<string,DIRECTION>();
         this.default_ordering.set('job.planburn_target_perc', DIRECTION.ASC);
         this.default_ordering.set('Season', DIRECTION.ASC);
         this.setOrdering(this.default_ordering);
+        this.limits = this.setLimits(100, 0); // Set tiny for testing
+        // this.dataframe = new DataFrame(this.results[0].rows, this.results[0].columns)
     }
 
     onMetricsChange(m) {
@@ -62,20 +101,22 @@ export class SqlControllerComponent implements OnInit {
     onBurnTargetsChange(bt) {
         console.log('Got burn targets change');
         console.log(bt);
-        this.burnTargets = [];
+        this.burnTargets = bt;
+
+        this.burn_targets = [];
         bt.map((b) => {
             console.log(b);
-            this.burnTargets.push(b['value']);
+            this.burn_targets.push(b['value']);
         });
-        console.log('BurnTargets after mapping: ', this.burnTargets);
+        console.log('burn_targets after mapping: ', this.burn_targets);
 
         this.burns_query = `AND (
             `;
 
-        if (this.burnTargets.length > 0) {
+        if (this.burn_targets.length > 0) {
             let o_elems = [];
 
-            this.burnTargets.map((b) => o_elems.push(`job.planburn_target_perc = ${b}`));
+            this.burn_targets.map((b) => o_elems.push(`job.planburn_target_perc = ${b}`));
             this.burns_query += o_elems.join(`
             OR `);
             this.burns_query += `
@@ -236,6 +277,7 @@ export class SqlControllerComponent implements OnInit {
             return `${m.label} AS ${inc},`;
         });
     }
+
     fetch(vname, sql) {
         this.tableIsDimmed = true;
         this.dat.sendSQL({ sql: sql, sender: vname }).subscribe(data => {
@@ -263,6 +305,7 @@ export class SqlControllerComponent implements OnInit {
                     r.rows = rows;
                     r.columns = columns;
                 });
+                this.dataframe.emit(new DataFrame(data.result));
             }
         }, err => {
             console.error(err);
@@ -296,7 +339,6 @@ export class SqlControllerComponent implements OnInit {
         this.harvesting_on = ev;
         this.buildQuery();
     }
-
 }
 
 function fastpivot(a) { "use strict"; var t = {}; if ("string" != typeof a && a.length > 0) { var l = Object.keys(a[0]), n = {}; l.forEach(function(a) { n[a] = {}, n[a]._labels = [], n[a]._labelsdata = [], n[a]._data = {} }), a.forEach(function(a, t) { l.forEach(function(t) { var l = a[t]; n[t]._data[l] = (n[t]._data[l] || 0) + 1, n[t]._labels[l] = null }) }), l.forEach(function(a) { for (var t in n[a]._data) n[a]._labelsdata.push(n[a]._data[t]); n[a]._labels = Object.keys(n[a]._labels) }), t = n } return t }

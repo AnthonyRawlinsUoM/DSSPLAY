@@ -60,6 +60,9 @@ import { SqlBuilderComponent } from './sql-builder/sql-builder.component';
 import { StatsPanelComponent } from './stats-panel/stats-panel.component';
 import { SqlControllerComponent } from './sql-controller/sql-controller.component';
 import { DataframeTableComponent } from './dataframe-table/dataframe-table.component';
+import { ModularReportComponent } from './modular-report/modular-report.component';
+import { BoxplotComponent } from './boxplot/boxplot.component';
+import { BarchartComponent } from './barchart/barchart.component';
 
 const PORT = 4040;
 
@@ -112,7 +115,10 @@ const config: SocketIoConfig = { url: `http://localhost:${PORT}`, options: {} };
     SqlBuilderComponent,
     StatsPanelComponent,
     SqlControllerComponent,
-    DataframeTableComponent
+    DataframeTableComponent,
+    ModularReportComponent,
+    BoxplotComponent,
+    BarchartComponent
   ],
   imports: [
     CommonModule,

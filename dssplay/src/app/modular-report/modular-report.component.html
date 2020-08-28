@@ -6,7 +6,6 @@
         direction="right"
         #sidebar
     >
-
         <div class="ui inverted dense segment">
             <app-metrics
                 [mode]="'mapping'"
@@ -25,14 +24,13 @@
 
     </fui-sidebar>
 
-
     <fui-sidebar-sibling
         [isDimmedWhenVisible]="false"
         class="fullscreen"
     >
+
         <div class="ui inverted bdazzledblue menu toolbar top attached">
             <div class="right menu">
-
             <a
                 class="item"
                 (click)="show_sidebar = !show_sidebar"
@@ -40,23 +38,28 @@
             >
                 <i class="wrench icon"></i> Tools
             </a>
+            </div>
         </div>
 
-        </div>
-        <div>
-            <fui-dimmer [(isDimmed)]="tableIsDimmed" isClickable="false">
-            <div class="loader"></div></fui-dimmer>
-        <app-sql-builder [the_query]="query"></app-sql-builder>
+        <fui-dimmer [(isDimmed)]="tableIsDimmed" isClickable="false">
+        <div class="loader"></div></fui-dimmer>
+
+        <app-barchart
+        [(dataframe)]="dataframe"
+        [metrics]="metrics"
+        [burnTargets]="burnTargets">
+        </app-barchart>
 
         <app-dataframe-table
             [results]="results"
             (orderChange)="onOrderChange($event)"
             (limitChange)="onLimitChange($event)"
         >
-    </app-dataframe-table>
+        </app-dataframe-table>
 
-</div>
 
+
+        <!-- <app-sql-builder [the_query]="query"></app-sql-builder> -->
 
     </fui-sidebar-sibling>
 </fui-sidebar-container>

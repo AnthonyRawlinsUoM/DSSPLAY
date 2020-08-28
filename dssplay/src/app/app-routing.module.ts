@@ -4,11 +4,13 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { UnifiedReportComponent } from './unified-report/unified-report.component';
 // import { TestComponent } from './test/test.component';
+import {ModularReportComponent} from './modular-report/modular-report.component';
 import { SqlControllerComponent } from './sql-controller/sql-controller.component';
 
 const routes: Routes = [
   { path:'welcome', component: WelcomeComponent, data: {state: 'welcome'}},
   { path:'reports', component: UnifiedReportComponent, data: {state: 'reports'}},
+  { path:'test', component: ModularReportComponent, data: {state: 'test'}},
   { path:'sql', component: SqlControllerComponent, data: {state: 'sql'}},
   { path:'', component: WelcomeComponent, data: {state: 'welcome'}},
   { path: '**', component: PageNotFoundComponent, data: { state: '404' } }

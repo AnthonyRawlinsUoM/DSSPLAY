@@ -79,6 +79,8 @@ io.on('connection', (socket) => {
   socket.on('sql-query', (envelope) => {
     log(socket, socket.id);
     log(socket, 'Got message from website: ' + envelope.sql);
+    log(socket, 'Server got envelope from: ' + socket.id);
+
     pool.connect((err, client, release) => {
       if (err) {
         return console.error('Error acquiring client', err.stack)
@@ -87,8 +89,8 @@ io.on('connection', (socket) => {
           res => {
               // const result = res.rows.map(x => x[2]);
               // const fields = res.fields.map(field => field.name);
-              log(socket, 'Server got envelope from: ' + socket.id);
-              log(socket, 'Sending response.');
+
+              log(socket, 'Sending response now.');
               // log(socket, pd.DataFrame(res.rows, res.columns).show);
 
               socket.emit('sql-response', { sender: envelope.sender, result: res.rows });
@@ -97,7 +99,6 @@ io.on('connection', (socket) => {
           socket.error(e);
           log(socket, 'Error: ' + socket.id + e.stack);
       })
-
     })
   });
 
@@ -106,7 +107,15 @@ io.on('connection', (socket) => {
     log(socket, entry);
   });
 
+  pool.on('connect', client => {
+      log(socket, 'Using connection pool for query.');
+      var pool_stats = pd.DataFrame([pool.idleCount, pool.waitingCount, pool.totalCount], ['Idle', 'Waiting', 'Total'])
+      console.log(pool_stats.show);
+  })
+
 });
+
+
 
 server.listen(port, () => {
   console.log(package.name + ' Server (v'+ package.version +') running on', port);
