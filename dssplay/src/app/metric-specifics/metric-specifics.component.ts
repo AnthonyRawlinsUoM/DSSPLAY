@@ -31,7 +31,7 @@ import { DfConsumerDirective } from '../df-consumer.directive';
     templateUrl: './metric-specifics.component.html',
     styleUrls: ['./metric-specifics.component.css']
 })
-export class MetricSpecificsComponent implements AfterViewInit {
+export class MetricSpecificsComponent implements OnInit {
     @Input() metricLabel;
     @Input() moduleViews;
     @Input() icon;
@@ -39,6 +39,9 @@ export class MetricSpecificsComponent implements AfterViewInit {
     @Input() cssClassName;
     @Input() id;
     @Input() sql;
+    @Input() stats;
+    @Input() which;
+    @Input() measures;
 
     @ViewChildren(DfConsumerDirective) viewChildren!: QueryList<DfConsumerDirective>;
 
@@ -54,7 +57,7 @@ export class MetricSpecificsComponent implements AfterViewInit {
 
     constructor(private data: DataService) { }
 
-    ngAfterViewInit() {
+    ngOnInit() {
 
         if (this.sql) {
 
@@ -110,5 +113,9 @@ export class MetricSpecificsComponent implements AfterViewInit {
 
     onRepsRangeChange(event) {
         console.log(event);
+    }
+
+    valueFor(stat, metric) {
+        return 100; // TODO
     }
 }

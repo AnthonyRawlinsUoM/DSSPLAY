@@ -1,0 +1,6 @@
+* .forceblack *,
+* .forceblack * li,
+* .forceblack * a,
+* .forceblack * i {
+    color: #000000 !important;
+}

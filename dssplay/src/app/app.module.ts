@@ -70,6 +70,8 @@ import { HistogramComponent } from './histogram/histogram.component';
 import { LinechartComponent } from './linechart/linechart.component';
 import { GaugeComponent } from './gauge/gauge.component';
 import { DfConsumerDirective } from './df-consumer.directive';
+import { CollectorDirective } from './collector.directive';
+import { DFSummaryConsumerDirective } from './df-summary-consumer.directive';
 
 const PORT = 4040;
 
@@ -132,7 +134,9 @@ const config: SocketIoConfig = { url: `http://localhost:${PORT}`, options: {} };
     HistogramComponent,
     LinechartComponent,
     GaugeComponent,
-    DfConsumerDirective
+    DfConsumerDirective,
+    CollectorDirective,
+    DFSummaryConsumerDirective
   ],
   imports: [
     CommonModule,

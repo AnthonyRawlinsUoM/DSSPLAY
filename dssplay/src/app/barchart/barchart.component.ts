@@ -61,8 +61,8 @@ export class BarchartComponent extends DfConsumerDirective implements OnInit {
             options: {
                 legend: {
                     display: true,
-                    position: 'top',
-                    align: 'start',
+                    position: 'bottom',
+                    align: 'center',
                     labels: {
                         boxWidth: 8
                     }
@@ -119,7 +119,11 @@ export class BarchartComponent extends DfConsumerDirective implements OnInit {
 
         console.log('S1', s1);
         console.log('S2', s2);
-
+        for(let row of this.dataframe.toRows()) {
+            for (let col of row) {
+                row[col]
+            }
+        }
         this.chart.data.datasets[0].data = s1;
         this.chart.data.datasets[1].data = s2;
         this.chart.update();

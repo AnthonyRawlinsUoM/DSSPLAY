@@ -94,8 +94,8 @@ export class BoxplotComponent extends DfConsumerDirective implements OnInit, Aft
             options: {
                 legend: {
                     display: true,
-                    position: 'top',
-                    align: 'start',
+                    position: 'bottom',
+                    align: 'center',
                     labels: {
                         boxWidth: 8
                     }

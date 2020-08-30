@@ -15,6 +15,7 @@ import { DfConsumerDirective } from '../df-consumer.directive';
 export class HistogramComponent extends DfConsumerDirective implements OnInit {
     @Input() dataframe: DataFrame;
     @Input() baseColor;
+    @Input() ident;
 
     chart: Chart;
     chartOptions: ChartConfiguration;
@@ -53,7 +54,7 @@ export class HistogramComponent extends DfConsumerDirective implements OnInit {
     ngOnInit() {
         // console.log('Dataframe:', this.dataframe.toString());
 
-        this.chart = new Chart('histogram', {
+        this.chart = new Chart(this.ident, {
             type: 'bar',
             data: this.initialData,
             options: {

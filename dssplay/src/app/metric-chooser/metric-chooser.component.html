@@ -1,6 +1,6 @@
-<div class="ui inverted segment">
-    <h2 class="ui inverted header">Available Metrics</h2>
-    <div class="ui inverted list">
+<div class="ui segment">
+    <h2 class="ui header">Available Metrics</h2>
+    <div class="ui list">
         <div class="item" *ngFor="let v of initvals; let i = index;" [ngClass]="v.class">
             <div class="header">
                 <a class="item" [ngClass]="v.class">
@@ -10,9 +10,10 @@
                     {{v.label}}
                 </a>
             </div>
+
             <div class="ui list" *ngIf="v.views.length > 0">
                 <li class="ui item" *ngFor="let c of v.views; let tier = index;">
-                    <div class="ui inverted secondary pointing menu" *ngIf="userAccessLevel >= c.access">
+                    <div class="ui secondary pointing menu" *ngIf="userAccessLevel >= c.access">
                         <a class="ui item" (click)="c.active = !c.active">
                             <span [ngClass]="v.class" style="padding-right: 1em;">{{i+1}}.{{tier+1}}</span> {{c.label}}
                         </a>
@@ -31,7 +32,17 @@
                             </span>
                         </div>
                     </div>
-                    <app-metric-specifics *ngIf="c.active" [sql]="c.sql" [id]="v.option + '_' + (i+1) + '_' + (tier+1)" [cssClassName]="v.class" [color]="v.color" [moduleViews]="c.modules" [icon]="v.icon" [metricLabel]="c.label"></app-metric-specifics>
+                    <app-metric-specifics *ngIf="c.active"
+                    [sql]="c.sql"
+                    [id]="v.option + '_' + (i+1) + '_' + (tier+1)"
+                    [cssClassName]="v.class"
+                    [color]="v.color"
+                    [moduleViews]="c.modules"
+                    [icon]="v.icon"
+                    [metricLabel]="c.label"
+                    [which]="v.option"
+                    [measures]="v.label"
+                    [stats]="c.table"></app-metric-specifics>
                 </li>
             </div>
         </div>

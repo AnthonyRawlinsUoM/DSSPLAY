@@ -27,7 +27,7 @@ export class DataframeTableComponent extends DfConsumerDirective implements OnIn
 
     limit: LimitOptions;
     order: Map<string, DIRECTION>;
-    pageSize = 20;
+    pageSize = 10;
     selectedPage = 1;
 
     message = 'Loading...';
@@ -58,7 +58,7 @@ export class DataframeTableComponent extends DfConsumerDirective implements OnIn
 
     onLimitChange(event) {
         console.log(event);
-        this.limitChange.emit({ limited: 1000, offset_amount: (this.selectedPage - 1) * this.pageSize });
+        this.limitChange.emit({ limited: 10, offset_amount: (this.selectedPage - 1) * this.pageSize });
     }
 
 }

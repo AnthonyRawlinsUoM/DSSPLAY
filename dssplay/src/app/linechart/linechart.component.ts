@@ -1,6 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input,AfterViewInit } from '@angular/core';
 import * as Chart from 'chart.js';
-import { ChartConfiguration, ChartData } from 'chart.js';
+import { ChartConfiguration, ChartData, PositionType } from 'chart.js';
 import { DataFrame } from 'data-forge';
 import * as pd from 'node-pandas';
 import { DataFrameConsumer } from '../data-frame-consumer';
@@ -14,17 +14,29 @@ import { DfConsumerDirective } from '../df-consumer.directive';
 export class LinechartComponent extends DfConsumerDirective implements OnInit, DataFrameConsumer {
     @Input() dataframe: DataFrame;
     @Input() baseColor;
+    @Input() ident;
 
     chart: Chart;
-    chartOptions: ChartConfiguration;
 
-    initialData:ChartData = {
+    initialData = {
         labels: ['1','2','3','4','5','6'],
         datasets: [{
-            label: 'Total',
-            data: [1, 2, 3, 5, 9.6, 11.9]
+            label: "New Tests",
+            borderColor: "#64a789",
+            data: [65, 59, 80, 81, 56, 55, 40]
         }]
     };
+
+    initialOptions = {
+        legend: {
+            display: true,
+            labels: {
+                boxWidth: 8
+            }
+        },
+        aspectRatio: 1.0,
+        maintainAspectRatio: true
+    }
 
 
   constructor() {
@@ -33,21 +45,10 @@ export class LinechartComponent extends DfConsumerDirective implements OnInit, D
 
   ngOnInit() {
 
-      this.chart = new Chart('linechart', {
+      this.chart = new Chart(this.ident, {
           type: 'line',
           data: this.initialData,
-          options: {
-              legend: {
-                  display: true,
-                  position: 'top',
-                  align: 'start',
-                  labels: {
-                      boxWidth: 8
-                  }
-              },
-              aspectRatio: 1.0,
-              maintainAspectRatio: true
-          }
+          options: this.initialOptions
       });
   }
 

@@ -29,7 +29,6 @@
     "@types/geojson": "^7946.0.7",
     "@types/socket.io": "^2.1.8",
     "angular-resizable-element": "^3.3.3",
-    "angular2-chartjs": "^0.5.1",
     "chart.js": "^2.9.3",
     "chartjs-chart-box-and-violin-plot": "^2.3.0",
     "data-forge": "^1.8.9",

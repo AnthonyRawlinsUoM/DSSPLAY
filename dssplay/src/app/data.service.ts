@@ -53,4 +53,20 @@ export class DataService {
     logEntry(log_entry: string) {
         this.socket.emit("log-entry", log_entry);
     }
+
+
+    summarizeDataFrame(df :DataFrame, columns, aggregators :Array<Aggregators>) {
+        // for each column TODO
+        // // apply each of the aggregators TODO
+        return df;
+    }
+}
+
+export enum Aggregators {
+    AVG = 'average',
+    MEAN = 'mean',
+    MEDIAN = 'median',
+    COV = 'coefficient_of_variance',
+    STD = 'standard_deviation',
+    TOTAL = 'sum'
 }

@@ -6,7 +6,7 @@
 >
 <fui-dimmer [(isDimmed)]="tableIsDimmed" [(isClickable)]="isClickable">
 <div class="loader"></div><p>{{message}}</fui-dimmer>
-    <table class="ui celled striped table">
+    <table class="ui celled striped table top attached segment">
         <thead>
             <tr>
                 <th
@@ -51,6 +51,7 @@
             </tr>
         </tbody>
     </table>
+    <div class="ui bottom attached segment forceblack" style="color: #000000 !important;">
     <fui-pagination
         [collectionSize]="dataframe.toRows().length"
         [pageSize]="pageSize"
@@ -60,4 +61,5 @@
         (pageChange)="onLimitChange($event)"
     >
     </fui-pagination>
+</div>
 </div>

@@ -16,7 +16,7 @@ export class MetricChooserComponent implements OnInit {
 
     initvals = [
         {
-            label: 'Total Fire Impact',
+            label: 'Fire Impact',
             option: 'fire_impact',
             color: 'rgba(236, 58, 27, 0.67)',
             border: '#ec1b1b',
@@ -29,14 +29,15 @@ export class MetricChooserComponent implements OnInit {
                     table: ['Avg','Median','CoV','Max','Total'],
                     part: 1.5,
                     access: PUBLIC,
-                    modules: ['box', 'histo'],
+                    modules: ['box', 'histo', 'gauges'],
                     sql: `
                     SELECT
-                        AVG(t.burnt_area) as AVG_BurntArea,
+                        t.burnt_area
+
                         --     median(t.burnt_area) as MEDIAN_BurntArea,
-                        STDDEV(t.burnt_area) / avg(t.burnt_area) as CoV,
-                        MAX(t.burnt_area) as  MAX_BurntArea,
-                        SUM(t.burnt_area) as TOTAL_BurntArea
+                        --     STDDEV(t.burnt_area) / avg(t.burnt_area) as CoV,
+                        --     MAX(t.burnt_area) as  MAX_BurntArea,
+                        --     SUM(t.burnt_area) as TOTAL_BurntArea
                         --        ,
                         --        s.type
                     FROM
@@ -64,7 +65,7 @@ export class MetricChooserComponent implements OnInit {
 
                         -- GROUP BY s.type
 
-                    LIMIT 1000 OFFSET 0;
+                    LIMIT 50 OFFSET 0;
                     `
                 },
                 {
@@ -72,15 +73,15 @@ export class MetricChooserComponent implements OnInit {
                     table: ['Avg','Median','CoV','Max','Total'],
                     part: 1,
                     access: PUBLIC,
-                    modules: ['box', 'histo'],
+                    modules: ['box', 'histo', 'gauges'],
                     sql: `
                     SELECT
-                        AVG(t.burnt_area) as AVG_BurntArea,
+                        -- AVG(t.burnt_area) as AVG_BurntArea,
                         --     median(t.burnt_area) as MEDIAN_BurntArea,
-                        STDDEV(t.burnt_area) / avg(t.burnt_area) as CoV,
-                        MAX(t.burnt_area) as  MAX_BurntArea,
-                        SUM(t.burnt_area) as TOTAL_BurntArea,
-                        -- t.burnt_area,
+                        -- STDDEV(t.burnt_area) / avg(t.burnt_area) as CoV,
+                        -- MAX(t.burnt_area) as  MAX_BurntArea,
+                        -- SUM(t.burnt_area) as TOTAL_BurntArea,
+                        t.burnt_area,
                         st.scenario_name
                     FROM
                         job
@@ -105,9 +106,9 @@ export class MetricChooserComponent implements OnInit {
                         AND s.id = t.scenario_id
                         AND st.scenario_type = s.type
 
-                    GROUP BY st.scenario_name
+                    -- GROUP BY st.scenario_name
 
-                    LIMIT 1000 OFFSET 0;
+                    LIMIT 5000 OFFSET 0;
                     `
                 },
                 {
@@ -115,21 +116,21 @@ export class MetricChooserComponent implements OnInit {
                     table: ['Avg','Median','CoV','Max','Total'],
                     part: 2,
                     access: RESTRICTED,
-                    modules: ['box', 'histo', 'cumul', 'time']
+                    modules: ['box', 'histo', 'cumul', 'time', 'gauges']
                 },
                 {
                     label: 'Exposure',
                     table: ['Avg','Median','CoV','Max','Total'],
                     part: 2,
                     access: RESTRICTED,
-                    modules: ['box', 'histo', 'cumul', 'time']
+                    modules: ['box', 'histo', 'cumul', 'time', 'gauges']
                 },
                 {
                     label: 'Burnt Area (ha)',
                     table: ['Total'],
                     part: 2,
                     access: RESTRICTED,
-                    modules: ['box', 'histo', 'cumul']
+                    modules: ['box', 'histo', 'cumul', 'gauges']
                 },
             ]
         },
@@ -148,11 +149,11 @@ export class MetricChooserComponent implements OnInit {
                     table: ['Avg','Median','CoV','Max','Total'],
                     part: 1,
                     access: PUBLIC,
-                    modules: ['box', 'histo'],
+                    modules: ['box', 'histo', 'gauges'],
                     sql: `
                     SELECT
-                        t.people_exposed,
-                        t.people_lost_harris_method,
+                        t.houses_exposed,
+                        t.house_loss,
                         st.scenario_name
                     FROM
                         job
@@ -177,7 +178,7 @@ export class MetricChooserComponent implements OnInit {
                         AND s.id = t.scenario_id
                         AND st.scenario_type = s.type
 
-                    LIMIT 1000 OFFSET 0;
+                    LIMIT 5000 OFFSET 0;
                     `
                 },
                 {
@@ -192,7 +193,7 @@ export class MetricChooserComponent implements OnInit {
                     table: ['Total'],
                     part: 3,
                     access: RESTRICTED,
-                    modules: ['box', 'histo', 'replicates', 'cumul', 'uncertainty']
+                    modules: ['box', 'histo', 'replicates', 'cumul', 'uncertainty', 'gauges']
                 },
 
             ]
@@ -212,21 +213,51 @@ export class MetricChooserComponent implements OnInit {
                     table: ['Avg','Median','CoV','Max','Total'],
                     part: 1,
                     access: PUBLIC,
-                    modules: ['box', 'histo']
+                    modules: ['box', 'histo', 'gauges'],
+                    sql: `
+                    SELECT
+                        t.people_exposed,
+                        t.people_lost_ratio_method,
+                        st.scenario_name
+                    FROM
+                        job
+                        INNER JOIN fuel_machine_type ft
+                            ON ft.fuel_machine_type_id = job.fuel_machine_kind
+                        INNER JOIN jobtojobstate js
+                            ON job.id=js.job_id
+
+                        INNER JOIN jobstate j
+                            ON js.job_state_id = j.id,
+                        scenario s
+
+                        INNER JOIN peoplehouseloss t
+                            ON s.uuid = t.uuid
+                            AND s.regime = t.regime
+                            AND s.replicate = t.replicate,
+                         scenario_types st
+
+                    WHERE
+                        j.published = true
+                        AND t.uuid = job.uuid
+                        AND s.id = t.scenario_id
+                        AND st.scenario_type = s.type
+
+                    LIMIT 5000 OFFSET 0;
+                    `
                 },
                 {
                     label: 'Proportion of Wildfires with Life Loss per year',
                     table: ['Avg','Median','CoV','Max','Total'],
                     part: 2,
                     access: PUBLIC,
-                    modules: ['box', 'histo']
+                    modules: ['box', 'histo', 'gauges']
                 },
                 {
                     label: 'Total Life Loss per year by Wildfire',
                     table: ['Avg','Median','CoV','Max','Total'],
                     part: 3,
                     access: RESTRICTED,
-                    modules: ['box', 'histo', 'replicates', 'cumul', 'uncertainty']
+                    modules: ['box', 'histo', 'replicates', 'cumul', 'uncertainty', 'gauges']
                 },
             ]
         },
@@ -244,21 +275,21 @@ export class MetricChooserComponent implements OnInit {
                     table: ['Avg','Median','CoV','Max','Total'],
                     part: 1,
                     access: PUBLIC,
-                    modules: ['box', 'histo']
+                    modules: ['box', 'histo', 'gauges']
                 },
                 {
                     label: 'Proportion of Wildfires with Habitat Loss per year',
                     table: ['Avg','Median','CoV','Max','Total'],
                     part: 2,
                     access: PUBLIC,
-                    modules: ['box', 'histo']
+                    modules: ['box', 'histo', 'gauges']
                 },
                 {
                     label: 'Total Habitat Loss per year by Wildfire',
                     table: ['Avg','Median','CoV','Max','Total'],
                     part: 2,
                     access: RESTRICTED,
-                    modules: ['line', 'replicates', 'cumul']
+                    modules: ['line', 'replicates', 'cumul', 'gauges']
                 },
             ]
         },
@@ -276,21 +307,21 @@ export class MetricChooserComponent implements OnInit {
                     table: ['Avg','Median','CoV','Max','Total'],
                     part: 1,
                     access: PUBLIC,
-                    modules: ['box', 'histo']
+                    modules: ['box', 'histo', 'gauges']
                 },
                 {
                     label: 'Proportion of Wildfires with Habitat Loss by EFG per year',
                     table: ['Avg','Median','CoV','Max','Total'],
                     part: 1.5,
                     access: PUBLIC,
-                    modules: ['box', 'histo']
+                    modules: ['box', 'histo', 'gauges']
                 },
                 {
                     label: 'Habitat Loss per year by EFG and Wildfire by subset of Replicates',
                     table: ['Avg','Median','CoV','Max','Total'],
                     part: 2,
                     access: RESTRICTED,
-                    modules: ['line', 'replicates', 'cumul', 'uncertainty']
+                    modules: ['line', 'replicates', 'cumul', 'uncertainty', 'gauges']
                 },
             ]
         },
@@ -318,7 +349,7 @@ export class MetricChooserComponent implements OnInit {
                     table: ['Avg','Median','CoV','Max','Total'],
                     part: 1,
                     access: PUBLIC,
-                    modules: ['box', 'histo']
+                    modules: ['box', 'histo', 'gauges']
                 },
 
                 {
@@ -326,14 +357,14 @@ export class MetricChooserComponent implements OnInit {
                     table: ['Avg','Median','CoV','Max','Total'],
                     part: 1.5,
                     access: PUBLIC,
-                    modules: ['box', 'histo']
+                    modules: ['box', 'histo', 'gauges']
                 },
                 {
                     label: 'Carbon Released per year by subset of Replicates',
                     table: ['Max'],
                     part: 2,
                     access: RESTRICTED,
-                    modules: ['line', 'uncertainty']
+                    modules: ['line', 'uncertainty', 'gauges']
                 },
             ]
         },

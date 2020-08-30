@@ -30,14 +30,20 @@
             <div class="ui column" *ngIf="moduleViews.indexOf('line') != -1;">
                 <div class="ui segment">
                     <i class="chart line icon"></i>
-                    <app-linechart [baseColor]="color" df-consumer></app-linechart>
+                    <app-linechart
+                    [ident]="'line'"
+                    [baseColor]="color"
+                    df-consumer #chartone></app-linechart>
                 </div>
             </div>
 
             <div class="ui column" *ngIf="moduleViews.indexOf('cumul') != -1;">
                 <div class="ui segment">
                     <i class="chart line icon"></i>
-                    <app-linechart [baseColor]="color" df-consumer></app-linechart>
+                    <app-linechart
+                    [ident]="'cumul'"
+                    [baseColor]="color"
+                    df-consumer #charttwo></app-linechart>
                 </div>
             </div>
 
@@ -66,19 +72,20 @@
     <div class="ui attached segment" *ngIf="moduleViews.indexOf('gauges') != -1;">
 
         <i class="tachometer alternate icon"></i>
-        <div class="ui four column stackable grid">
+        <div class="ui stackable grid">
             <div class="ui row">
-                <div class="ui center middle aligned column">
-                    <app-gauge></app-gauge>
-                </div>
-                <div class="ui center middle aligned column">
-                    <app-gauge></app-gauge>
-                </div>
-                <div class="ui center middle aligned column">
-                    <app-gauge></app-gauge>
-                </div>
-                <div class="ui center middle aligned column">
-                    <app-gauge></app-gauge>
+                <div class="ui center middle aligned three wide column" *ngFor="let s of stats">
+
+                    <!-- <app-gauge *ngIf="s !='Total'" [gaugeValue]="valueFor(s,measures)" [gaugeLabel]="s" [gaugeAppendText]="measures"></app-gauge> -->
+
+                    <div class="ui statistic">
+                        <div class="value">
+                            {{ valueFor(s,measures) }}
+                        </div>
+                        <div class="label">
+                            {{s}} {{measures}}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -91,7 +98,10 @@
                 <i class="table icon"></i>
             </span> {{metricLabel}}
         </h3>
-        <app-dataframe-table [dataframe]="dataframe" df-consumer></app-dataframe-table>
+        <app-dataframe-table
+        [dataframe]="dataframe"
+        df-consumer
+        ></app-dataframe-table>
     </div>
-    <div class="ui bottom attached segment">Export tools for dataframe included here.</div>
+    <div class="ui bottom attached segment">Export this data as <a href="#">PDF</a>, or <a href="#">CSV</a>.</div>
 </div>
