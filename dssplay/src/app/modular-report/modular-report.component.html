@@ -41,19 +41,16 @@
             </div>
         </div>
 
-        <fui-dimmer [(isDimmed)]="tableIsDimmed" isClickable="false">
-        <div class="loader"></div></fui-dimmer>
-
         <app-barchart
         [(dataframe)]="dataframe"
-        [metrics]="metrics"
-        [burnTargets]="burnTargets">
+        #barchart>
         </app-barchart>
 
         <app-dataframe-table
-            [results]="results"
+            [(dataframe)]="dataframe"
             (orderChange)="onOrderChange($event)"
             (limitChange)="onLimitChange($event)"
+            #datatable
         >
         </app-dataframe-table>
 

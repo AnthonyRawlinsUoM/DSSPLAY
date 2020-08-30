@@ -5,20 +5,16 @@ import { BurnTarget } from '../burn-target-options/burn-target-options.component
 import { Metric } from '../metrics/metrics.component';
 import { DataFrame } from 'data-forge';
 import * as pd from 'node-pandas';
-
 import { DfConsumerDirective } from '../df-consumer.directive';
 
 @Component({
-    selector: 'app-barchart',
-    templateUrl: './barchart.component.html',
-    styleUrls: ['./barchart.component.css']
+    selector: 'app-histogram',
+    templateUrl: './histogram.component.html',
+    styleUrls: ['./histogram.component.css']
 })
-export class BarchartComponent extends DfConsumerDirective implements OnInit {
+export class HistogramComponent extends DfConsumerDirective implements OnInit {
     @Input() dataframe: DataFrame;
     @Input() baseColor;
-    // @Input() metrics;
-    // @Input() burnTargets;
-    // @Input() series; // Becomes the column groupings!
 
     chart: Chart;
     chartOptions: ChartConfiguration;
@@ -28,34 +24,36 @@ export class BarchartComponent extends DfConsumerDirective implements OnInit {
         labels: ['WF', 'PB'],
         datasets: [
             {
-                label: 'PB 1',
+                label: 'WF',
                 barPercentage: 0.5,
                 barThickness: 'flex',
-                backgroundColor: this.hueSkew(1),
+                backgroundColor: this.hexToRgb(this.baseColor),
                 borderColor: this.hueSkew(2),
                 borderWidth: 1,
                 minBarLength: 2,
-                data: [[0, 0, 0], [0, 0, 0]]
+                data: [38, 46, 23, 27, 14, 38]
             },
             {
-                label: 'PB 3',
+                label: 'PB',
                 barPercentage: 0.5,
                 barThickness: 'flex',
-                backgroundColor: this.hueSkew(3),
+                backgroundColor: this.hexToRgb(this.baseColor),
                 borderColor: this.hueSkew(4),
                 borderWidth: 1,
                 minBarLength: 2,
-                data: [[0, 0, 0], [0, 0, 0]]
+                data: [34, 43, 20, 22, 12, 32]
             }
         ]
     };
 
-    constructor() { super(); }
+    constructor() {
+        super();
+    }
 
     ngOnInit() {
         // console.log('Dataframe:', this.dataframe.toString());
 
-        this.chart = new Chart('barchart', {
+        this.chart = new Chart('histogram', {
             type: 'bar',
             data: this.initialData,
             options: {
@@ -67,7 +65,6 @@ export class BarchartComponent extends DfConsumerDirective implements OnInit {
                         boxWidth: 8
                     }
                 },
-
                 aspectRatio: 1.0,
                 maintainAspectRatio: true,
                 scales: {
@@ -95,33 +92,10 @@ export class BarchartComponent extends DfConsumerDirective implements OnInit {
     }
 
     refreshChart() {
-        console.log('Refreshing chart');
-        console.log(this.dataframe.toString());
-        // Example...
-
-        // +---------------------------+
-        // |      |  I   |      |      |
-        // |      |  I   |  I   |      |
-        // |  I   |  I   |  I   |      |
-        // |  I   |  I   |  I   |  I   |
-        // |  I   |  I   |  I   |  I   |
-        // |  ha  |  ha  |  ha  |  ha  |
-        // +------+------+------+------+
-        // |  PB  |  WF  |  PB  |  WF  |
-        // |-------------+-------------|
-        // |     PB1     |     PB3     |
-        // |---------------------------|
-
-        let uniquePBs = Array.from(new Set(this.dataframe.getSeries('PB').toArray()));
-        this.chart.data.labels = uniquePBs;
-        let s1 = this.dataframe.where(row => row['FireSeason'] == 'WF').toArray();
-        let s2 = this.dataframe.where(row => row['FireSeason'] == 'PB').toArray();
-
-        console.log('S1', s1);
-        console.log('S2', s2);
-
-        this.chart.data.datasets[0].data = s1;
-        this.chart.data.datasets[1].data = s2;
+        console.log('Refreshing charts');
+        // if (this.results.length > 0) {
+        //     console.log(this.results);
+        // }
         this.chart.update();
     }
 
@@ -132,5 +106,21 @@ export class BarchartComponent extends DfConsumerDirective implements OnInit {
         return this.baseColor;
     }
 
+    componentToHex(c) {
+        var hex = c.toString(16);
+        return hex.length == 1 ? "0" + hex : hex;
+    }
+
+    rgbToHex(r, g, b) {
+        return "#" + this.componentToHex(r) + this.componentToHex(g) + this.componentToHex(b);
+    }
+
+    hexToRgb(hex) {
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : null;
+    }
 }
-// function fastpivot(a) { "use strict"; var t = {}; if ("string" != typeof a && a.length > 0) { var l = Object.keys(a[0]), n = {}; l.forEach(function(a) { n[a] = {}, n[a]._labels = [], n[a]._labelsdata = [], n[a]._data = {} }), a.forEach(function(a, t) { l.forEach(function(t) { var l = a[t]; n[t]._data[l] = (n[t]._data[l] || 0) + 1, n[t]._labels[l] = null }) }), l.forEach(function(a) { for (var t in n[a]._data) n[a]._labelsdata.push(n[a]._data[t]); n[a]._labels = Object.keys(n[a]._labels) }), t = n } return t }

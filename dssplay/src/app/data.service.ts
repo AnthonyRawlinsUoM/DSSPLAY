@@ -2,10 +2,12 @@ import { Injectable } from '@angular/core';
 import { from, of, Observable, BehaviorSubject, combineLatest, throwError } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { Socket } from 'ngx-socket-io';
+import { DataFrame } from 'data-forge';
 
 export interface Envelope {
     sql: string;
     sender: string;
+    // result?: any;
 }
 
 @Injectable({
@@ -27,6 +29,10 @@ export class DataService {
         });
     }
 
+    // readResponseAsDataFrame(envelope: Envelope) {
+    //     return new DataFrame(envelope.result);
+    // }
+
     getErrors() {
         return Observable.create(observer => {
             this.socket.fromEvent('error').subscribe(err => {
@@ -43,7 +49,7 @@ export class DataService {
             });
         });
     }
-    
+
     logEntry(log_entry: string) {
         this.socket.emit("log-entry", log_entry);
     }

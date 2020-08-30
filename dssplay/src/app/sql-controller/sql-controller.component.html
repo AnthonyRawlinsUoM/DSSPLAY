@@ -49,7 +49,7 @@
         <app-sql-builder [the_query]="query"></app-sql-builder>
 
         <app-dataframe-table
-            [results]="results"
+            [dataframe]="results[0]"
             (orderChange)="onOrderChange($event)"
             (limitChange)="onLimitChange($event)"
         >

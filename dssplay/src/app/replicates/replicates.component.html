@@ -1,0 +1,22 @@
+<div
+    class="ui fieldset"
+    [formGroup]="repsGroup"
+>
+    <div class="ui field">
+        <ng5-slider
+            [value]="reps_lower"
+            [highValue]="reps_upper"
+            (valueChange)="onRepsValueChange($event)"
+            (highValueChange)="onRepsUpperChange($event)"
+            [options]="reps_options"
+            formControlName="sliderRepsControl"
+        >
+        </ng5-slider>
+    </div>
+    <!-- <p>
+{{ yearGroup.value.sliderControl[0] }}
+</p>
+<p>
+{{ yearGroup.value.sliderControl[1] }}
+</p> -->
+</div>

@@ -1,0 +1,97 @@
+<div class="ui segment">
+    <div class="ui top attached segment">
+        <h1 class="ui center aligned black header" style="color: #000000;">
+            <span [ngClass]="cssClassName">
+                <i class="icon" [ngClass]="icon"></i>
+            </span>
+            {{ metricLabel }}
+        </h1>
+    </div>
+
+
+    <div class="attached segment">
+        <div class="ui two column stackable grid">
+
+            <div class="ui column" *ngIf="moduleViews.indexOf('box') != -1;">
+                <div class="ui segment">
+                    <i class="chart area icon"></i>
+
+                    <app-boxplot [boxplotName]="cssClassName + '_box_' + id" [baseColor]="color" df-consumer></app-boxplot>
+                </div>
+            </div>
+
+            <div class="ui column" *ngIf="moduleViews.indexOf('histo') != -1;">
+                <div class="ui segment">
+                    <i class="chart bar icon"></i>
+                    <app-histogram [baseColor]="color" df-consumer></app-histogram>
+                </div>
+            </div>
+
+            <div class="ui column" *ngIf="moduleViews.indexOf('line') != -1;">
+                <div class="ui segment">
+                    <i class="chart line icon"></i>
+                    <app-linechart [baseColor]="color" df-consumer></app-linechart>
+                </div>
+            </div>
+
+            <div class="ui column" *ngIf="moduleViews.indexOf('cumul') != -1;">
+                <div class="ui segment">
+                    <i class="chart line icon"></i>
+                    <app-linechart [baseColor]="color" df-consumer></app-linechart>
+                </div>
+            </div>
+
+            <div class="ui column" *ngIf="moduleViews.indexOf('time') != -1;">
+                <div class="ui segment">
+                    <i class="chart line icon"></i>
+                </div>
+            </div>
+
+            <div class="ui column" *ngIf="moduleViews.indexOf('uncertainty') != -1;">
+                <div class="ui segment">
+                    <i class="balance scale icon"></i>
+                </div>
+            </div>
+
+
+            <div class="ui column" *ngIf="moduleViews.indexOf('replicates') != -1;">
+                <div class="ui segment">
+                    <i class="sliders horizontal icon"></i> Choose a subset of Replicates.
+                    <app-replicates (repsRangeChange)="onRepsRangeChange($event)"></app-replicates>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ui attached segment" *ngIf="moduleViews.indexOf('gauges') != -1;">
+
+        <i class="tachometer alternate icon"></i>
+        <div class="ui four column stackable grid">
+            <div class="ui row">
+                <div class="ui center middle aligned column">
+                    <app-gauge></app-gauge>
+                </div>
+                <div class="ui center middle aligned column">
+                    <app-gauge></app-gauge>
+                </div>
+                <div class="ui center middle aligned column">
+                    <app-gauge></app-gauge>
+                </div>
+                <div class="ui center middle aligned column">
+                    <app-gauge></app-gauge>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="attached segment">
+        <h3 class="ui center aligned header" style="color: #000000;">
+            <span [ngClass]="cssClassName">
+                <i class="table icon"></i>
+            </span> {{metricLabel}}
+        </h3>
+        <app-dataframe-table [dataframe]="dataframe" df-consumer></app-dataframe-table>
+    </div>
+    <div class="ui bottom attached segment">Export tools for dataframe included here.</div>
+</div>

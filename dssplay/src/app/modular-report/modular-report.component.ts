@@ -1,45 +1,17 @@
-import { Component, OnInit, Input,EventEmitter,Output } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, ViewChild,ElementRef } from '@angular/core';
 import { DataService } from '../data.service';
 import { FuelType } from '../fuel-panels/fuel-panels.component';
 import { BurnTarget } from '../burn-target-options/burn-target-options.component';
 import { Metric } from '../metrics/metrics.component';
 import { LimitOptions, DIRECTION } from '../dataframe-table/dataframe-table.component';
 import { of } from 'rxjs';
+import { BarchartComponent } from '../barchart/barchart.component';
+import { DataframeTableComponent } from '../dataframe-table/dataframe-table.component';
 import { easing } from 'ts-easing';
 
-import DataFrame, { Row } from 'dataframe-js';
+import { DataFrame } from 'data-forge';
 
-/*
-const df = new DataFrame(data, columns);
 
-// From a collection (easier)
-const df = new DataFrame([
-    {c1: 1, c2: 6}, // <------- A row
-    {c4: 1, c3: 2}
-], ['c1', 'c2', 'c3', 'c4']);
-
-// From a table
-const df = new DataFrame([
-    [1, 6, 9, 10, 12], // <------- A row
-    [1, 2],
-    [6, 6, 9, 8, 9, 12],
-], ['c1', 'c2', 'c3', 'c4', 'c5', 'c6']);
-
-// From a dictionnary (Hash)
-const df = new DataFrame({
-    column1: [3, 6, 8], // <------ A column
-    column2: [3, 4, 5, 6],
-}, ['column1', 'column2']);
-
-// From files
-DataFrame.fromText('/my/absolue/path/myfile.txt').then(df => df);
-DataFrame.fromDSV('/my/absolue/path/myfile.txt').then(df => df);
-DataFrame.fromPSV('http://myurl/myfile.psv').then(df => df);
-DataFrame.fromTSV('http://myurl/myfile.tsv').then(df => df);
-DataFrame.fromCSV('http://myurl/myfile.csv').then(df => df);
-DataFrame.fromJSON('http://myurl/myfile.json').then(df => df);
-DataFrame.fromJSON(new File(...)).then(df => df);
-*/
 
 
 @Component({
@@ -48,12 +20,13 @@ DataFrame.fromJSON(new File(...)).then(df => df);
     styleUrls: ['./modular-report.component.css']
 })
 export class ModularReportComponent implements OnInit {
-
-    @Output() dataframe: EventEmitter<DataFrame> = new EventEmitter<DataFrame>();
-
+    @ViewChild('barchart', {static: false}) chart : BarchartComponent;
+    @ViewChild('datatable', {static: false}) table : DataframeTableComponent;
+    @Output() dataframeChange: EventEmitter<DataFrame> = new EventEmitter<DataFrame>();
+    @Output() data_validity: EventEmitter<String> = new EventEmitter<String>();
     show_sidebar = false;
     query;
-    tableIsDimmed = false;
+
     metrics;
     metrics_tables;
 
@@ -70,26 +43,28 @@ export class ModularReportComponent implements OnInit {
     harvesting_off = false;
 
     errors;
-    results = [
-        {
-            rows: [
-                [1, 14849411, 'WF'],
-                [1, 9156334, 'PB'],
-                [3, 20532538, 'WF'],
-                [3, 27744620, 'PB']
-            ], columns: ['planburn_target_perc', 'ha', 'Season']
-        }
-    ];
+    dataframe: DataFrame;
+    defaults: DataFrame = new DataFrame({
+        columnNames: ['PB', 'ha', 'FireSeason'],
+        values: [
+            [1, 14849411, 'WF'],
+            [1, 9156334, 'PB'],
+            [3, 20532538, 'WF'],
+            [3, 27744620, 'PB']
+        ]
+    });
 
-    constructor(private dat: DataService) { }
+    constructor(private dat: DataService) {
+        this.dataframe = this.defaults;
+    }
 
     ngOnInit() {
-        this.default_ordering = new Map<string,DIRECTION>();
-        this.default_ordering.set('job.planburn_target_perc', DIRECTION.ASC);
-        this.default_ordering.set('Season', DIRECTION.ASC);
+        this.default_ordering = new Map<string, DIRECTION>();
+        this.default_ordering.set('PB', DIRECTION.ASC);
+        this.default_ordering.set('FireSeason', DIRECTION.ASC);
         this.setOrdering(this.default_ordering);
         this.limits = this.setLimits(100, 0); // Set tiny for testing
-        // this.dataframe = new DataFrame(this.results[0].rows, this.results[0].columns)
+        // new DataFrame(.rows, this.defaults.columns);
     }
 
     onMetricsChange(m) {
@@ -190,11 +165,11 @@ export class ModularReportComponent implements OnInit {
 
             this.query = `
             SELECT
-                job.planburn_target_perc,
+                job.planburn_target_perc as PB,
                 ${people}
                 ${houses}
                 ${fire_q}
-                st.scenario_name AS Season
+                st.scenario_name AS FireSeason
             FROM
                 job
                 INNER JOIN fuel_machine_type ft
@@ -219,7 +194,7 @@ export class ModularReportComponent implements OnInit {
                 AND s.id = t.scenario_id
                 AND st.scenario_type = s.type
 
-                GROUP BY job.planburn_target_perc, s.type, Season
+                GROUP BY PB, s.type, FireSeason
 
                 ${this.ordering}
                 ${this.limits};
@@ -279,33 +254,16 @@ export class ModularReportComponent implements OnInit {
     }
 
     fetch(vname, sql) {
-        this.tableIsDimmed = true;
+        this.chart.invalidate('Loading...');
+        this.table.invalidate('Loading...');
         this.dat.sendSQL({ sql: sql, sender: vname }).subscribe(data => {
             if (data.sender == vname) {
-
-                this.tableIsDimmed = false;
-
-                let rows = [];
-                let columns = [];
-
-                for (let row of data.result) {
-                    console.log(row);
-                    for (let k of Object.entries(row)) {
-                        if (columns.indexOf(k[0]) == -1) {
-                            columns.push(k[0]);
-                        }
-                    }
-                    let r = [];
-                    for (let col of columns) {
-                        r.push(row[col]);
-                    }
-                    rows.push(r);
-                }
-                this.results.map(r => {
-                    r.rows = rows;
-                    r.columns = columns;
-                });
-                this.dataframe.emit(new DataFrame(data.result));
+                this.dataframe = new DataFrame(data.result); // Pull out of Envelope
+                console.log(this.dataframe.toString());
+                this.dataframeChange.emit(this.dataframe);
+                this.chart.validate('Loading complete.');
+                this.table.validate('Loading complete.');
+                this.chart.refreshChart();
             }
         }, err => {
             console.error(err);

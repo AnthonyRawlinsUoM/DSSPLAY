@@ -10,7 +10,7 @@ import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { FomanticUIModule } from 'ngx-fomantic-ui';
 import { ChartModule } from "angular2-chartjs";
 import "chartjs-chart-box-and-violin-plot/build/Chart.BoxPlot.js";
-
+import { NgxGaugeModule } from 'ngx-gauge';
 import { Ng5SliderModule } from 'ng5-slider';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { MappingComponent } from './mapping/mapping.component';
@@ -63,6 +63,13 @@ import { DataframeTableComponent } from './dataframe-table/dataframe-table.compo
 import { ModularReportComponent } from './modular-report/modular-report.component';
 import { BoxplotComponent } from './boxplot/boxplot.component';
 import { BarchartComponent } from './barchart/barchart.component';
+import { MetricSpecificsComponent } from './metric-specifics/metric-specifics.component';
+import { MetricChooserComponent } from './metric-chooser/metric-chooser.component';
+import { ReplicatesComponent } from './replicates/replicates.component';
+import { HistogramComponent } from './histogram/histogram.component';
+import { LinechartComponent } from './linechart/linechart.component';
+import { GaugeComponent } from './gauge/gauge.component';
+import { DfConsumerDirective } from './df-consumer.directive';
 
 const PORT = 4040;
 
@@ -118,7 +125,14 @@ const config: SocketIoConfig = { url: `http://localhost:${PORT}`, options: {} };
     DataframeTableComponent,
     ModularReportComponent,
     BoxplotComponent,
-    BarchartComponent
+    BarchartComponent,
+    MetricSpecificsComponent,
+    MetricChooserComponent,
+    ReplicatesComponent,
+    HistogramComponent,
+    LinechartComponent,
+    GaugeComponent,
+    DfConsumerDirective
   ],
   imports: [
     CommonModule,
@@ -128,6 +142,7 @@ const config: SocketIoConfig = { url: `http://localhost:${PORT}`, options: {} };
     AppRoutingModule,
     ChartModule,
     Ng5SliderModule,
+    NgxGaugeModule,
     FomanticUIModule,
     NgxDatatableModule,
      SocketIoModule.forRoot(config),

@@ -1,0 +1,39 @@
+<div class="ui inverted segment">
+    <h2 class="ui inverted header">Available Metrics</h2>
+    <div class="ui inverted list">
+        <div class="item" *ngFor="let v of initvals; let i = index;" [ngClass]="v.class">
+            <div class="header">
+                <a class="item" [ngClass]="v.class">
+                    <span [ngClass]="v.class" style="padding-right: 1em;">
+                        <i class="icon" [ngClass]="v.icon"></i> {{i+1}}.
+                    </span>
+                    {{v.label}}
+                </a>
+            </div>
+            <div class="ui list" *ngIf="v.views.length > 0">
+                <li class="ui item" *ngFor="let c of v.views; let tier = index;">
+                    <div class="ui inverted secondary pointing menu" *ngIf="userAccessLevel >= c.access">
+                        <a class="ui item" (click)="c.active = !c.active">
+                            <span [ngClass]="v.class" style="padding-right: 1em;">{{i+1}}.{{tier+1}}</span> {{c.label}}
+                        </a>
+                        <div class="right menu">
+                            <span class="ui item" *ngFor="let m of c.modules">
+                                <i class="chart bar icon" style="color: {{v.color}}" *ngIf="m == 'bar'"></i>
+                                <i class="chart line icon" style="color: {{v.color}}" *ngIf="m == 'line'"></i>
+                                <i class="chart area icon" style="color: {{v.color}}" *ngIf="m == 'histo'"></i>
+                                <i class="chart line icon" style="color: {{v.color}}" *ngIf="m == 'cumul'"></i>
+                                <i class="tachometer alternate icon" style="color: {{v.color}}" *ngIf="m == 'gauges'"></i>
+                                <i class="balance scale icon" style="color: {{v.color}}" *ngIf="m == 'uncertainty'"></i>
+                                <i class="clock outline icon" style="color: {{v.color}}" *ngIf="m == 'time'"></i>
+                                <i class="chart pie icon" style="color: {{v.color}}" *ngIf="m == 'choice'"></i>
+                                <i class="sliders horizontal icon" style="color: {{v.color}}" *ngIf="m == 'replicates'"></i>
+                                <i class="table icon" style="color: {{v.color}}" *ngIf="m == 'box'"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <app-metric-specifics *ngIf="c.active" [sql]="c.sql" [id]="v.option + '_' + (i+1) + '_' + (tier+1)" [cssClassName]="v.class" [color]="v.color" [moduleViews]="c.modules" [icon]="v.icon" [metricLabel]="c.label"></app-metric-specifics>
+                </li>
+            </div>
+        </div>
+    </div>
+</div>

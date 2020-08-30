@@ -12,43 +12,56 @@ const moment = require('moment');
 const package = require('./package.json');
 const R = require('ramda');
 const pd = require("node-pandas")
-const { Pool, Client } = require('pg');
+const events = require('events').EventEmitter.prototype._maxListeners = 100;
+
+const {
+    Pool,
+    Client
+} = require('pg');
+
 const client = new Client('postgresql://postgres:secret@192.168.1.188:5432/Froximal');
-const pool = new Pool({connectionString:'postgresql://postgres:secret@192.168.1.188:5432/Froximal'});
+const pool = new Pool({
+    connectionString: 'postgresql://postgres:secret@192.168.1.188:5432/Froximal',
 
-client.connect();
-
-client.query('SELECT $1::text as message', ['Postgres client says: Hello world!'], (err, res) => {
-  console.log(err ? err.stack : res.rows[0].message) // Hello World!
-  client.end()
 });
+
+pool.on('error', (err, client) => {
+    console.error('Unexpected error on idle client', err)
+    process.exit(-1)
+})
+
+// client.connect().then(client => {
+//     client.query('SELECT $1::text as message', ['Postgres client says: Hello world!'], (err, res) => {
+//         console.log(err ? err.stack : res.rows[0].message) // Hello World!
+//     })
+// });
 
 app.use(express.static(path.join(__dirname, '/dist/dssplay')));
 
-app.use(function (req, res, next) {
-  app.use(function (req, res, next) {
+app.use(function(req, res, next) {
+    app.use(function(req, res, next) {
 
-    // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', '*');
+        // Website you wish to allow to connect
+        res.setHeader('Access-Control-Allow-Origin', '*');
 
-    // Request methods you wish to allow
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+        // Request methods you wish to allow
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 
-    // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+        // Request headers you wish to allow
+        res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
 
-    // Set to true if you need the website to include cookies in the requests sent
-    // to the API (e.g. in case you use sessions)
-    res.setHeader('Access-Control-Allow-Credentials', true);
+        // Set to true if you need the website to include cookies in the requests sent
+        // to the API (e.g. in case you use sessions)
+        res.setHeader('Access-Control-Allow-Credentials', true);
 
-    // Pass to next layer of middleware
+        // Pass to next layer of middleware
+        next();
+    });
     next();
-  });
-  next();
 });
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '/dist/dssplay/index.html'))
+    res.sendFile(path.join(__dirname, '/dist/dssplay/index.html'))
 });
 
 const port = process.env.PORT || '4040';
@@ -64,61 +77,73 @@ const io = socketIO(server);
 //   port: 6379
 // }));
 
-io.on('connection', (socket) => {
-  /* CONNECTION CODE */
-  broadcast(io, 'User with Session ID: ' + socket.id + ' has connected.');
-  log(socket, 'Your socket ID is: ' + socket.id);
+io
+    .on('connection', (socket) => {
 
-  socket.on('disconnect', function () {
-    broadcast(io, 'User (' + socket.id + ') has disconnected');
-  });
+        pool
+            .connect()
+            .then(client => {
+                /* CONNECTION CODE */
+                broadcast(io, 'User with Session ID: ' + socket.id + ' has connected.');
+                log(socket, 'Your socket ID is: ' + socket.id);
 
-  log(socket, 'Welcome to ' + package.name + ' v' + package.version );
+                socket
+                    .on('disconnect', function() {
+                        broadcast(io, 'User (' + socket.id + ') has disconnected');
+                    });
 
-  /* QUERY CODE */
-  socket.on('sql-query', (envelope) => {
-    log(socket, socket.id);
-    log(socket, 'Got message from website: ' + envelope.sql);
-    log(socket, 'Server got envelope from: ' + socket.id);
+                log(socket, 'Welcome to ' + package.name + ' v' + package.version);
 
-    pool.connect((err, client, release) => {
-      if (err) {
-        return console.error('Error acquiring client', err.stack)
-      }
-      client.query(envelope.sql).then(
-          res => {
-              // const result = res.rows.map(x => x[2]);
-              // const fields = res.fields.map(field => field.name);
-
-              log(socket, 'Sending response now.');
-              // log(socket, pd.DataFrame(res.rows, res.columns).show);
-
-              socket.emit('sql-response', { sender: envelope.sender, result: res.rows });
-
-      }).catch(e => {
-          socket.error(e);
-          log(socket, 'Error: ' + socket.id + e.stack);
-      })
-    })
-  });
-
-  /* LOGGING CODE */
-  socket.on('log-entry', (entry) => {
-    log(socket, entry);
-  });
-
-  pool.on('connect', client => {
-      log(socket, 'Using connection pool for query.');
-      var pool_stats = pd.DataFrame([pool.idleCount, pool.waitingCount, pool.totalCount], ['Idle', 'Waiting', 'Total'])
-      console.log(pool_stats.show);
-  })
-
-});
+                /* QUERY CODE */
+                socket
+                    .on('sql-query', (envelope) => {
+                        log(socket, socket.id);
+                        log(socket, 'Got message from website: ' + envelope.sql);
+                        log(socket, 'Server got envelope from: ' + socket.id);
 
 
+                        client
+                            .query(envelope.sql)
+                            .then(
+                                result => {
+                                    log(socket, 'Sending response now.');
+                                    socket.emit('sql-response', {
+                                        sender: envelope.sender,
+                                        result: result.rows
+                                    });
+                            })
+                    })
+
+
+                /* LOGGING CODE */
+                socket
+                    .on('log-entry', (entry) => {
+                        log(socket, entry);
+                    });
+
+                pool
+                    .on('connect', client => {
+                        console.log('Using connection pool for query.');
+                        console.log(pool.idleCount + ' (idle) ' + pool.waitingCount + ' (waiting) Total: ' + pool.totalCount);
+                    });
+
+                pool
+                    .on('remove', client => {
+                        console.log('Client removed from connection pool.');
+                        console.log(pool.idleCount + ' (idle), ' + pool.waitingCount + ' (waiting), Total: ' + pool.totalCount);
+                    })
+
+                })
+                .catch(e => {
+                    socket.error(e);
+                    log(socket, 'Error: ' + socket.id + e.stack);
+                })
+                .finally(() => client.end());
+
+    });
 
 server.listen(port, () => {
-  console.log(package.name + ' Server (v'+ package.version +') running on', port);
+    console.log(package.name + ' Server (v' + package.version + ') running on', port);
 });
 
 function broadcast(io, message) {
@@ -128,5 +153,8 @@ function broadcast(io, message) {
 function log(socket, message) {
     // msg_str = '[' + moment().format() + '] ' + message;
     console.log(message);
-    socket.emit('log', {timestamp: moment().format(), message: message});
+    socket.emit('log', {
+        timestamp: moment().format(),
+        message: message
+    });
 }

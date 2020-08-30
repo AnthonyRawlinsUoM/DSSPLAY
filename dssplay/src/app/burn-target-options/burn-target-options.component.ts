@@ -22,7 +22,7 @@ export class BurnTargetOptionsComponent implements OnInit {
   ];
 
   burnTargets: Array<BurnTarget>;
-  
+
   constructor() { }
 
   ngOnInit() {

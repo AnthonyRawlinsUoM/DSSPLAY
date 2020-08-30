@@ -1,0 +1,36 @@
+ol.ui.list {
+    margin-bottom: 1em;
+}
+ol.ui.list li.item {
+    margin-left: 1em;
+    padding: 0.25em;
+    vertical-align: middle;
+}
+
+span.richblackfogra, .richblackfogra i.icon { color: #01161e !important; }
+span.black-chocolate, .black-chocolate i.icon { color: #1f1300 !important; }
+span.darksienna, .darksienna i.icon { color: #230c0f !important; }
+span.jet, .jet i.icon { color: #333232 !important; }
+span.beige, .beige i.icon { color: #eff6e0 !important; }
+span.tumbleweed, .tumbleweed i.icon { color: #e0ab8f !important; }
+span.crimson, .crimson i.icon { color: #d7263d !important; }
+span.darkliverhorses, .darkliverhorses i.icon { color: #5b3e35 !important; }
+span.bole, .bole i.icon { color: #824938 !important; }
+span.copper, .copper i.icon { color: #D1603D !important; }
+span.shadowbrown, .shadowbrown i.icon { color: #88795c !important; }
+span.goldcrayola, .goldcrayola i.icon { color: #dcbf85 !important; }
+span.teagreen, .teagreen i.icon { color: #C4E4AE !important; }
+span.pistachio, .pistachio i.icon { color: #99D17B !important; }
+span.amazon, .amazon i.icon { color: #4a7c59 !important; }
+span.ferngreen, .ferngreen i.icon { color: #697B5B !important; }
+span.maxgreen, .maxgreen  i.icon { color: #4D8B31 !important; }
+span.darkjunglegreen, .darkjunglegreen i.icon { color: #1f2421 !important; }
+span.midnighteagle, .midnighteagle i.icon { color: #124559 !important; }
+span.midnight, .midnight i.icon { color: #1a535c !important; }
+span.bdazzledblue, .bdazzledblue i.icon { color: #3B5998 !important; }
+span.starcommandblue, .starcommandblue i.icon { color: #2274a5 !important; }
+span.tealblue, .tealblue i.icon { color: #598392 !important; }
+span.airblue, .airblue i.icon { color: #78A1BB !important; }
+span.morningblue, .morningblue i.icon { color: #93a29b !important; }
+span.cambridge, .cambridge i.icon { color: #aec3b0 !important; }
+span.mintcream, .mintcream i.icon { color: #EBF5EE !important; }

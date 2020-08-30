@@ -1,220 +1,142 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import * as Chart from 'chart.js';
 import { ChartConfiguration, ChartData } from 'chart.js';
 import { BurnTarget } from '../burn-target-options/burn-target-options.component';
 import { Metric } from '../metrics/metrics.component';
-import DataFrame, { Row } from 'dataframe-js';
+import { DataFrame } from 'data-forge';
+import { DfConsumerDirective } from '../df-consumer.directive';
+// import { DataFrameConsumer } from '../data-frame-consumer';
 
+
+
+function randomValues(count, min, max) {
+  const delta = max - min;
+  return Array.from({ length: count }).map(() => Math.random() * delta + min);
+}
 
 @Component({
     selector: 'app-boxplot',
     templateUrl: './boxplot.component.html',
     styleUrls: ['./boxplot.component.css']
 })
-export class BoxplotComponent implements OnInit {
-    @Input() results:DataFrame;
-    @Input() metrics;
-    @Input() burnTargets;
+export class BoxplotComponent extends DfConsumerDirective implements OnInit, AfterViewInit {
+    @Input() results: DataFrame;
+    @Input() boxplotName;
+    @Input() baseColor;
 
     chart: Chart;
-    charts: Array<Chart> = [];
     chartOptions: ChartConfiguration;
 
+    initialData = {
+    // define label tree
+    labels: ['1','2','3','4','5','6','7','8','9','10'],
+    datasets: [
+      {
+        label: "WF",
+        backgroundColor: "rgba(255,0,0,0.5)",
+        borderColor: "red",
+        borderWidth: 1,
+        outlierColor: "#999999",
+        padding: 10,
+        itemRadius: 0,
+        data: [
+          randomValues(100, 0, 100),
+          randomValues(100, 0, 20),
+          randomValues(100, 20, 70),
+          randomValues(100, 60, 100),
+          randomValues(40, 50, 100),
+          randomValues(100, 60, 120),
+          randomValues(100, 80, 100),
+          randomValues(40, 50, 100),
+          randomValues(100, 60, 120),
+          randomValues(100, 80, 100)
+        ]
+      },
+      {
+        label: "PB",
+        backgroundColor: "rgba(0,0,255,0.5)",
+        borderColor: "blue",
+        borderWidth: 1,
+        outlierColor: "#999999",
+        padding: 10,
+        itemRadius: 0,
+        data: [
+          randomValues(100, 60, 100),
+          randomValues(100, 0, 100),
+          randomValues(100, 0, 20),
+          randomValues(100, 20, 70),
+          randomValues(40, 60, 120),
+          randomValues(100, 20, 100),
+          randomValues(100, 80, 100),
+          randomValues(40, 50, 100),
+          randomValues(100, 60, 120),
+          randomValues(100, 80, 100)
+        ]
+      }
+    ]
+  };
 
-    // initialData: any = {
-    //     // define label tree
-    //     labels: [],
-    //     datasets: []
-    // };
+  options = {
+    legend: {
+      position: "top"
+    }
+  };
 
-    constructor() { }
+    constructor() {
+        super();
+    }
 
     ngOnInit() {
+        this.chart = new Chart('boxplot', {
 
-        // Dataset PB 1 = prescribed_burn_target == 1
-        // Dataset PB 2 = prescribed_burn_target == 2
+            type: 'boxplot',
+            data: this.initialData,
+            options: {
+                legend: {
+                    display: true,
+                    position: 'top',
+                    align: 'start',
+                    labels: {
+                        boxWidth: 8
+                    }
+                },
 
-        // house_loss
-        // life_loss
-        // fire_area
-
-        console.log(this.results);
-
-
-        // this.boxchart = new Chart('boxchart', {
-        //
-        //     type: 'boxplot',
-        //     data: this.initialData,
-        //     options: {
-        //         legend: {
-        //             display: true,
-        //             position: 'top',
-        //             align: 'start',
-        //             labels: {
-        //                 boxWidth: 8
-        //             }
-        //         },
-        //         aspectRatio: 16 / 9,
-        //         maintainAspectRatio: true,
-        //         scales: {
-        //             xAxes: [{
-        //                 gridLines: {
-        //                     offsetGridLines: true
-        //                 }
-        //             }],
-        //             yAxes: [{
-        //                 position: 'left',
-        //                 ticks: {
-        //                     beginAtZero: true,
-        //                     suggestedMin: 0,
-        //                     suggestedMax: 100,
-        //                     stepSize: 10
-        //                 }
-        //             }]
-        //         }
-        //     }
-        // });
-        //
-        // this.charts.push(this.boxchart);
-        this.refreshCharts();
+                aspectRatio: 1.0,
+                maintainAspectRatio: true,
+                scales: {
+                    xAxes: [{
+                        gridLines: {
+                            offsetGridLines: true
+                        }
+                    }],
+                    yAxes: [{
+                        position: 'left',
+                        ticks: {
+                            beginAtZero: true,
+                            suggestedMin: 0,
+                            suggestedMax: 100,
+                            stepSize: 10
+                        }
+                    }]
+                }
+            }
+        });
     }
 
-    public colorOfMetric(metric: string) {
-        return this.metrics
-            .filter(m => m.label === metric)
-            .map(m => {
-                return m.color;
-            });
+    ngAfterViewInit() {
+        console.log('#'+this.boxplotName);
+
+
+
+        this.refreshChart();
     }
 
-    public borderColorOfMetric(metric: string) {
-        return this.metrics
-            .filter(m => m.label === metric)
-            .map(m => {
-                return m.border;
-            });
-    }
-
-
-    refreshCharts() {
-
+    refreshChart() {
         console.log('Refreshing charts');
-
-        if(this.results.length > 0) {
-            console.log(this.results);
-        }
-
-        // if ((this.metrics.length > 0 && this.burnTargets.length > 0)) {
-        //
-        //     console.log('Redrawing charts!');
-        //     // Every chart...
-        //     for (let c of this.charts) {
-        //
-        //         // nullify non-enabled datasets/metrics
-        //         c.data.datasets
-        //             .map(ds => {
-        //                 if (ds.label == this.metrics[0].label || ds.label == this.metrics[1].label) {
-        //                     ds.data = [];
-        //                 }
-        //             });
-        //
-        //         // Which do we have?
-        //         let have = c.data.datasets
-        //             .map(ds => {
-        //                 return ds.label;
-        //             });
-        //
-        //         // Which do we not have?
-        //         let missing = [];
-        //         let active = [];
-        //
-        //         this.metrics.map(m => {
-        //             if (have.indexOf(m.label) == -1) {
-        //                 missing.push(m.label);
-        //             } else {
-        //                 active.push(m);
-        //             }
-        //         });
-        //
-        //
-        //
-        //         if (missing.length > 0) {
-        //
-        //             let col = 0;
-        //
-        //             // Add dataset from template
-        //             missing.map(miss => {
-        //                 let data = [];
-        //                 // this.burnTargets.map(bt => {
-        //                 //   // TODO - Replace with Service call to socket.io server/Postgres
-        //                 //   for(let mt of this.metrics) {
-        //                 //     data.push(randomValues(10, 25, 75));
-        //                 //   }
-        //                 // });
-        //
-        //                 c.data.datasets.push({
-        //                     label: miss,
-        //                     backgroundColor: this.colorOfMetric(miss)[0], // TODO - auto colorize
-        //                     borderColor: this.borderColorOfMetric(miss)[0],
-        //                     borderWidth: 1,
-        //                     // itemRadius: 0.2,
-        //                     data: data
-        //                 });
-        //
-        //                 col++;
-        //             });
-        //
-        //         }
-        //
-        //         let removals = [];
-        //
-        //         for (let ds of c.data.datasets) {
-        //             let good = false;
-        //             for (let m of this.metrics) {
-        //                 if (ds.label === m.label) {
-        //                     good = true;
-        //                 }
-        //             }
-        //             if (!good) {
-        //                 removals.push(ds);
-        //             }
-        //         }
-        //         c.data.datasets = c.data.datasets.filter((r) => !removals.includes(r));
-        //
-        //
-        //         // All present now
-        //         // c.data.datasets
-        //         // .map(ds => {
-        //         //   let data = [];
-        //         //   this.burnTargets.map(bt => {
-        //         //     // Replace with Service call to socket.io server/Postgres
-        //         //
-        //         //     for(let mt of this.metrics) {
-        //         //       // console.log(ds.label);
-        //         //       if(mt.label === ds.label) {
-        //         //         // console.log('Adding data');
-        //         //         data.push(randomValues(10, 25, 75));
-        //         //
-        //         //       }
-        //         //     }
-        //         //   });
-        //         //
-        //         //   ds.data = data;
-        //         // });
-        //
-        //
-        //         // Update labels
-        //         c.data.labels = this.results.columns;
-        //             // .map(bt => {
-        //             //     return bt.label;
-        //             // });
-        //
-        //         // console.log(c.data.labels);
-        //
-        //         c.update();
-        //     }
+        // if (this.results.length > 0) {
+        //     console.log(this.results);
         // }
-        this.charts.map(c => c.update());
+        this.chart.update();
     }
 
 }

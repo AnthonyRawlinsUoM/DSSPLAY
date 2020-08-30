@@ -1,9 +1,8 @@
 <div class="ui segment chart-container">
-
     <fui-dimmer [(isDimmed)]="isDimmed" [(isClickable)]="isClickable">
     <div class="loader"></div><p>{{message}}</fui-dimmer>
     <canvas
-        id='boxplot'
-        #boxplot
+        class='linechart'
+        #linechart
     ></canvas>
 </div>

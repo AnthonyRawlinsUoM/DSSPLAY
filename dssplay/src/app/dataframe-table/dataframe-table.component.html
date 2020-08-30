@@ -1,13 +1,17 @@
+
+
 <div
     class="ui segment"
-    *ngFor="let v of results"
+    *ngIf="dataframe"
 >
+<fui-dimmer [(isDimmed)]="tableIsDimmed" [(isClickable)]="isClickable">
+<div class="loader"></div><p>{{message}}</fui-dimmer>
     <table class="ui celled striped table">
         <thead>
             <tr>
                 <th
                     class="ui"
-                    *ngFor="let c of v.columns"
+                    *ngFor="let c of dataframe.getColumnNames()"
                 >
 
                     <div class="ui fluid left labeled buttons">
@@ -17,6 +21,7 @@
                         <div
                             class="ui icon button"
                             (click)="sortby(c, 'DESC')"
+                            [ngClass]="{'active': (order && order.get(c)=='DESC')}"
                         >
                             <i class="sort down icon"></i>
                         </div>
@@ -30,6 +35,7 @@
                         <div
                             class="ui icon button"
                             (click)="sortby(c, 'ASC')"
+                            [ngClass]="{'active': (order && order.get(c)=='ASC')}"
                         >
                             <i class="sort up icon"></i>
                         </div>
@@ -40,13 +46,13 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let r of v.rows">
-                <td *ngFor="let c of v.columns; let i = index">{{ r[i] }}</td>
+            <tr *ngFor="let r of dataframe.toRows()">
+                <td *ngFor="let i of r">{{ i }}</td>
             </tr>
         </tbody>
     </table>
     <fui-pagination
-        [collectionSize]="v.rows.length"
+        [collectionSize]="dataframe.toRows().length"
         [pageSize]="pageSize"
         [hasNavigationLinks]="true"
         [hasBoundaryLinks]="true"
