@@ -1,17 +1,16 @@
 
+<div>
+    <fui-dimmer [isDimmed]="getDimness()" [(isClickable)]="isClickable">
+    <div class="loader"></div><p>{{message}}</p>
+    </fui-dimmer>
 
-<div
-    class="ui segment"
-    *ngIf="dataframe"
->
-<fui-dimmer [(isDimmed)]="tableIsDimmed" [(isClickable)]="isClickable">
-<div class="loader"></div><p>{{message}}</fui-dimmer>
-    <table class="ui celled striped table top attached segment">
+<div *ngIf="dataframe !== undefined">
+    <table class="ui celled striped inverted table top attached segment">
         <thead>
             <tr>
                 <th
                     class="ui"
-                    *ngFor="let c of dataframe.getColumnNames()"
+                    *ngFor="let c of getColumns()"
                 >
 
                     <div class="ui fluid left labeled buttons">
@@ -51,15 +50,20 @@
             </tr>
         </tbody>
     </table>
-    <div class="ui bottom attached segment forceblack" style="color: #000000 !important;">
+    <div class="ui bottom attached inverted segment">
     <fui-pagination
         [collectionSize]="dataframe.toRows().length"
         [pageSize]="pageSize"
+        [maxSize]="maxSize"
         [hasNavigationLinks]="true"
         [hasBoundaryLinks]="true"
+        [canRotate]="true"
         [(page)]="selectedPage"
         (pageChange)="onLimitChange($event)"
+        class="ui inverted"
+
     >
     </fui-pagination>
+</div>
 </div>
 </div>

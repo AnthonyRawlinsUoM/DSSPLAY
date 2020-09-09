@@ -1,0 +1,7 @@
+.ui.statistic .value {
+    font-size: 1.3em;
+}
+.ui.statistic .label {
+    font-size: 0.76em;
+    opacity: 0.85;
+}

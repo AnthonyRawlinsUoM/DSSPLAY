@@ -5,11 +5,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
+// import { ChartsModule, ThemeService } from 'ng2-charts';
+
+import { ChartModule } from 'angular2-chartjs';
 
 // import {} from 'maxird-ng-semantic-ui';
 import { FomanticUIModule } from 'ngx-fomantic-ui';
-import { ChartModule } from "angular2-chartjs";
 import "chartjs-chart-box-and-violin-plot/build/Chart.BoxPlot.js";
+
 import { NgxGaugeModule } from 'ngx-gauge';
 import { Ng5SliderModule } from 'ng5-slider';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
@@ -71,7 +74,53 @@ import { LinechartComponent } from './linechart/linechart.component';
 import { GaugeComponent } from './gauge/gauge.component';
 import { DfConsumerDirective } from './df-consumer.directive';
 import { CollectorDirective } from './collector.directive';
-import { DFSummaryConsumerDirective } from './df-summary-consumer.directive';
+import { DfSummaryConsumerDirective } from './df-summary-consumer.directive';
+import { StatviewComponent } from './statview/statview.component';
+import { QuartileboxesComponent } from './quartileboxes/quartileboxes.component';
+import { SuperchooserComponent } from './superchooser/superchooser.component';
+
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { FlexLayoutModule } from '@angular/flex-layout';
+
+import {
+  MatAutocompleteModule,
+  MatBadgeModule,
+  MatBottomSheetModule,
+  MatButtonModule,
+  MatButtonToggleModule,
+  MatCardModule,
+  MatCheckboxModule,
+  MatChipsModule,
+  MatDatepickerModule,
+  MatDialogModule,
+  MatDividerModule,
+  MatExpansionModule,
+  MatGridListModule,
+  MatIconModule,
+  MatInputModule,
+  MatListModule,
+  MatMenuModule,
+  MatNativeDateModule,
+  MatPaginatorModule,
+  MatProgressBarModule,
+  MatProgressSpinnerModule,
+  MatRadioModule,
+  MatRippleModule,
+  MatSelectModule,
+  MatSidenavModule,
+  MatSliderModule,
+  MatSlideToggleModule,
+  MatSnackBarModule,
+  MatSortModule,
+  MatStepperModule,
+  MatTableModule,
+  MatTabsModule,
+  MatToolbarModule,
+  MatTooltipModule,
+  MatTreeModule,
+} from '@angular/material';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 const PORT = 4040;
 
@@ -136,11 +185,53 @@ const config: SocketIoConfig = { url: `http://localhost:${PORT}`, options: {} };
     GaugeComponent,
     DfConsumerDirective,
     CollectorDirective,
-    DFSummaryConsumerDirective
+    DfSummaryConsumerDirective,
+    StatviewComponent,
+    QuartileboxesComponent,
+    SuperchooserComponent,
+
   ],
   imports: [
     CommonModule,
     BrowserModule,
+    BrowserAnimationsModule,
+    MatAutocompleteModule,
+    MatBadgeModule,
+    MatBottomSheetModule,
+    MatButtonModule,
+    MatButtonToggleModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatChipsModule,
+    MatDatepickerModule,
+    MatDialogModule,
+    MatDividerModule,
+    MatExpansionModule,
+    MatGridListModule,
+    MatIconModule,
+    MatInputModule,
+    MatListModule,
+    MatMenuModule,
+    MatNativeDateModule,
+    MatPaginatorModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+    MatRadioModule,
+    MatRippleModule,
+    MatSelectModule,
+    MatSidenavModule,
+    MatSliderModule,
+    MatSlideToggleModule,
+    MatSnackBarModule,
+    MatSortModule,
+    MatStepperModule,
+    MatTableModule,
+    MatTabsModule,
+    MatToolbarModule,
+    MatTooltipModule,
+    MatTreeModule,
+    FlexLayoutModule,
+    DragDropModule,
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,

@@ -22,12 +22,29 @@ export class DataService {
             this.socket.emit("sql-query", envelope);
             this.socket.fromEvent('sql-response').subscribe(data => {
                 observer.next(data);
+                // Acknowledge recipt of data so server can free resources
+                this.socket.emit('OK', true);
             },
             e => {
                 console.error(e);
             });
         });
     }
+
+    getSummarySQL(envelope: Envelope){
+          return Observable.create(observer => {
+              this.socket.emit("summarysql-query", envelope);
+              this.socket.fromEvent('summarysql-response').subscribe(data => {
+                  console.log(data);
+                  observer.next(data);
+                  // Acknowledge recipt of data so server can free resources
+                  this.socket.emit('OK', true);
+              },
+              e => {
+                  console.error(e);
+              });
+          });
+      }
 
     // readResponseAsDataFrame(envelope: Envelope) {
     //     return new DataFrame(envelope.result);
@@ -38,6 +55,8 @@ export class DataService {
             this.socket.fromEvent('error').subscribe(err => {
                 console.error(err);
                 observer.next(err);
+                // Acknowledge recipt of data so server can free resources
+                this.socket.emit('OK', true);
             });
         })
     }

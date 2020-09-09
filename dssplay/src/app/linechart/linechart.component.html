@@ -1,8 +1,18 @@
 <div class="ui segment chart-container">
-    <fui-dimmer [(isDimmed)]="isDimmed" [(isClickable)]="isClickable">
-    <div class="loader"></div><p>{{message}}</fui-dimmer>
-    <canvas
-        id='{{ident}}'
+    <fui-dimmer [isDimmed]="getDimness()" [(isClickable)]="isClickable">
+    <div class="loader"></div><p>{{message}}</p>
+    </fui-dimmer>
+
+    <chart
+        id='{{ident}}_linechart'
+
+        width="400"
+        height="200"
+
+        [data]="chartData"
+        [options]="chartOptions"
+
+        type="line"
         #linechart
-    ></canvas>
+    ></chart>
 </div>

@@ -1,6 +1,6 @@
-<div class="ui segment">
-    <div class="ui top attached segment">
-        <h1 class="ui center aligned black header" style="color: #000000;">
+<div class="ui inverted segment curvy">
+    <div class="ui top attached inverted segment">
+        <h1 class="ui center aligned inverted header">
             <span [ngClass]="cssClassName">
                 <i class="icon" [ngClass]="icon"></i>
             </span>
@@ -9,41 +9,58 @@
     </div>
 
 
-    <div class="attached segment">
+    <div class="attached inverted segment">
         <div class="ui two column stackable grid">
 
             <div class="ui column" *ngIf="moduleViews.indexOf('box') != -1;">
                 <div class="ui segment">
                     <i class="chart area icon"></i>
 
-                    <app-boxplot [boxplotName]="cssClassName + '_box_' + id" [baseColor]="color" df-consumer></app-boxplot>
+                    <app-boxplot
+                    [isDimmed]="summaryDimmed"
+                    [message]="summarymessage"
+                    [dataframe]="summarytable"
+                    [boxplotName]="cssClassName + '_box_' + id"
+                    [baseColor]="color"
+                    [borderColor]="borderColor"
+                    #boxplot></app-boxplot>
                 </div>
             </div>
 
             <div class="ui column" *ngIf="moduleViews.indexOf('histo') != -1;">
                 <div class="ui segment">
                     <i class="chart bar icon"></i>
-                    <app-histogram [baseColor]="color" df-consumer></app-histogram>
+                    <app-histogram
+                    [isDimmed]="summaryDimmed"
+                    [message]="summarymessage"
+                    [dataframe]="summarytable"
+                    [baseColor]="color"
+                    [borderColor]="borderColor"
+                    #histogram></app-histogram>
                 </div>
             </div>
 
             <div class="ui column" *ngIf="moduleViews.indexOf('line') != -1;">
                 <div class="ui segment">
                     <i class="chart line icon"></i>
-                    <app-linechart
+                    <!-- <app-linechart
+                    [(dataframe)]="dataframe"
                     [ident]="'line'"
                     [baseColor]="color"
-                    df-consumer #chartone></app-linechart>
+                    [borderColor]="borderColor"
+                    #chartone></app-linechart> -->
                 </div>
             </div>
 
             <div class="ui column" *ngIf="moduleViews.indexOf('cumul') != -1;">
                 <div class="ui segment">
                     <i class="chart line icon"></i>
-                    <app-linechart
+                    <!-- <app-linechart
+                    [(dataframe)]="dataframe"
                     [ident]="'cumul'"
                     [baseColor]="color"
-                    df-consumer #charttwo></app-linechart>
+                    [borderColor]="borderColor"
+                     #charttwo></app-linechart> -->
                 </div>
             </div>
 
@@ -69,39 +86,54 @@
         </div>
     </div>
 
-    <div class="ui attached segment" *ngIf="moduleViews.indexOf('gauges') != -1;">
+    <div class="ui attached inverted segment" *ngIf="moduleViews.indexOf('gauges') != -1;">
 
         <i class="tachometer alternate icon"></i>
         <div class="ui stackable grid">
             <div class="ui row">
-                <div class="ui center middle aligned three wide column" *ngFor="let s of stats">
 
-                    <!-- <app-gauge *ngIf="s !='Total'" [gaugeValue]="valueFor(s,measures)" [gaugeLabel]="s" [gaugeAppendText]="measures"></app-gauge> -->
 
-                    <div class="ui statistic">
-                        <div class="value">
-                            {{ valueFor(s,measures) }}
-                        </div>
-                        <div class="label">
-                            {{s}} {{measures}}
-                        </div>
-                    </div>
+
+                <div class="ui center middle aligned four wide column" *ngFor="let s of stats" >
+                    <app-statview
+                        [isDimmed]="summaryDimmed"
+                        [value]="valueFor(s, metricLabel) | number:'1.0-2'"
+                        [label]="s + ' ' + metricLabel"
+                        [borderColor]="borderColor"
+                    ></app-statview>
                 </div>
             </div>
         </div>
     </div>
 
+    <div class="attached inverted raised segment">
+        <h3 class="ui center aligned header">
+            <span [ngClass]="cssClassName">
+                <i class="table icon"></i>
+            </span> {{metricLabel}} (Summary)
+        </h3>
+        <app-dataframe-table
+        [(dataframe)]="summarytable"
 
-    <div class="attached segment">
-        <h3 class="ui center aligned header" style="color: #000000;">
+        [isDimmed]="summaryDimmed"
+        [message]="summarymessage"
+        #dfsummarytable
+        ></app-dataframe-table>
+    </div>
+
+    <div class="attached inverted raised segment">
+        <h3 class="ui center aligned header">
             <span [ngClass]="cssClassName">
                 <i class="table icon"></i>
             </span> {{metricLabel}}
         </h3>
         <app-dataframe-table
-        [dataframe]="dataframe"
-        df-consumer
+        [(dataframe)]="dataframe"
+
+        [isDimmed]="dfDimmed"
+        [message]="dfmessage"
+        #dftable
         ></app-dataframe-table>
     </div>
-    <div class="ui bottom attached segment">Export this data as <a href="#">PDF</a>, or <a href="#">CSV</a>.</div>
+    <div class="ui bottom attached inverted segment">Export this data as <a href="#">PDF</a>, or <a href="#">CSV</a>.</div>
 </div>

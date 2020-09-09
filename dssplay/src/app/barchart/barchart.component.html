@@ -1,8 +1,18 @@
 <div class="ui segment chart-container">
-    <fui-dimmer [(isDimmed)]="isDimmed" [(isClickable)]="isClickable">
-    <div class="loader"></div><p>{{message}}</fui-dimmer>
-    <canvas
-        class='barchart'
-        #barchart
-    ></canvas>
+    <fui-dimmer [isDimmed]="getDimness()" [(isClickable)]="isClickable">
+    <div class="loader"></div><p>{{message}}</p>
+    </fui-dimmer>
+
+    <chart
+        id='{{ident}}_bar'
+
+        width="400"
+        height="200"
+
+        [data]="chartData"
+        [options]="chartOptions"
+        
+        type="bar"
+        #bar
+    ></chart>
 </div>

@@ -254,16 +254,13 @@ export class ModularReportComponent implements OnInit {
     }
 
     fetch(vname, sql) {
-        this.chart.invalidate('Loading...');
-        this.table.invalidate('Loading...');
+
         this.dat.sendSQL({ sql: sql, sender: vname }).subscribe(data => {
             if (data.sender == vname) {
                 this.dataframe = new DataFrame(data.result); // Pull out of Envelope
                 console.log(this.dataframe.toString());
                 this.dataframeChange.emit(this.dataframe);
-                this.chart.validate('Loading complete.');
-                this.table.validate('Loading complete.');
-                this.chart.refreshChart();
+                // this.chart.refreshChart();
             }
         }, err => {
             console.error(err);

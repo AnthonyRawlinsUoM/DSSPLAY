@@ -1,0 +1,13 @@
+<fui-dimmer [(isDimmed)]="isDimmed" [(isClickable)]="isClickable">
+<div class="loader"></div><p>{{message}}</p>
+</fui-dimmer>
+<!-- <app-gauge *ngIf="s !='Total'" [gaugeValue]="valueFor(s,measures)" [gaugeLabel]="s" [gaugeAppendText]="measures"></app-gauge> -->
+
+<div class="ui inverted statistic" >
+    <div class="value" >
+        {{ value }}
+    </div>
+    <div class="label" [style.color]="borderColor">
+        {{ label }}
+    </div>
+</div>

@@ -1,6 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
-import * as Chart from 'chart.js';
-import { ChartConfiguration, ChartData } from 'chart.js';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { ChartDataSets, ChartOptions} from 'chart.js';
+import { Color, Label, ThemeService } from 'ng2-charts';
+
 import { BurnTarget } from '../burn-target-options/burn-target-options.component';
 import { Metric } from '../metrics/metrics.component';
 import { DataFrame } from 'data-forge';
@@ -13,120 +14,98 @@ import { DfConsumerDirective } from '../df-consumer.directive';
     templateUrl: './barchart.component.html',
     styleUrls: ['./barchart.component.css']
 })
-export class BarchartComponent extends DfConsumerDirective implements OnInit {
-    @Input() dataframe: DataFrame;
+export class BarchartComponent implements OnInit {
+
     @Input() baseColor;
-    // @Input() metrics;
-    // @Input() burnTargets;
-    // @Input() series; // Becomes the column groupings!
+    @Input() ident;
 
-    chart: Chart;
-    chartOptions: ChartConfiguration;
+    @Input() dataframe: DataFrame;
+    @Input() isDimmed;
+    @Input() message = "Loading...";
 
-    initialData: any = {
-        // define label tree
-        labels: ['WF', 'PB'],
-        datasets: [
-            {
-                label: 'PB 1',
-                barPercentage: 0.5,
-                barThickness: 'flex',
-                backgroundColor: this.hueSkew(1),
-                borderColor: this.hueSkew(2),
-                borderWidth: 1,
-                minBarLength: 2,
-                data: [[0, 0, 0], [0, 0, 0]]
-            },
-            {
-                label: 'PB 3',
-                barPercentage: 0.5,
-                barThickness: 'flex',
-                backgroundColor: this.hueSkew(3),
-                borderColor: this.hueSkew(4),
-                borderWidth: 1,
-                minBarLength: 2,
-                data: [[0, 0, 0], [0, 0, 0]]
-            }
-        ]
-    };
+    public isClickable = true;
 
-    constructor() { super(); }
+    getDimness() {
+        return this.isDimmed;
+    }
+
+
+
+
+    // chart: Chart;
+    public chartData: ChartDataSets[] = [
+      { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
+    ];
+    public chartLabels: Label[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+    public chartColors: Color[] = [
+      {
+        borderColor: 'black',
+        backgroundColor: 'rgba(255,0,0,0.3)',
+      },
+    ];
+    public chartOptions:ChartOptions = {}   ;
+    public chartLegend = true;
+    public chartType = 'bar';
+    public chartPlugins = [];
+
+    constructor() {}
 
     ngOnInit() {
-        // console.log('Dataframe:', this.dataframe.toString());
-
-        this.chart = new Chart('barchart', {
-            type: 'bar',
-            data: this.initialData,
-            options: {
-                legend: {
-                    display: true,
-                    position: 'bottom',
-                    align: 'center',
-                    labels: {
-                        boxWidth: 8
-                    }
-                },
-
-                aspectRatio: 1.0,
-                maintainAspectRatio: true,
-                scales: {
-                    xAxes: [{
-                        gridLines: {
-                            offsetGridLines: true
-                        }
-                    }],
-                    yAxes: [{
-                        position: 'left',
-                        ticks: {
-                            beginAtZero: true,
-                        }
-                    }]
-                }
-            }
-        });
-
-        this.refreshChart();
+        this.format(this.dataframe);
     }
 
-    onDataframeChange($event) {
+    public setDataframe(df:DataFrame) {
+        this.format(df);
+    }
+
+    format(df:DataFrame) {
+
         console.log('Results DF changed!');
-        this.refreshChart();
-    }
+        this.chartData = [];
 
-    refreshChart() {
-        console.log('Refreshing chart');
-        console.log(this.dataframe.toString());
-        // Example...
+        let columns = df.getColumnNames();
 
-        // +---------------------------+
-        // |      |  I   |      |      |
-        // |      |  I   |  I   |      |
-        // |  I   |  I   |  I   |      |
-        // |  I   |  I   |  I   |  I   |
-        // |  I   |  I   |  I   |  I   |
-        // |  ha  |  ha  |  ha  |  ha  |
-        // +------+------+------+------+
-        // |  PB  |  WF  |  PB  |  WF  |
-        // |-------------+-------------|
-        // |     PB1     |     PB3     |
-        // |---------------------------|
+        if(columns.includes('scenario_name')) {
 
-        let uniquePBs = Array.from(new Set(this.dataframe.getSeries('PB').toArray()));
-        this.chart.data.labels = uniquePBs;
-        let s1 = this.dataframe.where(row => row['FireSeason'] == 'WF').toArray();
-        let s2 = this.dataframe.where(row => row['FireSeason'] == 'PB').toArray();
+            let good_columns = columns.filter(e => e !== 'scenario_name');
 
-        console.log('S1', s1);
-        console.log('S2', s2);
-        for(let row of this.dataframe.toRows()) {
-            for (let col of row) {
-                row[col]
+
+            this.chartLabels = good_columns;
+
+            let wf_rows = df
+                    .where(col => col['scenario_name']=='PB')
+                    // .parseFloats(good_columns)
+                    .toRows();
+
+            if(wf_rows.length>0) {
+                this.chartData
+                .push({
+                    label: 'Wildfire',
+                    data: wf_rows
+                });
             }
+
+            let pb_rows = df
+                    .where(col => col['scenario_name']=='PB')
+                    // .parseFloats(good_columns)
+                    .toRows();
+
+            if(pb_rows.length>0) {
+                this.chartData
+                .push({
+                    label: 'Prescribed Burn',
+                    data: pb_rows
+                });
+            }
+
+        } else {
+            this.chartLabels = columns;
+            this.chartData
+            .push({
+                label: 'Wildfire',
+                data: df.toRows()
+            });
         }
-        this.chart.data.datasets[0].data = s1;
-        this.chart.data.datasets[1].data = s2;
-        this.chart.update();
     }
 
     hueSkew(step) {

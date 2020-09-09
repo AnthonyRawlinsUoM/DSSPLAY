@@ -244,3 +244,8 @@ i.ui.icon.mintcream { color: #EBF5EE !important; }
     height: 5em;
   }
 }
+
+.ui.inverted.segment.curvy,
+.ui.inverted.segment.curvy .dimmer {
+    border-radius: 8px;
+}

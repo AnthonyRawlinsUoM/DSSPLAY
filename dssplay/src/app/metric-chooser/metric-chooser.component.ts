@@ -30,74 +30,65 @@ export class MetricChooserComponent implements OnInit {
                     part: 1.5,
                     access: PUBLIC,
                     modules: ['box', 'histo', 'gauges'],
-                    sql: `
+                    summarysql:`
                     SELECT
-                        t.burnt_area
+                        DISTINCT(s.id),
+                        avg(t.burnt_area) as _avg,
+                        median(CAST(t.burnt_area AS numeric)) as _median,
+                        MIN(t.burnt_area) as _min,
+                        STDDEV(t.burnt_area) / avg(t.burnt_area) as _cov,
+                        MAX(t.burnt_area) as  _max,
+                        SUM(t.burnt_area) as _total
 
-                        --     median(t.burnt_area) as MEDIAN_BurntArea,
-                        --     STDDEV(t.burnt_area) / avg(t.burnt_area) as CoV,
-                        --     MAX(t.burnt_area) as  MAX_BurntArea,
-                        --     SUM(t.burnt_area) as TOTAL_BurntArea
-                        --        ,
-                        --        s.type
                     FROM
                         job
                         INNER JOIN fuel_machine_type ft
                             ON ft.fuel_machine_type_id = job.fuel_machine_kind
                         INNER JOIN jobtojobstate js
                             ON job.id=js.job_id
-
                         INNER JOIN jobstate j
                             ON js.job_state_id = j.id,
-                        scenario s
 
+                        scenario s
                         INNER JOIN totalfireimpact t
                             ON s.uuid = t.uuid
                             AND s.regime = t.regime
                             AND s.replicate = t.replicate,
+
                          scenario_types st
 
                     WHERE
                         j.published = true
                         AND t.uuid = job.uuid
-                        --     AND s.id = t.scenario_id
-                        --     AND st.scenario_type = s.type
+                        AND s.id = t.scenario_id
+                        AND st.scenario_type = s.type
+                    -- AND ft.fuel_machine_type_name = 'invexp'
 
-                        -- GROUP BY s.type
+                    GROUP BY s.id
 
-                    LIMIT 50 OFFSET 0;
-                    `
-                },
-                {
-                    label: 'Burnt Area (ha) by Fire Season',
-                    table: ['Avg','Median','CoV','Max','Total'],
-                    part: 1,
-                    access: PUBLIC,
-                    modules: ['box', 'histo', 'gauges'],
-                    sql: `
+                    --  LIMIT 50 OFFSET 0
+
+                    ;`
+                    ,
+                    rawdatasql: `
                     SELECT
-                        -- AVG(t.burnt_area) as AVG_BurntArea,
-                        --     median(t.burnt_area) as MEDIAN_BurntArea,
-                        -- STDDEV(t.burnt_area) / avg(t.burnt_area) as CoV,
-                        -- MAX(t.burnt_area) as  MAX_BurntArea,
-                        -- SUM(t.burnt_area) as TOTAL_BurntArea,
-                        t.burnt_area,
-                        st.scenario_name
+                        s.id,
+                        AVG(t.burnt_area) as avg
                     FROM
                         job
                         INNER JOIN fuel_machine_type ft
                             ON ft.fuel_machine_type_id = job.fuel_machine_kind
                         INNER JOIN jobtojobstate js
                             ON job.id=js.job_id
-
                         INNER JOIN jobstate j
                             ON js.job_state_id = j.id,
-                        scenario s
 
+                        scenario s
                         INNER JOIN totalfireimpact t
                             ON s.uuid = t.uuid
                             AND s.regime = t.regime
                             AND s.replicate = t.replicate,
+
                          scenario_types st
 
                     WHERE
@@ -106,9 +97,89 @@ export class MetricChooserComponent implements OnInit {
                         AND s.id = t.scenario_id
                         AND st.scenario_type = s.type
 
-                    -- GROUP BY st.scenario_name
+                    -- AND ft.fuel_machine_type_name = 'invexp'
 
-                    LIMIT 5000 OFFSET 0;
+                    GROUP BY s.type, s.id
+                    ORDER BY s.id
+
+                    --  LIMIT 50 OFFSET 0
+                    ;
+                    `
+                },
+                {
+                    label: 'Burnt Area (ha) by Fire Season',
+                    table: ['Avg','Median','CoV','Max','Total'],
+                    part: 1,
+                    access: PUBLIC,
+                    modules: ['box', 'histo', 'gauges'],
+                    summarysql: `
+                    SELECT
+                        avg(t.burnt_area) as _avg,
+                        median(CAST(t.burnt_area AS numeric)) as _median,
+                        MIN(t.burnt_area) as _min,
+                        STDDEV(t.burnt_area) / avg(t.burnt_area) as _cov,
+                        MAX(t.burnt_area) as  _max,
+                        SUM(t.burnt_area) as _total,
+                        st.scenario_name
+                    FROM
+                        job
+                        INNER JOIN fuel_machine_type ft
+                            ON ft.fuel_machine_type_id = job.fuel_machine_kind
+                        INNER JOIN jobtojobstate js
+                            ON job.id=js.job_id
+                        INNER JOIN jobstate j
+                            ON js.job_state_id = j.id,
+
+                        scenario s
+                        INNER JOIN totalfireimpact t
+                            ON s.uuid = t.uuid
+                            AND s.regime = t.regime
+                            AND s.replicate = t.replicate,
+
+                         scenario_types st
+
+                    WHERE
+                        j.published = true
+                        AND t.uuid = job.uuid
+                        AND s.id = t.scenario_id
+                        AND st.scenario_type = s.type
+                    -- AND ft.fuel_machine_type_name = 'invexp'
+
+                    GROUP BY s.id, st.scenario_name
+                    ORDER BY s.id;
+                    `,
+                    rawdatasql: `
+                    SELECT
+                        s.id,
+                        AVG(t.burnt_area) as avg,
+                        st.scenario_name
+                    FROM
+                        job
+                        INNER JOIN fuel_machine_type ft
+                            ON ft.fuel_machine_type_id = job.fuel_machine_kind
+                        INNER JOIN jobtojobstate js
+                            ON job.id=js.job_id
+                        INNER JOIN jobstate j
+                            ON js.job_state_id = j.id,
+
+                        scenario s
+                        INNER JOIN totalfireimpact t
+                            ON s.uuid = t.uuid
+                            AND s.regime = t.regime
+                            AND s.replicate = t.replicate,
+
+                         scenario_types st
+
+                    WHERE
+                        j.published = true
+                        AND t.uuid = job.uuid
+                        AND s.id = t.scenario_id
+                        AND st.scenario_type = s.type
+                    -- AND ft.fuel_machine_type_name = 'invexp'
+
+                    GROUP BY s.id, st.scenario_name
+                    ORDER BY s.id;
+
                     `
                 },
                 {
@@ -116,21 +187,27 @@ export class MetricChooserComponent implements OnInit {
                     table: ['Avg','Median','CoV','Max','Total'],
                     part: 2,
                     access: RESTRICTED,
-                    modules: ['box', 'histo', 'cumul', 'time', 'gauges']
+                    modules: ['box', 'histo', 'cumul', 'time', 'gauges'],
+                    summarysql: ``,
+                    rawdatasql: ``
                 },
                 {
                     label: 'Exposure',
                     table: ['Avg','Median','CoV','Max','Total'],
                     part: 2,
                     access: RESTRICTED,
-                    modules: ['box', 'histo', 'cumul', 'time', 'gauges']
+                    modules: ['box', 'histo', 'cumul', 'time', 'gauges'],
+                    summarysql: ``,
+                    rawdatasql: ``
                 },
                 {
                     label: 'Burnt Area (ha)',
                     table: ['Total'],
                     part: 2,
                     access: RESTRICTED,
-                    modules: ['box', 'histo', 'cumul', 'gauges']
+                    modules: ['box', 'histo', 'cumul', 'gauges'],
+                    summarysql: ``,
+                    rawdatasql: ``
                 },
             ]
         },
@@ -146,15 +223,14 @@ export class MetricChooserComponent implements OnInit {
                 // Houses
                 {
                     label: 'House Loss per year by Wildfire',
-                    table: ['Avg','Median','CoV','Max','Total'],
+                    table: ['Avg','Median','Deviation','Max','Total'],
                     part: 1,
                     access: PUBLIC,
                     modules: ['box', 'histo', 'gauges'],
-                    sql: `
+                    rawdatasql: `
                     SELECT
-                        t.houses_exposed,
-                        t.house_loss,
-                        st.scenario_name
+                        s.id,
+                        AVG(t.houses_lost) as avg
                     FROM
                         job
                         INNER JOIN fuel_machine_type ft
@@ -166,7 +242,7 @@ export class MetricChooserComponent implements OnInit {
                             ON js.job_state_id = j.id,
                         scenario s
 
-                        INNER JOIN peoplehouseloss t
+                        INNER JOIN peoplehouselossperfire t
                             ON s.uuid = t.uuid
                             AND s.regime = t.regime
                             AND s.replicate = t.replicate,
@@ -177,8 +253,55 @@ export class MetricChooserComponent implements OnInit {
                         AND t.uuid = job.uuid
                         AND s.id = t.scenario_id
                         AND st.scenario_type = s.type
+                        AND s.type = 1
+                    --  AND ft.fuel_machine_type_name = 'invexp'
 
-                    LIMIT 5000 OFFSET 0;
+                    GROUP BY s.id
+                    ORDER BY s.id
+                    --  LIMIT 50 OFFSET 0
+                        ;
+
+                    `,
+                    summarysql: `
+                    SELECT
+                        s.id,
+                        avg(t.houses_lost) as _avg,
+                        median(CAST(t.houses_lost AS numeric)) as _median,
+                        MIN(t.houses_lost) as _min,
+                        STDDEV(t.houses_lost) as _stddev,
+                        MAX(t.houses_lost) as  _max,
+                        SUM(t.houses_lost) as _total
+                    FROM
+                        job
+                        INNER JOIN fuel_machine_type ft
+                            ON ft.fuel_machine_type_id = job.fuel_machine_kind
+                        INNER JOIN jobtojobstate js
+                            ON job.id=js.job_id
+
+                        INNER JOIN jobstate j
+                            ON js.job_state_id = j.id,
+                        scenario s
+
+                        INNER JOIN peoplehouselossperfire t
+                            ON s.uuid = t.uuid
+                            AND s.regime = t.regime
+                            AND s.replicate = t.replicate,
+                         scenario_types st
+
+                    WHERE
+                        j.published = true
+                        AND t.uuid = job.uuid
+                        AND s.id = t.scenario_id
+                        AND st.scenario_type = s.type
+                        AND s.type = 1
+                    --  AND ft.fuel_machine_type_name = 'invexp'
+
+
+                    GROUP BY s.id
+                    ORDER BY s.id
+
+                    --  LIMIT 50 OFFSET 0
+                    ;
                     `
                 },
                 {
@@ -186,14 +309,161 @@ export class MetricChooserComponent implements OnInit {
                     table: ['Avg','Median','CoV','Max','Total'],
                     part: 2,
                     access: PUBLIC,
-                    modules: ['box', 'histo', 'gauges']
+                    modules: ['box', 'histo', 'gauges'],
+                    summarysql: `
+                    SELECT
+                        s.id,
+                        avg(t.houses_lost) as _avg,
+                        median(CAST(t.houses_lost AS numeric)) as _median,
+                        MIN(t.houses_lost) as _min,
+                        STDDEV(t.houses_lost) / avg(t.houses_lost) as _cov,
+                        MAX(t.houses_lost) as  _max,
+                        SUM(t.houses_lost) as _total
+                    FROM
+                        job
+                        INNER JOIN fuel_machine_type ft
+                            ON ft.fuel_machine_type_id = job.fuel_machine_kind
+                        INNER JOIN jobtojobstate js
+                            ON job.id=js.job_id
+                        INNER JOIN jobstate j
+                            ON js.job_state_id = j.id,
+
+                        scenario s
+                        INNER JOIN peoplehouselossperfire t
+                            ON s.uuid = t.uuid
+                            AND s.regime = t.regime
+                            AND s.replicate = t.replicate,
+
+                        scenario_types st
+
+                    WHERE
+                        j.published = true
+                        AND t.uuid = job.uuid
+                        AND st.scenario_type = 1 -- WILDFIRE
+                    -- AND ft.fuel_machine_type_name = 'invexp'
+
+                    GROUP BY s.id
+                    ORDER BY s.id
+
+                    --  LIMIT 50 OFFSET 0
+                    ;
+                    `,
+                    rawdatasql: `
+                    SELECT
+                        s.id,
+                        AVG(t.houses_lost),
+
+                    FROM
+                        job
+                        INNER JOIN fuel_machine_type ft
+                            ON ft.fuel_machine_type_id = job.fuel_machine_kind
+                        INNER JOIN jobtojobstate js
+                            ON job.id=js.job_id
+
+                        INNER JOIN jobstate j
+                            ON js.job_state_id = j.id,
+                        scenario s
+
+                        INNER JOIN peoplehouselossperfire t
+                            ON s.uuid = t.uuid
+                            AND s.regime = t.regime
+                            AND s.replicate = t.replicate,
+                         scenario_types st
+
+                    WHERE
+                        j.published = true
+                        AND t.uuid = job.uuid
+                        AND s.id = t.scenario_id
+                        AND st.scenario_type = s.type
+                    -- AND ft.fuel_machine_type_name = 'invexp'
+
+                    GROUP BY s.id
+                    ORDER BY s.id
+                    --  LIMIT 50 OFFSET 0
+                        ;
+                `
                 },
                 {
                     label: 'House Loss per year by Wildfire',
                     table: ['Total'],
                     part: 3,
                     access: RESTRICTED,
-                    modules: ['box', 'histo', 'replicates', 'cumul', 'uncertainty', 'gauges']
+                    modules: ['box', 'histo', 'replicates', 'cumul', 'uncertainty', 'gauges'],
+                    summarysql: `
+                    SELECT
+                        s.id,
+                        avg(t.houses_lost) as _avg,
+                        median(CAST(t.houses_lost AS numeric)) as _median,
+                        MIN(t.houses_lost) as _min,
+                        STDDEV(t.houses_lost) AS _stddev
+                        MAX(t.houses_lost) as  _max,
+                        SUM(t.houses_lost) as _total
+                    FROM
+                        job
+                        INNER JOIN fuel_machine_type ft
+                            ON ft.fuel_machine_type_id = job.fuel_machine_kind
+                        INNER JOIN jobtojobstate js
+                            ON job.id=js.job_id
+
+                        INNER JOIN jobstate j
+                            ON js.job_state_id = j.id,
+                        scenario s
+
+                        INNER JOIN peoplehouselossperfire t
+                            ON s.uuid = t.uuid
+                            AND s.regime = t.regime
+                            AND s.replicate = t.replicate,
+                         scenario_types st
+
+                    WHERE
+                        j.published = true
+                        AND t.uuid = job.uuid
+                        AND s.id = t.scenario_id
+                        AND st.scenario_type = s.type
+                        AND s.type = 1
+                    --  AND ft.fuel_machine_type_name = 'invexp'
+
+                    GROUP BY s.id
+                    ORDER BY s.id
+                    -- GROUP BY st.scenario_name, t.replicate, t.regime
+
+                    --  LIMIT 50 OFFSET 0
+                    ;
+                    `,
+                    rawdatasql: `
+                    SELECT
+                        AVG(t.houses_lost),
+                        s.id
+                    FROM
+                        job
+                        INNER JOIN fuel_machine_type ft
+                            ON ft.fuel_machine_type_id = job.fuel_machine_kind
+                        INNER JOIN jobtojobstate js
+                            ON job.id=js.job_id
+
+                        INNER JOIN jobstate j
+                            ON js.job_state_id = j.id,
+                        scenario s
+
+                        INNER JOIN peoplehouselossperfire t
+                            ON s.uuid = t.uuid
+                            AND s.regime = t.regime
+                            AND s.replicate = t.replicate,
+                         scenario_types st
+
+                    WHERE
+                        j.published = true
+                        AND t.uuid = job.uuid
+                        AND s.id = t.scenario_id
+                        AND st.scenario_type = s.type
+                        AND s.type = 1
+                    --  AND ft.fuel_machine_type_name = 'invexp'
+
+                    GROUP BY s.id
+                    ORDER BY s.id
+                    --  LIMIT 50 OFFSET 0
+                        ;
+                        `
                 },
 
             ]
@@ -210,39 +480,79 @@ export class MetricChooserComponent implements OnInit {
                 // People
                 {
                     label: 'Total Life Loss per year by Wildfire',
-                    table: ['Avg','Median','CoV','Max','Total'],
+                    table: ['Avg','Median','Deviation','Max','Total'],
                     part: 1,
                     access: PUBLIC,
                     modules: ['box', 'histo', 'gauges'],
-                    sql: `
+                    summarysql:`
                     SELECT
-                        t.people_exposed,
-                        t.people_lost_ratio_method,
-                        st.scenario_name
+                        s.id,
+                        avg(t.people_lost_harris_method) as _avg,
+                        median(CAST(t.people_lost_harris_method AS numeric)) as _median,
+                        MIN(t.people_lost_harris_method) as _min,
+                        STDDEV(t.people_lost_harris_method) as _stddev,
+                        MAX(t.people_lost_harris_method) as  _max,
+                        SUM(t.people_lost_harris_method) as _total
                     FROM
                         job
                         INNER JOIN fuel_machine_type ft
                             ON ft.fuel_machine_type_id = job.fuel_machine_kind
                         INNER JOIN jobtojobstate js
                             ON job.id=js.job_id
-
                         INNER JOIN jobstate j
                             ON js.job_state_id = j.id,
-                        scenario s
 
-                        INNER JOIN peoplehouseloss t
+                        scenario s
+                        INNER JOIN peoplehouselossperfire t
                             ON s.uuid = t.uuid
                             AND s.regime = t.regime
                             AND s.replicate = t.replicate,
-                         scenario_types st
+
+                        scenario_types st
 
                     WHERE
                         j.published = true
                         AND t.uuid = job.uuid
-                        AND s.id = t.scenario_id
-                        AND st.scenario_type = s.type
+                        AND st.scenario_type = 1 -- WILDFIRE
+                    -- AND ft.fuel_machine_type_name = 'invexp'
 
-                    LIMIT 5000 OFFSET 0;
+                    GROUP BY s.id
+                    ORDER BY s.id
+                    --  LIMIT 50 OFFSET 0
+                    ;
+                    `,
+                    rawdatasql: `
+
+                    SELECT
+                        s.id,
+                        AVG(t.people_lost_harris_method) as avg
+                    FROM
+                        job
+                        INNER JOIN fuel_machine_type ft
+                            ON ft.fuel_machine_type_id = job.fuel_machine_kind
+                        INNER JOIN jobtojobstate js
+                            ON job.id=js.job_id
+                        INNER JOIN jobstate j
+                            ON js.job_state_id = j.id,
+
+                        scenario s
+                        INNER JOIN peoplehouselossperfire t
+                            ON s.uuid = t.uuid
+                            AND s.regime = t.regime
+                            AND s.replicate = t.replicate,
+
+                        scenario_types st
+
+                    WHERE
+                        j.published = true
+                        AND t.uuid = job.uuid
+                        AND st.scenario_type = 1 -- WILDFIRE
+                    -- AND ft.fuel_machine_type_name = 'invexp'
+
+                    GROUP BY s.id
+                    ORDER BY s.id
+                    --  LIMIT 50 OFFSET 0
+                    ;
                     `
                 },
                 {
@@ -250,14 +560,18 @@ export class MetricChooserComponent implements OnInit {
                     table: ['Avg','Median','CoV','Max','Total'],
                     part: 2,
                     access: PUBLIC,
-                    modules: ['box', 'histo', 'gauges']
+                    modules: ['box', 'histo', 'gauges'],
+                    summarysql: ``,
+                    rawdatasql: ``
                 },
                 {
                     label: 'Total Life Loss per year by Wildfire',
                     table: ['Avg','Median','CoV','Max','Total'],
                     part: 3,
                     access: RESTRICTED,
-                    modules: ['box', 'histo', 'replicates', 'cumul', 'uncertainty', 'gauges']
+                    modules: ['box', 'histo', 'replicates', 'cumul', 'uncertainty', 'gauges'],
+                    summarysql: ``,
+                    rawdatasql: ``
                 },
             ]
         },
@@ -275,21 +589,203 @@ export class MetricChooserComponent implements OnInit {
                     table: ['Avg','Median','CoV','Max','Total'],
                     part: 1,
                     access: PUBLIC,
-                    modules: ['box', 'histo', 'gauges']
+                    modules: ['box', 'histo', 'gauges'],
+                    summarysql: ``,
+                    rawdatasql: ``
                 },
                 {
                     label: 'Proportion of Wildfires with Habitat Loss per year',
-                    table: ['Avg','Median','CoV','Max','Total'],
+                    table: ['Avg','Median','Deviation','Min','Max','Total'],
                     part: 2,
                     access: PUBLIC,
-                    modules: ['box', 'histo', 'gauges']
+                    modules: ['box','histo', 'gauges'],
+                    summarysql: `
+                    SELECT
+                        DISTINCT all_fires.id as scenario,
+                        AVG(CAST((fires_with_habitat_loss.total / all_fires.total) AS REAL)) AS _avg,
+                        median(CAST(CAST((fires_with_habitat_loss.total / all_fires.total) AS REAL) AS numeric)) AS _median,
+                        MAX(CAST((fires_with_habitat_loss.total / all_fires.total) AS REAL)) AS _max,
+                        MIN(CAST((fires_with_habitat_loss.total / all_fires.total) AS REAL)) AS _min,
+                        STDDEV(CAST((fires_with_habitat_loss.total / all_fires.total) AS REAL)) AS _stddev,
+                        SUM(CAST((fires_with_habitat_loss.total / all_fires.total) AS REAL)) AS _total
+
+                    FROM (
+                        SELECT
+                            COUNT(b.fire_id) as total,
+                            s.id
+                        FROM
+                             job
+                        INNER JOIN fuel_machine_type ft
+                          ON ft.fuel_machine_type_id = job.fuel_machine_kind
+                        INNER JOIN jobtojobstate js
+                          ON job.id = js.job_id
+
+                        INNER JOIN jobstate j
+                          ON js.job_state_id = j.id,
+                            scenario s
+
+                        INNER JOIN totalfireimpact t
+                          ON s.uuid = t.uuid
+                              AND s.regime = t.regime
+                              AND s.replicate = t.replicate
+                        INNER JOIN biodiversity b
+                          ON s.id = b.scenario_id
+                              AND t.fire_id = b.fire_id,
+
+                            scenario_types st
+
+                        WHERE j.published = true
+                            AND t.uuid = job.uuid
+                            AND s.id = t.scenario_id
+                            AND st.scenario_type = s.type
+                            AND s.type = 1
+                            AND ft.fuel_machine_type_name = 'invexp'
+                            AND ((b.num_ldb_possum_cells_burnt
+                                + b.num_nature_print_cells_burnt
+                                + b.num_wet_forest_veg_cells_burnt
+                                + b.num_greater_glider_0_33_cells_burnt
+                                + b.num_greater_glider_0_75_cells_burnt) > 0)
+                        GROUP BY s.id, st.scenario_name, t.replicate, t.regime
+                        ) AS fires_with_habitat_loss,
+
+                    (SELECT
+                        COUNT(b.fire_id) as total,
+                        st.scenario_name,
+                        t.replicate,
+                        t.regime,
+                        s.id
+                    FROM
+                         job
+                    INNER JOIN fuel_machine_type ft
+                      ON ft.fuel_machine_type_id = job.fuel_machine_kind
+                    INNER JOIN jobtojobstate js
+                      ON job.id = js.job_id
+
+                    INNER JOIN jobstate j
+                      ON js.job_state_id = j.id,
+                        scenario s
+
+                    INNER JOIN totalfireimpact t
+                      ON s.uuid = t.uuid
+                          AND s.regime = t.regime
+                          AND s.replicate = t.replicate
+                    INNER JOIN biodiversity b
+                      ON s.id = b.scenario_id
+                          AND t.fire_id = b.fire_id,
+
+                        scenario_types st
+
+                    WHERE j.published = true
+                        AND t.uuid = job.uuid
+                        AND s.id = t.scenario_id
+                        AND st.scenario_type = s.type
+                        AND s.type = 1
+                        AND ft.fuel_machine_type_name = 'invexp'
+                    GROUP BY s.id, st.scenario_name, t.replicate, t.regime
+                        ) all_fires
+                    GROUP BY all_fires.id
+                    ORDER  BY all_fires.id
+
+                    --  LIMIT 50 OFFSET 0;
+                    `,
+                    rawdatasql: `
+                    SELECT
+                        all_fires.id as scenario,
+                        (CAST((fires_with_habitat_loss.total / all_fires.total) AS REAL)) AS _avg,
+                        (CAST(CAST((fires_with_habitat_loss.total / all_fires.total) AS REAL) AS numeric)) AS _median,
+                        (CAST((fires_with_habitat_loss.total / all_fires.total) AS REAL)) AS _max,
+                        (CAST((fires_with_habitat_loss.total / all_fires.total) AS REAL)) AS _min,
+                        (CAST((fires_with_habitat_loss.total / all_fires.total) AS REAL)) AS _stddev,
+                        (CAST((fires_with_habitat_loss.total / all_fires.total) AS REAL)) AS _total
+
+                    FROM (
+                        SELECT
+                            COUNT(b.fire_id) as total,
+                            s.id
+                        FROM
+                             job
+                        INNER JOIN fuel_machine_type ft
+                          ON ft.fuel_machine_type_id = job.fuel_machine_kind
+                        INNER JOIN jobtojobstate js
+                          ON job.id = js.job_id
+
+                        INNER JOIN jobstate j
+                          ON js.job_state_id = j.id,
+                            scenario s
+
+                        INNER JOIN totalfireimpact t
+                          ON s.uuid = t.uuid
+                              AND s.regime = t.regime
+                              AND s.replicate = t.replicate
+                        INNER JOIN biodiversity b
+                          ON s.id = b.scenario_id
+                              AND t.fire_id = b.fire_id,
+
+                            scenario_types st
+
+                        WHERE j.published = true
+                            AND t.uuid = job.uuid
+                            AND s.id = t.scenario_id
+                            AND st.scenario_type = s.type
+                            AND s.type = 1
+                            AND ft.fuel_machine_type_name = 'invexp'
+                            AND ((b.num_ldb_possum_cells_burnt
+                                + b.num_nature_print_cells_burnt
+                                + b.num_wet_forest_veg_cells_burnt
+                                + b.num_greater_glider_0_33_cells_burnt
+                                + b.num_greater_glider_0_75_cells_burnt) > 0)
+                        GROUP BY s.id, st.scenario_name, t.replicate, t.regime
+                        ) AS fires_with_habitat_loss,
+
+                    (SELECT
+                        COUNT(b.fire_id) as total,
+                        st.scenario_name,
+                        t.replicate,
+                        t.regime,
+                        s.id
+                    FROM
+                         job
+                    INNER JOIN fuel_machine_type ft
+                      ON ft.fuel_machine_type_id = job.fuel_machine_kind
+                    INNER JOIN jobtojobstate js
+                      ON job.id = js.job_id
+
+                    INNER JOIN jobstate j
+                      ON js.job_state_id = j.id,
+                        scenario s
+
+                    INNER JOIN totalfireimpact t
+                      ON s.uuid = t.uuid
+                          AND s.regime = t.regime
+                          AND s.replicate = t.replicate
+                    INNER JOIN biodiversity b
+                      ON s.id = b.scenario_id
+                          AND t.fire_id = b.fire_id,
+
+                        scenario_types st
+
+                    WHERE j.published = true
+                        AND t.uuid = job.uuid
+                        AND s.id = t.scenario_id
+                        AND st.scenario_type = s.type
+                        AND s.type = 1
+                        AND ft.fuel_machine_type_name = 'invexp'
+                    GROUP BY s.id, st.scenario_name, t.replicate, t.regime
+                        ) all_fires
+                    -- GROUP BY all_fires.id
+                    ORDER  BY all_fires.id
+
+                    --  LIMIT 50 OFFSET 0;
+                 `
                 },
                 {
                     label: 'Total Habitat Loss per year by Wildfire',
                     table: ['Avg','Median','CoV','Max','Total'],
                     part: 2,
                     access: RESTRICTED,
-                    modules: ['line', 'replicates', 'cumul', 'gauges']
+                    modules: ['line', 'replicates', 'cumul', 'gauges'],
+                    summarysql: ``,
+                    rawdatasql: ``
                 },
             ]
         },
@@ -307,21 +803,27 @@ export class MetricChooserComponent implements OnInit {
                     table: ['Avg','Median','CoV','Max','Total'],
                     part: 1,
                     access: PUBLIC,
-                    modules: ['box', 'histo', 'gauges']
+                    modules: ['box', 'histo', 'gauges'],
+                    summarysql: ``,
+                    rawdatasql: ``
                 },
                 {
                     label: 'Proportion of Wildfires with Habitat Loss by EFG per year',
                     table: ['Avg','Median','CoV','Max','Total'],
                     part: 1.5,
                     access: PUBLIC,
-                    modules: ['box', 'histo', 'gauges']
+                    modules: ['box', 'histo', 'gauges'],
+                    summarysql: ``,
+                    rawdatasql: ``
                 },
                 {
                     label: 'Habitat Loss per year by EFG and Wildfire by subset of Replicates',
                     table: ['Avg','Median','CoV','Max','Total'],
                     part: 2,
                     access: RESTRICTED,
-                    modules: ['line', 'replicates', 'cumul', 'uncertainty', 'gauges']
+                    modules: ['line', 'replicates', 'cumul', 'uncertainty', 'gauges'],
+                    summarysql: ``,
+                    rawdatasql: ``
                 },
             ]
         },
@@ -338,9 +840,9 @@ export class MetricChooserComponent implements OnInit {
         {
             label: 'Carbon',
             option: 'carbon',
-            color: 'rgba(0,0,0, 0.68)',
-            border: '#000000',
-            class: 'richblackfogra',
+            color: 'rgba(255,255,255, 0.68)',
+            border: '#FFFFFF',
+            class: 'white',
             active: false,
             icon: 'circle',
             views: [
@@ -349,7 +851,9 @@ export class MetricChooserComponent implements OnInit {
                     table: ['Avg','Median','CoV','Max','Total'],
                     part: 1,
                     access: PUBLIC,
-                    modules: ['box', 'histo', 'gauges']
+                    modules: ['box', 'histo', 'gauges'],
+                    summarysql: ``,
+                    rawdatasql: ``
                 },
 
                 {
@@ -357,14 +861,18 @@ export class MetricChooserComponent implements OnInit {
                     table: ['Avg','Median','CoV','Max','Total'],
                     part: 1.5,
                     access: PUBLIC,
-                    modules: ['box', 'histo', 'gauges']
+                    modules: ['box', 'histo', 'gauges'],
+                    summarysql: ``,
+                    rawdatasql: ``
                 },
                 {
                     label: 'Carbon Released per year by subset of Replicates',
                     table: ['Max'],
                     part: 2,
                     access: RESTRICTED,
-                    modules: ['line', 'uncertainty', 'gauges']
+                    modules: ['line', 'uncertainty', 'gauges'],
+                    summarysql: ``,
+                    rawdatasql: ``
                 },
             ]
         },

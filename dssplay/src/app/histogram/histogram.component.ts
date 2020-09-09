@@ -1,10 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
-import * as Chart from 'chart.js';
-import { ChartConfiguration, ChartData } from 'chart.js';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
+
+import { Chart, ChartData, ChartOptions } from 'chart.js';
+import * as Color from 'color';
+
 import { BurnTarget } from '../burn-target-options/burn-target-options.component';
 import { Metric } from '../metrics/metrics.component';
 import { DataFrame } from 'data-forge';
-import * as pd from 'node-pandas';
+// import * as pd from 'node-pandas';
 import { DfConsumerDirective } from '../df-consumer.directive';
 
 @Component({
@@ -12,116 +14,142 @@ import { DfConsumerDirective } from '../df-consumer.directive';
     templateUrl: './histogram.component.html',
     styleUrls: ['./histogram.component.css']
 })
-export class HistogramComponent extends DfConsumerDirective implements OnInit {
+export class HistogramComponent implements OnInit, OnChanges {
     @Input() dataframe: DataFrame;
     @Input() baseColor;
+    @Input() borderColor;
     @Input() ident;
+    @Input() isDimmed;
+    @Input() message = "Loading...";
 
-    chart: Chart;
-    chartOptions: ChartConfiguration;
+    public isClickable = true;
 
-    initialData: any = {
-        // define label tree
-        labels: ['WF', 'PB'],
+    getDimness() {
+        return this.isDimmed;
+    }
+
+
+    // chart: Chart;
+    public chartData: ChartData = {
+        labels: [],
         datasets: [
-            {
-                label: 'WF',
-                barPercentage: 0.5,
-                barThickness: 'flex',
-                backgroundColor: this.hexToRgb(this.baseColor),
-                borderColor: this.hueSkew(2),
-                borderWidth: 1,
-                minBarLength: 2,
-                data: [38, 46, 23, 27, 14, 38]
-            },
-            {
-                label: 'PB',
-                barPercentage: 0.5,
-                barThickness: 'flex',
-                backgroundColor: this.hexToRgb(this.baseColor),
-                borderColor: this.hueSkew(4),
-                borderWidth: 1,
-                minBarLength: 2,
-                data: [34, 43, 20, 22, 12, 32]
-            }
+            { data: [635, 59, 180, 281, 256, 355, 401], label: 'Burnt Area (ha)' },
         ]
     };
 
-    constructor() {
-        super();
+
+    public chartOptions: ChartOptions = {};
+    public chartLegend = true;
+    public bar = 'bar';
+    public chartPlugins = [];
+
+    ngOnChanges(){
+        this.chartData = this.format(this.dataframe);
+
+        let a = this.tints(this.baseColor, 'rgb');
+        let b = this.tints(a, 'hex');
+        let c = this.tints(b, 'rgb');
+        console.log(a,b,c);
     }
 
+    constructor() {}
     ngOnInit() {
-        // console.log('Dataframe:', this.dataframe.toString());
 
-        this.chart = new Chart(this.ident, {
-            type: 'bar',
-            data: this.initialData,
-            options: {
-                legend: {
-                    display: true,
-                    position: 'top',
-                    align: 'start',
-                    labels: {
-                        boxWidth: 8
-                    }
-                },
-                aspectRatio: 1.0,
-                maintainAspectRatio: true,
-                scales: {
-                    xAxes: [{
-                        gridLines: {
-                            offsetGridLines: true
-                        }
-                    }],
-                    yAxes: [{
-                        position: 'left',
-                        ticks: {
-                            beginAtZero: true,
-                        }
-                    }]
-                }
-            }
-        });
-
-        this.refreshChart();
     }
 
-    onDataframeChange($event) {
+    onDataframeChange(df: DataFrame) {
+        this.chartData = this.format(df);
+    }
+
+    format(df: DataFrame): ChartData {
+
         console.log('Results DF changed!');
-        this.refreshChart();
+
+        let dataStruct = {
+            labels: [],
+            datasets: []
+        };
+
+        let columns = df.getColumnNames().filter(e => e !== 'id');
+
+        // dataStruct.labels = df.getIndex().toArray();
+
+
+
+        if (columns.includes('scenario_name')) {
+
+            dataStruct.labels = ['by Fire Type'];
+
+            let good_columns = columns.filter(e => e !== 'scenario_name');
+
+            // Just using the first good column for testing
+
+            let wf_rows = df
+                .where(col => col['scenario_name'] == 'WF')
+                .getSeries(good_columns[0])
+                .toArray();
+
+            if (wf_rows.length > 0) {
+                dataStruct.datasets
+                    .push({
+                        label: 'Wildfire',
+                        backgroundColor: this.tints(this.baseColor, 'rgb'),
+                        borderColor: this.tints(this.borderColor, 'hex'),
+                        borderWidth: 1,
+                        data: wf_rows
+                    });
+            }
+
+            let pb_rows = df
+                .where(col => col['scenario_name'] == 'PB')
+                .getSeries(good_columns[0])
+                .toArray();
+
+            if (pb_rows.length > 0) {
+                dataStruct.datasets
+                    .push({
+                        label: 'Prescribed Burn',
+                        backgroundColor: this.tints(this.baseColor, 'rgb'),
+                        borderColor: this.tints(this.borderColor, 'hex'),
+                        borderWidth: 1,
+                        data: pb_rows
+                    });
+            }
+
+        } else {
+
+            dataStruct.labels = [' '];
+
+            dataStruct.datasets
+                .push({
+                    label: 'AVG',
+                    backgroundColor: this.baseColor,
+                    borderColor: this.borderColor,
+                    borderWidth: 1,
+                    data: df.getSeries(columns[0]).toArray()
+                });
+        }
+
+        return dataStruct;
     }
 
-    refreshChart() {
-        console.log('Refreshing charts');
-        // if (this.results.length > 0) {
-        //     console.log(this.results);
-        // }
-        this.chart.update();
-    }
-
-    hueSkew(step) {
+    tints(base: string, mode: string ) {
         // Generate secondary colors based on original
         // by slightly randomising HSV values
-        // TODO
-        return this.baseColor;
+        // https://www.npmjs.com/package/color
+
+        let c = Color.color(base).rotate(-9);
+
+        console.log(c.hex());
+
+        if (mode == 'rgb') {
+            return c.rgb().string();
+        } else if (mode == 'hex') {
+            return c.hex();
+        } else {
+            return c.hex();
+        }
     }
 
-    componentToHex(c) {
-        var hex = c.toString(16);
-        return hex.length == 1 ? "0" + hex : hex;
-    }
 
-    rgbToHex(r, g, b) {
-        return "#" + this.componentToHex(r) + this.componentToHex(g) + this.componentToHex(b);
-    }
-
-    hexToRgb(hex) {
-        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-        return result ? {
-            r: parseInt(result[1], 16),
-            g: parseInt(result[2], 16),
-            b: parseInt(result[3], 16)
-        } : null;
-    }
 }

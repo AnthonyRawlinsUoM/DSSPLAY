@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { DataService } from '../data.service';
 import { DataFrame } from 'data-forge';
-import { DfConsumerDirective } from '../df-consumer.directive';
+import { DfSummaryConsumerDirective } from '../df-summary-consumer.directive';
 
 export const enum DIRECTION {
     ASC = 'ASC',
@@ -18,28 +18,36 @@ export interface LimitOptions {
     templateUrl: './dataframe-table.component.html',
     styleUrls: ['./dataframe-table.component.css']
 })
-export class DataframeTableComponent extends DfConsumerDirective implements OnInit {
+export class DataframeTableComponent implements OnInit {
 
     @Input() dataframe: DataFrame;
 
     @Output() limitChange = new EventEmitter<LimitOptions>();
     @Output() orderChange = new EventEmitter<Map<string, DIRECTION>>();
+    @Input() isDimmed;
+    @Input() message = "Loading...";
+
+    public isClickable = true;
+
+    
+
+    getDimness() {
+        return this.isDimmed;
+    }
 
     limit: LimitOptions;
     order: Map<string, DIRECTION>;
     pageSize = 10;
     selectedPage = 1;
+    maxSize=5;
 
-    message = 'Loading...';
-    tableIsDimmed = false;
-    isClickable = false;
-
-    constructor(private dat: DataService) {
-        super();
-    }
+    constructor(private dat: DataService) {}
 
     ngOnInit() {
         this.order = new Map<string, DIRECTION>();
+        this.dataframe = new DataFrame(
+            [ { A: 10 }, { A: 20 }, { A: 30 }, { A: 40 }]
+        );
     }
 
     sortby(column: string, direction) {
@@ -56,9 +64,25 @@ export class DataframeTableComponent extends DfConsumerDirective implements OnIn
         this.orderChange.emit(this.order);
     }
 
+    onDataframeChange(df: DataFrame) {
+        console.log('DataframeTbale noticed DF has changed!');
+        this.dataframe = df;
+        console.log(df);
+    }
+
     onLimitChange(event) {
         console.log(event);
         this.limitChange.emit({ limited: 10, offset_amount: (this.selectedPage - 1) * this.pageSize });
+    }
+
+    getColumns() {
+        if(!(this.dataframe instanceof DataFrame)) {
+            console.error('What the f?');
+            return [];
+        } else {
+            return this.dataframe.getColumnNames();
+        }
+
     }
 
 }

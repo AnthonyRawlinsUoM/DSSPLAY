@@ -1,9 +1,19 @@
 <div class="ui segment chart-container">
 
-    <fui-dimmer [(isDimmed)]="isDimmed" [(isClickable)]="isClickable">
-    <div class="loader"></div><p>{{message}}</fui-dimmer>
-    <canvas
+    <fui-dimmer [isDimmed]="getDimness()" [(isClickable)]="isClickable">
+    <div class="loader"></div><p>{{message}}</p>
+    </fui-dimmer>
+
+    <!-- <canvas
         id='boxplot'
         #boxplot
-    ></canvas>
+    ></canvas> -->
+
+
+    <chart
+    type="boxplot"
+    [data]="data"
+    [options]="options"
+    #boxplot></chart>
+
 </div>

@@ -5,7 +5,6 @@ const fs = require('fs');
 const path = require('path');
 const socketIO = require('socket.io');
 const redisAdapter = require('socket.io-redis');
-
 const app = express();
 const uuidv4 = require('uuid/v4');
 const moment = require('moment');
@@ -14,27 +13,33 @@ const R = require('ramda');
 const pd = require("node-pandas")
 const events = require('events').EventEmitter.prototype._maxListeners = 100;
 
+var types = require('pg').types
+types.setTypeParser(20, function(val) {
+  return parseInt(val)
+});
+types.setTypeParser(types.builtins.NUMERIC, function(val) {
+  return parseFloat(val)
+});
+types.setTypeParser(types.builtins.REAL, function(val) {
+  return parseFloat(val)
+})
+
 const {
     Pool,
     Client
 } = require('pg');
 
-const client = new Client('postgresql://postgres:secret@192.168.1.188:5432/Froximal');
-const pool = new Pool({
-    connectionString: 'postgresql://postgres:secret@192.168.1.188:5432/Froximal',
+const client = new Client('postgresql://postgres:secret@192.168.1.188:5432/WHOLE_TOMATOES');
 
+const pool = new Pool({
+    connectionString: 'postgresql://postgres:secret@192.168.1.188:5432/WHOLE_TOMATOES',
+    max: 100
 });
 
 pool.on('error', (err, client) => {
     console.error('Unexpected error on idle client', err)
     process.exit(-1)
 })
-
-// client.connect().then(client => {
-//     client.query('SELECT $1::text as message', ['Postgres client says: Hello world!'], (err, res) => {
-//         console.log(err ? err.stack : res.rows[0].message) // Hello World!
-//     })
-// });
 
 app.use(express.static(path.join(__dirname, '/dist/dssplay')));
 
@@ -88,6 +93,17 @@ io
                 log(socket, 'Your socket ID is: ' + socket.id);
 
                 socket
+                .on('OK',
+                    (ack) => {
+                        log(socket, 'Got OK ack. Freeing resources.')
+                        // client.end();
+                    },
+                    (err) => {
+                        console.error(err);
+                    });
+
+
+                socket
                     .on('disconnect', function() {
                         broadcast(io, 'User (' + socket.id + ') has disconnected');
                     });
@@ -101,7 +117,6 @@ io
                         log(socket, 'Got message from website: ' + envelope.sql);
                         log(socket, 'Server got envelope from: ' + socket.id);
 
-
                         client
                             .query(envelope.sql)
                             .then(
@@ -111,8 +126,29 @@ io
                                         sender: envelope.sender,
                                         result: result.rows
                                     });
+
+
                             })
                     })
+
+                        socket
+                            .on('summarysql-query', (envelope) => {
+                                log(socket, socket.id);
+                                log(socket, 'Got message from website: ' + envelope.sql);
+                                log(socket, 'Server got envelope from: ' + socket.id);
+
+                                client
+                                    .query(envelope.sql)
+                                    .then(
+                                        result => {
+                                            log(socket, 'Sending response now.');
+
+                                            socket.emit('summarysql-response', {
+                                                sender: envelope.sender,
+                                                result: result.rows
+                                            });
+                                    })
+                            })
 
 
                 /* LOGGING CODE */
@@ -133,12 +169,12 @@ io
                         console.log(pool.idleCount + ' (idle), ' + pool.waitingCount + ' (waiting), Total: ' + pool.totalCount);
                     })
 
-                })
-                .catch(e => {
-                    socket.error(e);
-                    log(socket, 'Error: ' + socket.id + e.stack);
-                })
-                .finally(() => client.end());
+            })
+            .catch(e => {
+                socket.error(e);
+                log(socket, 'Error: ' + socket.id + e.stack);
+            })
+            .finally(() => client.end());
 
     });
 

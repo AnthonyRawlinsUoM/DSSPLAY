@@ -1,6 +1,8 @@
 import { Component, OnInit, Input,AfterViewInit } from '@angular/core';
-import * as Chart from 'chart.js';
-import { ChartConfiguration, ChartData, PositionType } from 'chart.js';
+
+import { ChartDataSets, ChartOptions } from 'chart.js';
+import { Color, Label, ThemeService } from 'ng2-charts';
+
 import { DataFrame } from 'data-forge';
 import * as pd from 'node-pandas';
 import { DataFrameConsumer } from '../data-frame-consumer';
@@ -11,66 +13,89 @@ import { DfConsumerDirective } from '../df-consumer.directive';
   templateUrl: './linechart.component.html',
   styleUrls: ['./linechart.component.css']
 })
-export class LinechartComponent extends DfConsumerDirective implements OnInit, DataFrameConsumer {
+export class LinechartComponent implements OnInit {
     @Input() dataframe: DataFrame;
     @Input() baseColor;
     @Input() ident;
 
-    chart: Chart;
+    @Input() isDimmed;
+    @Input() message = "Loading...";
 
-    initialData = {
-        labels: ['1','2','3','4','5','6'],
-        datasets: [{
-            label: "New Tests",
-            borderColor: "#64a789",
-            data: [65, 59, 80, 81, 56, 55, 40]
-        }]
-    };
+    public isClickable = true;
 
-    initialOptions = {
-        legend: {
-            display: true,
-            labels: {
-                boxWidth: 8
-            }
-        },
-        aspectRatio: 1.0,
-        maintainAspectRatio: true
+    getDimness() {
+        return this.isDimmed;
     }
 
+    public chartData: ChartDataSets[] = [
+      { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
+    ];
+    public chartLabels: Label[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
 
-  constructor() {
-      super();
-  }
+    public chartColors: Color[];
+    public chartOptions: ChartOptions = {
+        responsive: true,
+      };
+    public chartLegend = true;
 
-  ngOnInit() {
+        constructor() {}
 
-      this.chart = new Chart(this.ident, {
-          type: 'line',
-          data: this.initialData,
-          options: this.initialOptions
-      });
-  }
+        ngOnInit() {
+            this.format(this.dataframe);
+        }
 
-  onDataframeChange($event) {
-      this.isDimmed = true;
-      console.log('Results DF changed!');
-      this.refreshChart();
-  }
+        onDataframeChange(df:DataFrame) {
+            this.format(df);
+        }
 
-  refreshChart() {
-      console.log('Refreshing charts');
-      // if (this.results.length > 0) {
-      //     console.log(this.results);
-      // }
-      this.chart.update();
-  }
+        format(df:DataFrame) {
 
-  hueSkew(step) {
-      // Generate secondary colors based on original
-      // by slightly randomising HSV values
-      // TODO
-      return this.baseColor;
-  }
+            console.log('Results DF changed!');
+            this.chartData = [];
+
+            let columns = df.getColumnNames();
+
+            if(columns.includes('scenario_name')) {
+
+                let good_columns = columns.filter(e => e !== 'scenario_name');
+
+
+                this.chartLabels = good_columns;
+
+                let wf_rows = df
+                        .where(col => col['scenario_name']=='PB')
+                        // .parseFloats(good_columns)
+                        .toRows();
+
+                if(wf_rows.length>0) {
+                    this.chartData
+                    .push({
+                        label: 'Wildfire',
+                        data: wf_rows
+                    });
+                }
+
+                let pb_rows = df
+                        .where(col => col['scenario_name']=='PB')
+                        // .parseFloats(good_columns)
+                        .toRows();
+
+                if(pb_rows.length>0) {
+                    this.chartData
+                    .push({
+                        label: 'Prescribed Burn',
+                        data: pb_rows
+                    });
+                }
+
+            } else {
+                this.chartLabels = columns;
+                this.chartData
+                .push({
+                    label: 'Wildfire',
+                    data: df.toRows()
+                });
+            }
+        }
 
 }

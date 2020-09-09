@@ -1,0 +1,195 @@
+{
+    label: "Fire Impact",
+    option: "fire_impact",
+    color: "rgba(236, 58, 27, 0.67)",
+    border: "#ec1b1b",
+    class: "crimson",
+    active: false,
+    icon: "fire extinguisher",
+    views: [
+        {
+            label: "Burnt Area (ha)",
+            table: ["Avg","Median","CoV","Max","Total"],
+            part: 1.5,
+            access: PUBLIC,
+            modules: ["box", "histo", "gauges"],
+            summarysql:"
+            SELECT
+                DISTINCT(s.id),
+                avg(t.burnt_area) as _avg,
+                median(CAST(t.burnt_area AS numeric)) as _median,
+                MIN(t.burnt_area) as _min,
+                STDDEV(t.burnt_area) / avg(t.burnt_area) as _cov,
+                MAX(t.burnt_area) as  _max,
+                SUM(t.burnt_area) as _total
+
+            FROM
+                job
+                INNER JOIN fuel_machine_type ft
+                    ON ft.fuel_machine_type_id = job.fuel_machine_kind
+                INNER JOIN jobtojobstate js
+                    ON job.id=js.job_id
+                INNER JOIN jobstate j
+                    ON js.job_state_id = j.id,
+
+                scenario s
+                INNER JOIN totalfireimpact t
+                    ON s.uuid = t.uuid
+                    AND s.regime = t.regime
+                    AND s.replicate = t.replicate,
+
+                 scenario_types st
+
+            WHERE
+                j.published = true
+                AND t.uuid = job.uuid
+                AND s.id = t.scenario_id
+                AND st.scenario_type = s.type
+            -- AND ft.fuel_machine_type_name = 'invexp'
+
+            GROUP BY s.id
+
+            --  LIMIT 50 OFFSET 0
+
+            ;",
+            rawdatasql: "
+            SELECT
+                s.id,
+                AVG(t.burnt_area) as avg
+            FROM
+                job
+                INNER JOIN fuel_machine_type ft
+                    ON ft.fuel_machine_type_id = job.fuel_machine_kind
+                INNER JOIN jobtojobstate js
+                    ON job.id=js.job_id
+                INNER JOIN jobstate j
+                    ON js.job_state_id = j.id,
+
+                scenario s
+                INNER JOIN totalfireimpact t
+                    ON s.uuid = t.uuid
+                    AND s.regime = t.regime
+                    AND s.replicate = t.replicate,
+
+                 scenario_types st
+
+            WHERE
+                j.published = true
+                AND t.uuid = job.uuid
+                AND s.id = t.scenario_id
+                AND st.scenario_type = s.type
+
+            -- AND ft.fuel_machine_type_name = 'invexp'
+
+            GROUP BY s.type, s.id
+            ORDER BY s.id
+
+            --  LIMIT 50 OFFSET 0
+            ;
+            "
+        }
+        {
+            label: "Burnt Area (ha) by Fire Season",
+            table: ["Avg","Median","CoV","Max","Total"],
+            part: 1,
+            access: PUBLIC,
+            modules: ["box", "histo", "gauges"],
+            summarysql: "
+            SELECT
+                avg(t.burnt_area) as _avg,
+                median(CAST(t.burnt_area AS numeric)) as _median,
+                MIN(t.burnt_area) as _min,
+                STDDEV(t.burnt_area) / avg(t.burnt_area) as _cov,
+                MAX(t.burnt_area) as  _max,
+                SUM(t.burnt_area) as _total,
+                st.scenario_name
+            FROM
+                job
+                INNER JOIN fuel_machine_type ft
+                    ON ft.fuel_machine_type_id = job.fuel_machine_kind
+                INNER JOIN jobtojobstate js
+                    ON job.id=js.job_id
+                INNER JOIN jobstate j
+                    ON js.job_state_id = j.id,
+
+                scenario s
+                INNER JOIN totalfireimpact t
+                    ON s.uuid = t.uuid
+                    AND s.regime = t.regime
+                    AND s.replicate = t.replicate,
+
+                 scenario_types st
+
+            WHERE
+                j.published = true
+                AND t.uuid = job.uuid
+                AND s.id = t.scenario_id
+                AND st.scenario_type = s.type
+            -- AND ft.fuel_machine_type_name = 'invexp'
+
+            GROUP BY s.id, st.scenario_name
+            ORDER BY s.id;
+            ",
+            rawdatasql: "
+            SELECT
+                s.id,
+                AVG(t.burnt_area) as avg,
+                st.scenario_name
+            FROM
+                job
+                INNER JOIN fuel_machine_type ft
+                    ON ft.fuel_machine_type_id = job.fuel_machine_kind
+                INNER JOIN jobtojobstate js
+                    ON job.id=js.job_id
+                INNER JOIN jobstate j
+                    ON js.job_state_id = j.id,
+
+                scenario s
+                INNER JOIN totalfireimpact t
+                    ON s.uuid = t.uuid
+                    AND s.regime = t.regime
+                    AND s.replicate = t.replicate,
+
+                 scenario_types st
+
+            WHERE
+                j.published = true
+                AND t.uuid = job.uuid
+                AND s.id = t.scenario_id
+                AND st.scenario_type = s.type
+            -- AND ft.fuel_machine_type_name = 'invexp'
+
+            GROUP BY s.id, st.scenario_name
+            ORDER BY s.id;
+
+            "
+        },
+        {
+            label: "Loss",
+            table: ["Avg","Median","CoV","Max","Total"],
+            part: 2,
+            access: RESTRICTED,
+            modules: ["box", "histo", "cumul", "time", "gauges"],
+            summarysql: "",
+            rawdatasql: ""
+        },
+        {
+            label: "Exposure",
+            table: ["Avg","Median","CoV","Max","Total"],
+            part: 2,
+            access: RESTRICTED,
+            modules: ["box", "histo", "cumul", "time", "gauges"],
+            summarysql: "",
+            rawdatasql: ""
+        },
+        {
+            label: "Burnt Area (ha)",
+            table: ["Total"],
+            part: 2,
+            access: RESTRICTED,
+            modules: ["box", "histo", "cumul", "gauges"],
+            summarysql: "",
+            rawdatasql: ""
+        },
+    ]
+}
