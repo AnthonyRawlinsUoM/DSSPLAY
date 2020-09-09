@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
@@ -79,10 +81,8 @@ import { StatviewComponent } from './statview/statview.component';
 import { QuartileboxesComponent } from './quartileboxes/quartileboxes.component';
 import { SuperchooserComponent } from './superchooser/superchooser.component';
 
-
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-
-import { MaterialModule } from './material.module';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
 
 // import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -154,13 +154,13 @@ const config: SocketIoConfig = { url: `http://localhost:${PORT}`, options: {} };
     StatviewComponent,
     QuartileboxesComponent,
     SuperchooserComponent,
+    MatPaginator,
+    MatTableDataSource
 
   ],
   imports: [
     CommonModule,
     BrowserModule,
-    BrowserAnimationsModule,
-    MaterialModule,
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
@@ -168,6 +168,7 @@ const config: SocketIoConfig = { url: `http://localhost:${PORT}`, options: {} };
     Ng5SliderModule,
     NgxGaugeModule,
     FomanticUIModule,
+    BrowserAnimationsModule,
     NgxDatatableModule,
      SocketIoModule.forRoot(config),
      NgxMapboxGLModule.withConfig({

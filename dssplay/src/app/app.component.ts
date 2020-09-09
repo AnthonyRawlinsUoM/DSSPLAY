@@ -26,7 +26,7 @@ export class AppComponent {
   log_entries;
   show_console = false;
 
-  routes = [
+  public routes = [
     {
       path: '/',
       name: 'Home',
@@ -44,11 +44,6 @@ export class AppComponent {
       icon: 'line chart icon'
     },
 
-    // {
-    //   path: 'sql',
-    //   name: 'SQL',
-    //   icon: 'line chart icon'
-    // },
     {
           path: 'metrics',
           name: 'Metrics Chooser',

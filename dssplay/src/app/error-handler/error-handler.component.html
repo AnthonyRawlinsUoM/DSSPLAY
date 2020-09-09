@@ -1,6 +1,5 @@
-<fui-modal
+<div class="" *ngIf="errors && errors.length > 0"><fui-modal
     [isClosable]="true"
-    *ngIf="errors && errors.length > 0"
     (dismissed)="errors=null;"
     #modal
 >
@@ -9,3 +8,4 @@
         {{ errors | json }}
     </div>
 </fui-modal>
+</div>
