@@ -1,5 +1,6 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
@@ -12,7 +13,7 @@ export class SuperchooserComponent implements OnInit {
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
     data = [];
-    displayColumns: string[] = ['Weather', 'Fuel', 'director', 'role', 'notes'];
+    displayColumns: string[] = ['Weather', 'Fuel'];
 
     constructor() { }
 
@@ -24,7 +25,17 @@ export class SuperchooserComponent implements OnInit {
 
     private getData(): any {
         return [
-            {}
+            {Weather: "NARCLiM Current", Fuel: "NARCliM Future"},
+            {Weather: "NARCLiM Current", Fuel: "NARCliM Current"},
+            {Weather: "NARCLiM Current", Fuel: "INVEXP"},
+
+            {Weather: "NARCLiM Future", Fuel: "NARCliM Future"},
+            {Weather: "NARCLiM Future", Fuel: "NARCliM Current"},
+            {Weather: "NARCLiM Future", Fuel: "INVEXP"},
+
+            {Weather: "INVEXP", Fuel: "NARCliM Future"},
+            {Weather: "INVEXP", Fuel: "NARCliM Current"},
+            {Weather: "INVEXP", Fuel: "INVEXP"}
         ]
     }
 

@@ -1,10 +1,6 @@
-<div fxLayout="row" fxLayoutAlign="start end">
-  <mat-paginator [pageSize]="25" [pageSizeOptions]="[25, 50, 100]" showFirstLastButtons></mat-paginator>
-</div>
-
-<div id="table-container" style="height: 400px; width:400px; overflow: auto;">
+<div id="table-container" class="ui top attached segment">
   <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)"
-  cdkDropListGroup>
+  cdkDropListGroup class="ui fluid table">
     <ng-container *ngFor="let col of displayColumns; let i=index;" matColumnDef="{{col}}"
     [sticky]="i==0">
       <th mat-header-cell *matHeaderCellDef mat-sort-header id="{{col}}"
@@ -22,6 +18,9 @@
     <tr mat-header-row *matHeaderRowDef="displayColumns; sticky:true;"></tr>
     <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
   </table>
+</div>
+<div class="ui bottom attached segment" fxLayout="row" fxLayoutAlign="start end">
+  <mat-paginator [pageSize]="25" [pageSizeOptions]="[25, 50, 100]" showFirstLastButtons></mat-paginator>
 </div>
 
 
