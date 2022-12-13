@@ -39,7 +39,7 @@
     "color": "^3.1.2",
     "data-forge": "^1.8.11",
     "dataframe-js": "^1.4.3",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "fomantic-ui": "^2.8.7",
     "fomantic-ui-css": "^2.8.6",
     "mapbox-gl": "^0.54.0",
